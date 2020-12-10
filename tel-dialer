@@ -58,8 +58,13 @@ update_contacts() {
 }
 
 add_contact(){
-	if [ $# -lt 2 ] ; then
-		printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mAdding a new contact: %s\n\e[m"
+	if [ $# -eq 2 ] ; then
+		printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mAdding $2 to contacts %s\n\e[m"
+		add_contact_name=$2
+		echo 'Contact number:'
+		read add_contact_number
+	elif [ $# -eq 1 ] ; then
+		printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mAdding a new contact %s\n\e[m"
 		echo 'Contact name:'
 		read add_contact_name
 		echo 'Contact number:'
@@ -68,7 +73,7 @@ add_contact(){
 		add_contact_name=$2
 		add_contact_number=$3
 	fi
-		am start -a android.intent.action.INSERT -t vnd.android.cursor.dir/contact -e name $add_contact_name -e phone $add_contact_number > /dev/null 2>&1
+	am start -a android.intent.action.INSERT -t vnd.android.cursor.dir/contact -e name $add_contact_name -e phone $add_contact_number > /dev/null 2>&1
 	printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mAdded $add_contact_name to contacts%s\n\e[m"
 	touch ~/.dialer_flag
 	#update_contacts
