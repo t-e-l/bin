@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+#
+# Sourced for TEL operations
+
+# COLORS #
+WHITE="\e[38;5;07m" # relative term color value
+GREEN="\e[38;2;0;255;0m" # absolute rgb values
+ORANGE="\e[38;2;255;146;0m"
+RED="\e[38;2;255;0;0m"
+NC="\e[m" # no color (reset)
+
+# SYMBOLS #
+SAY_SYMBOL=""
+TOOLS_SYMBOL=""
+SETUP_SYMBOL=""
+GLOBE=""
+CHECK_MARK=""
+MULTI_CHECK_MARK=""
+FONT_SIZE_SYMBOL=""
+
+
+# FUNCTIONS #
+
+term_width() {
+	echo $(tput cols)
+	# usage width=$(term_width)
+}
+check_connection() {
+	reply=$(ping -c 1 -q google.com >&/dev/null; echo $?)
+	if [ $reply != 0 ] ; then 
+		printf "${RED}[TEL]: ${NC}${WHITE}network is down${NC}"
+		return 1
+	fi
+}
+log_replace_last() {
+	echo -ne "\r${GREEN}[TEL]: ${NC}${WHITE}${1}${NC}"
+}
+log() {
+	printf "${GREEN}[TEL]: ${NC}${WHITE}${1}${NC}\n"
+}
+logf() {
+	echo "[$(date '+%Y-%m-%d %H:%M:%S')]: ${1}" >> ~/.log.tel
+}
+warn() {
+	printf "${ORANGE}[TEL]: ${NC}${WHITE}${1}${NC}\n"
+}
+error() {
+	printf "${RED}[TEL]: ${NC}${WHITE}${NC}${1}${NC}\n"
+}
+exit_error() {
+	printf "${RED}[TEL]: ${NC}${WHITE}${1}${NC}\n"
+	exit 1
+}
+catch(){
+if [ $?  -ne 0 ] ; then
+        logf "${1}"
+        error "${1}"
+	error "please try again"
+        exit 0
+else
+	logf "done"
+fi
+}
+
+fix_permissions(){
+	log "Updating permissions..."
+	# script locations
+	[[ -d ~/.tel/extras ]] && chmod +x ~/.tel/extras/*
+	[[ -d ~/.tel/status ]] && chmod +x ~/.tel/status/*
+	[[ -d ~/.tel/scripts ]] && chmod +x ~/.tel/scripts/*
+	[[ -d ~/.tel/scripts/status_manager ]] && chmod +x ~/.tel/scripts/status_manager/*
+	[[ -d ~/.tel/tutorials ]] && chmod +x ~/.tel/tutorials/*
+	# bin locations 
+	[[ -d ~/../usr/bin ]] && chmod +x ~/../usr/bin/*
+	[[ -d ~/.tel/bin ]] && chmod +x ~/.tel/bin/*
+	[[ -d ~/bin ]] && chmod +x ~/bin/* # scripts that receive files and urls shared to TEL
+}
+
+remove_data_no_prompt(){
+	log "Wiping data..."
+	rm -rf ~/.tel
+	rm -rf ~/.config
+	rm -rf ~/.nano
+	rm -rf ~/.termux
+	rm -rf ~/.wallpapers
+	rm -rf ~/bin
+	rm -rf ~/.nanorc
+	rm -rf ~/.aliases
+	rm -rf ~/.tmux.conf
+	rm -rf ~/.p10k.zsh
+	rm -rf ~/.zlogin
+	rm -rf ~/.zshrc
+	rm -rf ~/.zsh_history
+#	rm -rf ~/.log.tel
+	rm -rf ~/.app_names
+	rm -rf ~/.apps
+	rm -rf ~/.bash_history
+	rm -rf ~/../usr/etc/motd
+	rm -rf ~/../usr/bootstrap-changes #incase of partial download
+}
+
+remove_data_prompt(){
+	warn "This action will remove all TEL data from your device"
+	warn "Are you sure you wish to continue? y/N"
+	read -r user_reponse
+	if [ "$user_reponse" != 'y' ] && [ "$user_reponse" != 'Y' ]; then
+		error "User cancelled setup..." ; sleep 1 ; return 1
+	fi
+	log "Wiping data..."
+	rm -rf ~/.tel
+	rm -rf ~/.config
+	rm -rf ~/.nano
+	rm -rf ~/.termux
+	rm -rf ~/.wallpapers
+	rm -rf ~/bin
+	rm -rf ~/.nanorc
+	rm -rf ~/.aliases
+	rm -rf ~/.tmux.conf
+	rm -rf ~/.p10k.zsh
+	rm -rf ~/.zlogin
+	rm -rf ~/.zshrc
+	rm -rf ~/.zsh_history
+#	rm -rf ~/.log.tel
+	rm -rf ~/.app_names
+	rm -rf ~/.apps
+	rm -rf ~/.bash_history
+	rm -rf ~/../usr/etc/motd
+	rm -rf ~/../usr/bootstrap-changes
+}
+
+
