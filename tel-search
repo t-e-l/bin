@@ -24,21 +24,19 @@ function rand_searx_instance () {
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
 	echo -e "Usage: tel-search [options] [search term]
-	tel-search			= interactive search prompt
+	tel-search			= interactive site search prompt
 	tel-search -h			= show this help menu
-	tel-search -yt Monkeys		= search in youtube app for Monkeys
-	tel-search -t goats		= search in terminal browser for goats
-
+	tel-search -yt 'how to meme'	= search in youtube app for how to meme
+	tel-search -t '!!w tty'		= search wiki using terminal browser for tty
 	tel-search what are bangs?	= search for what are bangs?
 	tel-search '!!gh TEL'		= search github for TEL
 	tel-search '!!man echo'		= search manpage for echo command info
 	tel-search '!!w sea otters'	= search wiki for sea otters
-	tel-search '!!yt goats'		= search youtube for trebuchet
+	tel-search '!!yt how to ask'	= search youtube for how to ask 
 	
 	note - 'set -K' must be in .zshrc to use search bangs without quotes, if using bash 'bangs' (for example: !!w ) must be quoted.
 	"
 	exit 0	
-
 elif [ "$1" == "-yt" ] ; then
 	user_query=${@:2}
 	printf "\e[38;5;2m Search \e[m%sYouTube for: $user_query"
@@ -50,10 +48,8 @@ elif [ "$1" == "-t" ] ; then
 	input=${@:2}
 	text=${input// /%20} #replace spaces with strings
 	#w3m "https://duckduckgo.com/?q=$text&kp=-1&kl=us-en&ia=web"
-	w3m "https://searx.be/?q=$text&category_general=on&time_range=&language=en-GB"
-	clear
+	$BROWSER "https://searx.be/?q=$text&category_general=on&time_range=&language=en-GB"
 	exit 0
-
 elif [ -z $1 ] ; then
 	provider=$(cat $provider_bangs_file | fzf -e --cycle --color=16 --prompt=" Search site: " --select-1)
 	if [ -z "$provider" ]; then
