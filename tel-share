@@ -29,7 +29,7 @@ else
 	if [ -z $1 ] ; then
 		selected_file=$(fzf --cycle --color=16 --prompt=" Share: ")
 	else
-		if [ "$1" == "-h" ] || [ "$1" == "--help"]; then
+		if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
 			show_help
 			exit 0
 		fi
