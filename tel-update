@@ -72,7 +72,7 @@ mkdir $TMPDIR/tel-update
 git clone --quiet -b $branch --depth=1 https://github.com/t-e-l/bootstrap-changes $TMPDIR/tel-update/bootstrap-changes || exit_error 'Failed to download update'
 git clone --quiet --depth=1 https://github.com/t-e-l/bin $TMPDIR/tel-update/bin || exit_error 'Failed to download latest bins' 
 shopt -u dotglob # (include dotfiles in cp -r)
-cp -rf $TMPDIR/tel-update/bin/* ~/../usr/bin #../usr/bin preferred over .tel/bin (.tel/bin is a local fallback for offline setups)
+cp -rf $TMPDIR/tel-update/bin/* ~/../usr/bin #../usr/bin is preferred over .tel/bin (.tel/bin should only be a local fallback for offline setups)
 #catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/bin/* ~/../usr/bin)
 catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/tel/.??* ~/)
 catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/tel/bin/* ~/bin)
@@ -83,4 +83,4 @@ rm -rf ~/../usr/etc/motd > /dev/null 2>&1 #remove from bootstrapchanges repo?
 
 # PERMISSIONS
 [[ "$update_permissions" == "true" ]] && fix_permissions
-log 'Finished installing changes'
+log 'Finished applying updates'
