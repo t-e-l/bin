@@ -109,7 +109,7 @@ case $CHOICE in
 	    exit_utility
             ;;
 esac
-done
+#done
 #show menu
 #PS3="Enter a number: "
 #select option in ' Backup' '勒Restore' ' Quit' ; do
