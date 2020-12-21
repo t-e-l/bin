@@ -48,6 +48,7 @@ elif [ "$1" == "-t" ] ; then
 	input=${@:2}
 	text=${input// /%20} #replace spaces with strings
 	#w3m "https://duckduckgo.com/?q=$text&kp=-1&kl=us-en&ia=web"
+	rand_searx_instance
 	$BROWSER "${searx_url}?q=${text}&category_general=on&time_range=&language=$SEARCH_LANG"
 	#$BROWSER "https://searx.be/?q=$text&category_general=on&time_range=&language=en-GB"
 	exit 0
