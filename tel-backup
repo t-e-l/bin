@@ -82,9 +82,9 @@ BACKTITLE="tel-backup"
 TITLE="Backup"
 MENU="Choose one of the following options:"
 
-OPTIONS=(1 "Option 1 - Backup"
-         2 "Option 2 - Restore"
-         3 "Option 3 - Exit utility")
+OPTIONS=(1 " Backup"
+         2 "勒 Restore"
+         3 " Quit")
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -101,11 +101,11 @@ case $CHOICE in
 	    make_backup
             ;;
         2)
-            echo "You chose Option 2"
+            echo "You chose Option 2 - Restore"
 	    restore_backup
             ;;
         3)
-            echo "You chose Option 3"
+            echo "You chose Option 3 - Exit the utility"
 	    exit_utility
             ;;
 esac
