@@ -25,7 +25,8 @@ fi
 make_backup(){
 while true
 do
-	read -p "This will overwrite any previous backups made the same day are you sure you want to continue? y/N : " answer
+	printf "\e[38;5;2m Backup\e[m%s: "
+	read -p "\rThis will overwrite any previous backups made the same day are you sure you want to continue? y/N : " answer
 case $answer in
 	[yY]* )
 		
