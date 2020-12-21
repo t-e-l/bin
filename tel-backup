@@ -75,31 +75,40 @@ main() {
 
 printf "\e[38;5;2m Backup & Restore\e[m%s\n"
 
-cmd=(dialog --separate-output --checklist "Backup & Restore options:" 22 76 16)
-options=(1 " Backup" 
-         2 "勒Restore" 
-         3 " Quit")
-choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+HEIGHT=15
+WIDTH=40
+CHOICE_HEIGHT=4
+BACKTITLE="tel-backup"
+TITLE="Backup"
+MENU="Choose one of the following options:"
+
+OPTIONS=(1 "Option 1 - Backup"
+         2 "Option 2 - Restore"
+         3 "Option 3 - Exit utility")
+
+CHOICE=$(dialog --clear \
+                --backtitle "$BACKTITLE" \
+                --title "$TITLE" \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+
 clear
-for choice in $choices
-do
-    case $choice in
+case $CHOICE in
         1)
-            echo "First Option"
+            echo "You chose Option 1 - Backup"
 	    make_backup
             ;;
         2)
-            echo "Second Option"
+            echo "You chose Option 2"
 	    restore_backup
             ;;
         3)
-            echo "Third Option"
+            echo "You chose Option 3"
 	    exit_utility
             ;;
-        *)
-            echo "not an option fool D:"
-            ;;
-    esac
+esac
 done
 #show menu
 #PS3="Enter a number: "
