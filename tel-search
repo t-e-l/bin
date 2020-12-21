@@ -34,7 +34,6 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
 	tel-search '!!w sea otters'	= search wiki for sea otters
 	tel-search '!!yt how to ask'	= search youtube for how to ask 
 	
-	note - 'set -K' must be in .zshrc to use search bangs without quotes, if using bash 'bangs' (for example: !!w ) must be quoted.
 	"
 	exit 0	
 elif [ "$1" == "-yt" ] ; then
