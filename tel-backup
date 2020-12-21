@@ -26,7 +26,7 @@ make_backup(){
 while true
 do
 	printf "\e[38;5;2m Backup\e[m%s: "
-	read -p "\rThis will overwrite any previous backups made the same day are you sure you want to continue? y/N : " answer
+	read -p "This will overwrite any previous backups made the same day are you sure you want to continue? y/N : " answer
 case $answer in
 	[yY]* )
 		
@@ -84,7 +84,7 @@ TITLE="Backup"
 MENU="Choose one of the following options:"
 
 OPTIONS=(1 " Backup"
-         2 "勒 Restore"
+         2 " Restore"
          3 " Quit")
 
 CHOICE=$(dialog --clear \
