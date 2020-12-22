@@ -29,7 +29,10 @@ show_help(){
             "  -u   Open url picker"
 }
 
-[[ -z "$EDITOR" ]] && { export EDITOR=nano ; echo 'No $EDITOR set, defaulting to nano' }
+[[ -z "$EDITOR" ]] && {
+	export EDITOR=nano
+	echo 'No $EDITOR set, defaulting to nano'
+}
 
 if [ -z $1 ] ; then
 	selected_file=$(fzf --cycle --color=16 --prompt="  Edit with $EDITOR: ")
