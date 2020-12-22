@@ -9,6 +9,7 @@ editor=$(which $EDITOR)
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
 	useroot='su -c'
+	su -i
 	cd / 
 fi
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
