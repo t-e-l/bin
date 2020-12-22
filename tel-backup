@@ -65,7 +65,9 @@ done
 restore_backup(){
 	printf "\e[38;5;2m Restore\e[m%s: loading data...\n"
 	cd $backup_location 
-	backup_chosen=$(fzf)
+	backup_dir_chosen=$(ls -d | fzf -e --cycle --color=16 --prompt="Choose a backup directory to restore from: ")
+	cd $backup_dir_chosen
+	backup_dir_chosen=$(ls | fzf -e --cycle --color=16 --prompt="Choose a file to restore from: ")
 }
 
 exit_utility(){
