@@ -2,10 +2,10 @@
 # Edit applet for TEL
 # Version 2
 # SealyJ 2020
-useroot=false
+useroot=
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
-	useroot=true
+	useroot='su -c'
 	cd / 
 fi
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
@@ -36,10 +36,10 @@ show_help(){
 }
 
 if [ -z $1 ] ; then
-	selected_file=$(fzf --cycle --color=16 --prompt="  Edit with $EDITOR: ")
+	selected_file=$($useroot fzf --cycle --color=16 --prompt="  Edit with $EDITOR: ")
 else
 	file_search=$(echo "$@")
-	selected_file=$(fzf -e --cycle --color=16 --query="$file_search" --prompt="  Edit with $EDITOR: " --select-1)
+	selected_file=$($useroot fzf -e --cycle --color=16 --query="$file_search" --prompt="  Edit with $EDITOR: " --select-1)
 fi
 
 if [ -z "$selected_file" ] ; then
@@ -50,12 +50,9 @@ else
 	curr_dir=$(pwd)
 	printf "\e[38;5;2m Editing\e[m%s file: $curr_dir/$selected_file"
 	# manipulate history here
-	if [ "$useroot" == "true" ] ; then
-		termux-toast "[TEL]: editing file as root (be careful!)"
-		su -c $EDITOR "$selected_file"
-	else
-		$EDITOR "$selected_file"
-
+	if [ ! -z $useroot" ] ; then
+		echo "[TEL]: editing file as root! (be careful!!)"
 	fi
+	$useroot $EDITOR "$selected_file"
 fi
 
