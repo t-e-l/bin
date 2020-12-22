@@ -46,7 +46,7 @@ else
 	curr_dir=$(pwd)
 	printf "\e[38;5;2m Editing\e[m%s file: $curr_dir/$selected_file"
 	if [ "$useroot" == "true" ] ; then
-		termux-toast "[TEL]: editing file as root (be careful!)
+		termux-toast "[TEL]: editing file as root (be careful!)"
 		su -c $EDITOR "$selected_file"
 	else
 		$EDITOR "$selected_file"
