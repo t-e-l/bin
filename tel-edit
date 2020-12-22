@@ -3,7 +3,7 @@
 # Version 2
 # SealyJ 2020
 # requires: fzf bat nano
-useroot=
+useroot=''
 fzf_bin=$(which fzf)
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
