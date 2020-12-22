@@ -2,14 +2,15 @@
 # Edit applet for TEL
 # Version 2
 # SealyJ 2020
-# requires: fzf bat nano
+# requires: fzf bat nano 
+# optional: magisk su binary
 useroot=
 fzf_bin=$(which fzf)
 editor=$(which $EDITOR)
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
 	useroot='su -c'
-	su -i
+	su --preserve-environment
 	cd / 
 fi
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
