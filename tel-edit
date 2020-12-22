@@ -3,8 +3,9 @@
 # Version 2
 # SealyJ 2020
 # requires: fzf bat nano
-useroot=''
+useroot=
 fzf_bin=$(which fzf)
+editor=$(which $EDITOR)
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
 	useroot='su -c'
@@ -55,6 +56,6 @@ else
 	if [ ! -z "$useroot" ] ; then
 		echo '[Edit]: attempting to edit file as root! (be careful!)'
 	fi
-	$useroot $EDITOR "$selected_file"
+	$useroot $editor "$selected_file"
 fi
 
