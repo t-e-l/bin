@@ -1,9 +1,23 @@
 #!/usr/bin/env bash
-#cd ~/../ 
+# Open applet for TEL
+# Version 0.2
+# SealyJ 2020
+
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_DEFAULT_OPTS="
+--info=inline
+--multi
+--preview-window=up:60%:follow:sharp
+--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
+--color='hl:148,hl+:154,pointer:032,marker:010,bg+:237,gutter:008'
+--prompt='∼ ' --pointer='>' --marker='✓'
+--bind '?:toggle-preview'
+--bind 'ctrl-a:select-all'
+--bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
+"
 bookmarks_file=~/.tel/data/bookmarks 
 global_url=$2
-[[ -e $bookmarks_file ]] || echo 'https://t-e-l.github.io' > ${bookmarks_file} # create new list if none exists
+[[ -e $bookmarks_file ]] || (echo 'https://t-e-l.github.io' > ${bookmarks_file} ; echo 'https://wiki.termux.com/wiki/Main_Page' >> ${bookmarks_file} # create new list if none exists)
 show_help(){
     printf  "%s\n"\
             "Opens a file or link in external app"\

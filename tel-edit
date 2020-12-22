@@ -2,7 +2,9 @@
 # Edit applet for TEL
 # Version 2
 # SealyJ 2020
+useroot=false
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
+	useroot=true
 	cd / 
 fi
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
@@ -17,7 +19,18 @@ export FZF_DEFAULT_OPTS="
 --bind 'ctrl-a:select-all'
 --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
 "
-[[ -z "$EDITOR" ]] && echo 'Please set a default $EDITOR' && exit 1
+show_help(){
+    printf  "%s\n"\
+            "Opens a file or link in external app"\
+            "tel-open [OPTIONS] [PATTERN]"\
+            "__________________________"\                                              "OPTIONS"\
+            "  -h   display this help message"\
+            "  -u https://www.github.com  Open github in android browser"\
+            "  -u   Open url picker"
+}
+
+[[ -z "$EDITOR" ]] && { export EDITOR=nano ; echo 'No $EDITOR set, defaulting to nano' }
+
 if [ -z $1 ] ; then
 	selected_file=$(fzf --cycle --color=16 --prompt="  Edit with $EDITOR: ")
 else
@@ -32,6 +45,12 @@ if [ -z "$selected_file" ] ; then
 else
 	curr_dir=$(pwd)
 	printf "\e[38;5;2m Editing\e[m%s file: $curr_dir/$selected_file"
-	$EDITOR "$selected_file"
+	if [ "$useroot" == "true" ] ; then
+		termux-toast "[TEL]: editing file as root (be careful!)
+		su -c $EDITOR "$selected_file"
+	else
+		$EDITOR "$selected_file"
+
+	fi
 fi
 
