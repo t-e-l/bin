@@ -17,7 +17,7 @@ export FZF_DEFAULT_OPTS="
 "
 bookmarks_file=~/.tel/data/bookmarks 
 global_url=$2
-[[ -e $bookmarks_file ]] || (echo 'https://t-e-l.github.io' > ${bookmarks_file} ; echo 'https://wiki.termux.com/wiki/Main_Page' >> ${bookmarks_file} # create new list if none exists)
+[[ -e $bookmarks_file ]] || (echo 'https://t-e-l.github.io' > ${bookmarks_file} ; echo 'https://wiki.termux.com/wiki/Main_Page' >> ${bookmarks_file}) # create new list if none exists)
 show_help(){
     printf  "%s\n"\
             "Opens a file or link in external app"\
