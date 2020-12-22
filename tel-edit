@@ -4,6 +4,7 @@
 # SealyJ 2020
 # requires: fzf bat nano
 useroot=
+fzf_bin=$(which fzf)
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
 	useroot='su -c'
@@ -37,10 +38,10 @@ show_help(){
 }
 
 if [ -z $1 ] ; then
-	selected_file=$($useroot $(which fzf) --cycle --color=16 --prompt="  Edit with $EDITOR: ")
+	selected_file=$($useroot $fzf_bin --cycle --color=16 --prompt="  Edit with $EDITOR: ")
 else
 	file_search=$(echo "$@")
-	selected_file=$($useroot $(which fzf) -e --cycle --color=16 --query="$file_search" --prompt="  Edit with $EDITOR: " --select-1)
+	selected_file=$($useroot $fzf_bin -e --cycle --color=16 --query="$file_search" --prompt="  Edit with $EDITOR: " --select-1)
 fi
 
 if [ -z "$selected_file" ] ; then
