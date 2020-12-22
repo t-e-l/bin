@@ -51,7 +51,7 @@ else
 	printf "\e[38;5;2m Editing\e[m%s file: $curr_dir/$selected_file"
 	# manipulate history here
 	if [ ! -z $useroot" ] ; then
-		echo "[TEL]: editing file as root! (be careful!!)"
+		echo '[Edit]: attempting to edit file as root! (be careful!)'
 	fi
 	$useroot $EDITOR "$selected_file"
 fi
