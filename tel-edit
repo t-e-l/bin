@@ -1,6 +1,6 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 # Edit applet for TEL
-# Version 2
+# Version 0.3
 # SealyJ 2020
 # requires: fzf bat nano 
 # optional: magisk su binary
