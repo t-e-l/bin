@@ -55,7 +55,7 @@ else
 	curr_dir=$(pwd)
 	printf "\e[38;5;2m Editing\e[m%s file: $curr_dir/$selected_file"
 	# manipulate history here
-	print -S "$useroot $EDITOR $curr_dir/$selected_file"
+	zsh -c 'print -S "$useroot $EDITOR $curr_dir/$selected_file"'
 	if [ ! -z "$useroot" ] ; then
 		echo '[Edit]: attempting to edit file as root! (be careful!)'
 	fi
