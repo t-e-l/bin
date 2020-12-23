@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh --login
 # Edit applet for TEL
 # Version 0.3
 # SealyJ 2020
@@ -55,7 +55,7 @@ else
 	curr_dir=$(pwd)
 	printf "\e[38;5;2m Editing\e[m%s file: $curr_dir/$selected_file"
 	# manipulate history here
-	zsh -c 'print -S "$useroot $EDITOR $curr_dir/$selected_file"'
+	builtin print -S "$useroot $EDITOR $curr_dir/$selected_file"'
 	if [ ! -z "$useroot" ] ; then
 		echo '[Edit]: attempting to edit file as root! (be careful!)'
 	fi
