@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh --login
+#!/usr/bin/env -v zsh --login
 # Edit applet for TEL
 # Version 0.3
 # SealyJ 2020
