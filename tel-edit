@@ -5,13 +5,18 @@
 # requires: fzf bat nano 
 # optional: magisk su binary
 useroot=
+[[ -z "$EDITOR" ]] && {
+	export EDITOR=nano
+	echo 'No $EDITOR set, defaulting to nano'
+}
 fzf_bin=$(which fzf)
 editor=$(which $EDITOR)
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
 	useroot='su -c'
+	#search_command='find -not \( -path /sys/kernel/ -prune \) -not \( -path /proc/ -prune \) -not \( -path /mnt/ -prune \) -name \*.js'
 	#su --preserve-environment
-	#cd / 
+	cd / 
 fi
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS="
@@ -35,16 +40,12 @@ show_help(){
             "  -u   Open url picker"
 }
 
-[[ -z "$EDITOR" ]] && {
-	export EDITOR=nano
-	echo 'No $EDITOR set, defaulting to nano'
-}
 
 if [ -z $1 ] ; then
-	selected_file=$($useroot $fzf_bin --cycle --color=16 --prompt="  Edit with $EDITOR: ")
+	selected_file=$(fzf --cycle --color=16 --prompt="  Edit with $EDITOR: ")
 else
 	file_search=$(echo "$@")
-	selected_file=$($useroot $fzf_bin -e --cycle --color=16 --query="$file_search" --prompt="  Edit with $EDITOR: " --select-1)
+	selected_file=$(fzf -e --cycle --color=16 --query="$file_search" --prompt="  Edit with $EDITOR: " --select-1)
 fi
 
 if [ -z "$selected_file" ] ; then
