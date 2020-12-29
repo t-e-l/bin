@@ -17,7 +17,7 @@ if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	#useroot='su --preserve-environment -s /data/data/com.termux/files/usr/bin/zsh -c'
 	#search_command='find -not \( -path /sys/kernel/ -prune \) -not \( -path /proc/ -prune \) -not \( -path /mnt/ -prune \) -name \*.js'
 	#su --preserve-environment
-	#cd / 
+	cd / 
 fi
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS="
@@ -33,12 +33,11 @@ export FZF_DEFAULT_OPTS="
 #--color='hl:148,hl+:154,pointer:032,marker:010,bg+:237,gutter:008'
 show_help(){
     printf  "%s\n"\
-            "Opens a file or link in external app"\
-            "tel-open [OPTIONS] [PATTERN]"\
+            "Opens a file in your terminals text editor"\
+            "tel-edit [OPTIONS] [PATTERN]"\
             "__________________________"\                                              "OPTIONS"\
             "  -h   display this help message"\
-            "  -u https://www.github.com  Open github in android browser"\
-            "  -u   Open url picker"
+            "  -r | --root use root privledged"
 }
 
 
@@ -55,11 +54,13 @@ if [ -z "$selected_file" ] ; then
 	exit 1
 else
 	curr_dir=$(pwd)
-	printf "\e[38;5;2m Editing\e[m%s file: $curr_dir/$selected_file"
 	# manipulate history here
 	#print -S "$useroot $EDITOR $curr_dir/$selected_file"
 	if [ ! -z "$useroot" ] ; then
 		echo '[Edit]: attempting to edit file as root! (be careful!)'
+		printf "\e[38;5;2m Editing\e[m%s file as root: $curr_dir/$selected_file\n"
+	else
+		printf "\e[38;5;2m Editing\e[m%s file: $curr_dir/$selected_file\n"
 	fi
 	$useroot $editor "$selected_file"
 fi
