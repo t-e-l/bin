@@ -17,7 +17,7 @@ if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	#useroot='su --preserve-environment -s /data/data/com.termux/files/usr/bin/zsh -c'
 	#search_command='find -not \( -path /sys/kernel/ -prune \) -not \( -path /proc/ -prune \) -not \( -path /mnt/ -prune \) -name \*.js'
 	#su --preserve-environment
-	cd / 
+	#cd / 
 fi
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS="
