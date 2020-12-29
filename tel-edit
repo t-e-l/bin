@@ -11,13 +11,20 @@ useroot=
 }
 fzf_bin=$(which fzf)
 editor=$(which $EDITOR)
+
+
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
-	useroot='sudo'
+
+	cd / 
+	useroot='sudo'	
+#selected_file="su --preserve-environment -s /data/data/com.termux/files/usr/bin/zsh -c $fzf_bin"
 	#useroot='su --preserve-environment -s /data/data/com.termux/files/usr/bin/zsh -c'
 	#search_command='find -not \( -path /sys/kernel/ -prune \) -not \( -path /proc/ -prune \) -not \( -path /mnt/ -prune \) -name \*.js'
 	#su --preserve-environment
-	cd / 
+	export FZF_DEFAULT_COMMAND='find'
+	
+	exit 0
 else
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS="
@@ -44,10 +51,10 @@ show_help(){
 
 
 if [ -z $1 ] ; then
-	selected_file=$($useroot fzf --cycle --color=16 --prompt="  Edit with $EDITOR: ")
+	selected_file=$($useroot $fzf_bin --cycle --color=16 --prompt="  Edit with $EDITOR: ")
 else
 	file_search=$(echo "$@")
-	selected_file=$($useroot fzf --cycle --color=16 --query="$file_search" --prompt="  Edit with $EDITOR: " --select-1)
+	selected_file=$($useroot $fzf_bin --cycle --color=16 --query="$file_search" --prompt="  Edit with $EDITOR: " --select-1)
 fi
 
 if [ -z "$selected_file" ] ; then
