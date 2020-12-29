@@ -24,8 +24,8 @@ if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	#su --preserve-environment
 	export FZF_DEFAULT_COMMAND='find'
 	
-	exit 0
-else
+	#exit 0
+#else
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS="
 --info=inline
