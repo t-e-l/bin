@@ -61,6 +61,6 @@ else
 	if [ ! -z "$useroot" ] ; then
 		echo '[Edit]: attempting to edit file as root! (be careful!)'
 	fi
-	$useroot "$editor $selected_file"
+	$useroot $editor "$selected_file"
 fi
 
