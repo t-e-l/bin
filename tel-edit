@@ -21,8 +21,8 @@ if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	#useroot='sudo'	
 	#selected_file=$(su -s /data/data/com.termux/files/usr/bin/bash -c $fzf_bin)
 	#selected_file=$(
-	sudo fzf
-	echo $?
+	sudo fzf || exit 1
+	echo "fzf output = $?"
 	#useroot='su --preserve-environment -s /data/data/com.termux/files/usr/bin/zsh -c'
 	#search_command='find -not \( -path /sys/kernel/ -prune \) -not \( -path /proc/ -prune \) -not \( -path /mnt/ -prune \) -name \*.js'
 	#su --preserve-environment
