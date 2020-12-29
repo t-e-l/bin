@@ -19,7 +19,7 @@ if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	cd / 
 	export FZF_DEFAULT_COMMAND='find'
 	#useroot='sudo'	
-	selected_file="su --preserve-environment -s /data/data/com.termux/files/usr/bin/zsh -c $fzf_bin"
+	selected_file=$(su --preserve-environment -s /data/data/com.termux/files/usr/bin/zsh -c $fzf_bin" || exit 1)
 	#useroot='su --preserve-environment -s /data/data/com.termux/files/usr/bin/zsh -c'
 	#search_command='find -not \( -path /sys/kernel/ -prune \) -not \( -path /proc/ -prune \) -not \( -path /mnt/ -prune \) -name \*.js'
 	#su --preserve-environment
