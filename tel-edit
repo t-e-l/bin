@@ -22,7 +22,8 @@ if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	#selected_file=$(
 	#selected_file=$(sudo fzf 2>&1)
 	#sudo fzf > $TMPDIR/root_edit
-	files=$(sudo find)
+	files=$(sudo find /)
+	printf "\e[38;5;2m Edit\e[m%s: root is generating file list (this can take a while)\n"
 	selected_file=$(echo $files | $fzf_bin --cycle --color=16 --prompt="  Edit with $EDITOR (as root): ")
 # FILENAME to editor below
 	#echo "fzf output = $?"
