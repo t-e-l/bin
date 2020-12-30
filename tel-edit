@@ -15,20 +15,19 @@ editor=$(which $EDITOR)
 
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
-
 	cd / 
 	export FZF_DEFAULT_COMMAND='find'
 	#useroot='sudo'	
 	#selected_file=$(su -s /data/data/com.termux/files/usr/bin/bash -c $fzf_bin)
 	#selected_file=$(
 	#selected_file=$(sudo fzf 2>&1)
-	#sudo fzf || exit 1
+	sudo fzf > $TMPDIR/root_edit
 	# FILENAME to editor below
 	#echo "fzf output = $?"
-	selected_file='su --preserve-environment -s /data/data/com.termux/files/usr/bin/zsh -c /data/data/com.termux/files/usr/bin/fzf'
+	#selected_file='su --preserve-environment -s /data/data/com.termux/files/usr/bin/zsh -c /data/data/com.termux/files/usr/bin/fzf'
 	#search_command='find -not \( -path /sys/kernel/ -prune \) -not \( -path /proc/ -prune \) -not \( -path /mnt/ -prune \) -name \*.js'
 	#su --preserve-environment
-	sudo $EDITOR $selected_file
+	sudo $EDITOR $(cat $TMPDIR/root_edit)
 	exit 0
 else
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
