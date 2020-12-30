@@ -23,7 +23,7 @@ if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	#selected_file=$(sudo fzf 2>&1)
 	#sudo fzf > $TMPDIR/root_edit
 	files=$(sudo find)
-	selected_file=$($useroot $fzf_bin --cycle --color=16 --prompt="  Edit with $EDITOR (as root): ")
+	selected_file=$(echo $files | $fzf_bin --cycle --color=16 --prompt="  Edit with $EDITOR (as root): ")
 # FILENAME to editor below
 	#echo "fzf output = $?"
 	#selected_file='su --preserve-environment -s /data/data/com.termux/files/usr/bin/zsh -c /data/data/com.termux/files/usr/bin/fzf'
