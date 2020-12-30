@@ -31,6 +31,7 @@ if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	#search_command='find -not \( -path /sys/kernel/ -prune \) -not \( -path /proc/ -prune \) -not \( -path /mnt/ -prune \) -name \*.js'
 	#su --preserve-environment
 	#sudo $EDITOR $(cat $TMPDIR/root_edit)
+	printf "\e[38;5;2m Editing\e[m%s file as root: $(pwd)/$selected_file\n"
 	sudo $EDITOR $selected_file
 	exit 0
 else
