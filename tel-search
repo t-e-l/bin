@@ -48,7 +48,7 @@ elif [ "$1" == "-t" ] ; then
 	text=${input// /%20} #replace spaces with strings
 	#w3m "https://duckduckgo.com/?q=$text&kp=-1&kl=us-en&ia=web"
 	rand_searx_instance
-	$BROWSER "${searx_url}${text}&category_general=on&time_range=&language=$SEARCH_LANG"
+	$BROWSER "${searx_url}${text}&language=$SEARCH_LANG"
 	#$BROWSER "https://searx.be/?q=$text&category_general=on&time_range=&language=en-GB"
 	exit 0
 elif [ -z $1 ] ; then
@@ -80,8 +80,8 @@ fi
 text=${input// /%20} #replace spaces with strings
 rand_searx_instance
 if [ $(uname -o) == 'Android' ] ; then
-	termux-open-url "${searx_url}${text}&category_general=on&time_range=&language=$SEARCH_LANG"
+	termux-open-url "${searx_url}${text}&language=$SEARCH_LANG"
 else
-	xdg-open "${searx_url}${text}&category_general=on&time_range=&language=$SEARCH_LANG"
+	xdg-open "${searx_url}${text}&language=$SEARCH_LANG"
 fi
 exit 0
