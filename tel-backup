@@ -70,7 +70,7 @@ restore_backup(){
 	#backup_file_chosen=$(ls -Af | fzf -e --cycle --color=16 --prompt="Choose a file to restore from: ")
 	mkdir -f tmp
 	#read extraction path from file?
-	tar -xf $backup_file_chosen tmp
+	tar -xf tmp $backup_file_chosen 
 }
 
 exit_utility(){
