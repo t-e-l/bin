@@ -19,8 +19,10 @@ function rand_searx_instance () {
 		lines_searx_urls+=($line)
 	done < $instance_urls_file
 	searx_selection=$((RANDOM % $n))
-	while not [ curl -I "$seax_selection" 2>&1 | grep -w "200\|301" ] ; do
+	instance_online=$(curl -I "$seax_selection" 2>&1 | grep -w "200\|301")
+	while [ -z $instance_online ] ; do
 		searx_selection=$((RANDOM % $n))
+		instance_online=$(curl -I "$seax_selection" 2>&1 | grep -w "200\|301")
     		echo "Selected: $searx_selection"
 	done
 
