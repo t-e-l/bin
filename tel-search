@@ -20,17 +20,19 @@ function rand_searx_instance () {
 	done < $instance_urls_file
 	randomiser=$((RANDOM % $n))
 	selected_url=${lines_searx_urls[$randomiser]}
+	url_site_name_human=$(echo $selected_url | cut -d'/' -f 3)
 	instance_online=$(curl -I $selected_url 2>&1 | grep -w "200\|301")
-	echo -ne "\e[38;5;2m Search \e[m Checking: ${selected_url:8:25}"
+	echo -ne "\e[38;5;2m Search \e[mselecting: $url_site_name_human"
 	while [ -z "$instance_online" ]
 	do
 		randomiser=$((RANDOM % $n))
 		selected_url=${lines_searx_urls[$randomiser]}
-		echo -ne "\r\e[38;5;2m Search \e[mChecking: ${selected_url:8:25}"
+		url_site_name_human=$(echo $selected_url | cut -d'/' -f 3)
+		echo -ne "\r\e[38;5;2m Search \e[mselecting: $url_site_name_human"
 		instance_online=$(curl -I "$selected_url" 2>&1 | grep -w "200\|301")
 	done
 
-	searx_url=${lines_searx_urls[$searx_selection]}
+	searx_url=$selected_url
 }
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
@@ -79,18 +81,17 @@ elif [ -z $1 ] ; then
 		am start -a android.intent.action.MAIN -n 'com.google.android.youtube/com.google.android.apps.youtube.app.application.Shell$UrlActivity' "$yt_url" > /dev/null 2>&1 
 		exit 0
 	elif [ "$provider" != "Skip" ]; then
-		printf "\e[38;5;2m Search \e[m%s$provider for: "
+		echo -ne "\r\e[38;5;2m Search \e[m$provider for: "
 		read user_query
 		provider="!!$provider"
 		input="$provider $user_query"
 	fi
 elif [ "$#" != 0 ] ; then
-input="$@"
-url_site_name_human=$(echo $searx_url | cut -d'/' -f 3)
-	echo -ne "\r\e[38;5;2m Searching \e[murl_site_name_human for: $input\n"
+	input="$@"
+	rand_searx_instance
+	echo -ne "\r\e[38;5;2m Searching \e[m$url_site_name_human for: $input"
 fi
 text=${input// /%20} #replace spaces with strings
-rand_searx_instance
 if [ $(uname -o) == 'Android' ] ; then
 	termux-open-url "${searx_url}${text}&language=$SEARCH_LANG"
 else
