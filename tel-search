@@ -19,8 +19,9 @@ function rand_searx_instance () {
 		lines_searx_urls+=($line)
 	done < $instance_urls_file
 	searx_selection=$((RANDOM % $n))
-	instance_online=$(curl -I "${lines_searx_urls[$searx_selection]}" 2>&1 | grep -w "200\|301")
-	while [ -z $instance_online ] ; do
+	instance_online=$(curl -I ${lines_searx_urls[$searx_selection]} 2>&1 | grep -w "200\|301")
+	while [ -z "$instance_online" ]
+	do
 		searx_selection=$((RANDOM % $n))
 		instance_online=$(curl -I "${lines_searx_urls[$searx_selection]}" 2>&1 | grep -w "200\|301")
     		echo "Selected: ${lines_searx_urls[$searx_selection]}"
@@ -82,7 +83,7 @@ elif [ -z $1 ] ; then
 	fi
 elif [ "$#" != 0 ] ; then
 input="$@"
-	printf "\e[38;5;2m Search \e[mfor: $input"
+	printf "\e[38;5;2m Search \e[mfor: $input\n"
 fi
 text=${input// /%20} #replace spaces with strings
 rand_searx_instance
