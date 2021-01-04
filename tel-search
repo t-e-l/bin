@@ -86,7 +86,8 @@ elif [ -z $1 ] ; then
 	fi
 elif [ "$#" != 0 ] ; then
 input="$@"
-	printf "\e[38;5;2m Search \e[mfor: $input\n"
+url_site_name_human=$(echo $searx_url | cut -d'/' -f 3)
+	echo -ne "\r\e[38;5;2m Searching \e[murl_site_name_human for: $input\n"
 fi
 text=${input// /%20} #replace spaces with strings
 rand_searx_instance
