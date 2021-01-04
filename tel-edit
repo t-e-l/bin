@@ -15,7 +15,11 @@ editor=$(which $EDITOR)
 
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
-	file_search="$@"
+	if [ -z $1 ] ; then
+		file_search="$@"
+	else
+		file_search=''
+	fi
 	export FZF_DEFAULT_COMMAND='sudo fd . / -a --query="$file_search" --type file --hidden --follow --exclude .git -E /proc -E /sys -E /dev'
 	selected_file=$($fzf_bin --cycle --color=16 --prompt="  Edit with $EDITOR (as root): ")
 	if [ ! -z $selected_file ] ; then
