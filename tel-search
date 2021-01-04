@@ -22,13 +22,13 @@ function rand_searx_instance () {
 	selected_url=${lines_searx_urls[$randomiser]}
 	url_site_name_human=$(echo $selected_url | cut -d'/' -f 3)
 	instance_online=$(curl -I $selected_url 2>&1 | grep -w "200\|301")
-	echo -ne "\e[38;5;2m Search \e[mselecting: $url_site_name_human"
+	echo -ne "\e[38;5;2m Engine \e[m: $url_site_name_human"
 	while [ -z "$instance_online" ]
 	do
 		randomiser=$((RANDOM % $n))
 		selected_url=${lines_searx_urls[$randomiser]}
 		url_site_name_human=$(echo $selected_url | cut -d'/' -f 3)
-		echo -ne "\r\e[38;5;2m Search \e[mselecting: $url_site_name_human"
+		echo -ne "\r\e[38;5;2m Engine \e[m: $url_site_name_human"
 		instance_online=$(curl -I "$selected_url" 2>&1 | grep -w "200\|301")
 	done
 
