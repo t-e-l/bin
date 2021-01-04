@@ -26,7 +26,7 @@ function rand_searx_instance () {
 	do
 		randomiser=$((RANDOM % $n))
 		selected_url=${lines_searx_urls[$randomiser]}
-		echo -ne "\r\e[38;5;2m Search \e[m%sChecking: ${selected_url:8:25}"
+		echo -ne "\r\e[38;5;2m Search \e[mChecking: ${selected_url:8:25}"
 		instance_online=$(curl -I "$selected_url" 2>&1 | grep -w "200\|301")
 	done
 
