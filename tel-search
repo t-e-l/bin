@@ -18,18 +18,20 @@ function rand_searx_instance () {
 		n=$(( $n + 1 ))
 		lines_searx_urls+=($line)
 	done < $instance_urls_file
+	#select random num from pool
 	randomiser=$((RANDOM % $n))
-	selected_url=${lines_searx_urls[$randomiser]}
+	selected_url=${lines_searx_urls[$randomiser]} #get url at position
 	url_site_name_human=$(echo $selected_url | cut -d'/' -f 3)
 	echo -ne "\e[38;5;2m Engine\e[m: [$url_site_name_human]"
-	instance_online=$(curl -I $selected_url 2>&1 | grep -w "200\|301")
+	#check if chosen url is up
+	instance_online=$(timeout 4 curl -I $selected_url 2>&1 | grep -w "200\|301")
 	while [ -z "$instance_online" ]
 	do
 		randomiser=$((RANDOM % $n))
 		selected_url=${lines_searx_urls[$randomiser]}
 		url_site_name_human=$(echo $selected_url | cut -d'/' -f 3)
 		echo -ne "\r\e[38;5;2m Engine\e[m: [$url_site_name_human]         "
-		instance_online=$(curl -I "$selected_url" 2>&1 | grep -w "200\|301")
+		instance_online=$(timeout 5 curl -I "$selected_url" 2>&1 | grep -w "200\|301")
 	done
 
 	searx_url=$selected_url
@@ -68,6 +70,7 @@ elif [ -z $1 ] ; then
 	#	echo 'Nothing selected; exiting...'
 		exit 1
 	elif [ "$provider" == "Skip" ]; then	
+		rand_searx_instance
 		printf "\e[38;5;2m Search \e[m%sfor: "
 		read user_query
 		input="$user_query"
@@ -93,7 +96,7 @@ elif [ "$#" != 0 ] ; then
 fi
 
 # MAIN
-
+main () {
 text=${input// /%20} #replace spaces with strings
 if [ $(uname -o) == 'Android' ] ; then
 	termux-open-url "${searx_url}${text}&language=$SEARCH_LANG"
@@ -101,3 +104,6 @@ else
 	xdg-open "${searx_url}${text}&language=$SEARCH_LANG"
 fi
 exit 0
+}
+
+main "$@"
