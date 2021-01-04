@@ -67,7 +67,10 @@ restore_backup(){
 	cd $backup_location 
 	backup_dir_chosen=$(ls -d | fzf -e --cycle --color=16 --prompt="Choose a backup directory to restore from: ")
 	cd $backup_dir_chosen
-	backup_dir_chosen=$(ls | fzf -e --cycle --color=16 --prompt="Choose a file to restore from: ")
+	backup_file_chosen=$(ls -f | fzf -e --cycle --color=16 --prompt="Choose a file to restore from: ")
+	mkdir tmp
+	#read extraction path from file?
+	tar -xf $backup_file_chosen tmp
 }
 
 exit_utility(){
