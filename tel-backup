@@ -37,9 +37,9 @@ case $answer in
 		printf "\e[38;5;2m Backup\e[m%s: backing up configs...\n"
 		tar -c --no-recursion -z -f $backup_location/$today/userconfs_$backup_name.tar.gz ~/.tel/configs >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up termux settings...\n"
-		tar czf $backup_location/$today/termux_$backup_name.tar.gz ~/.termux >&/dev/null
+		tar -c --no-recursion -z -f $backup_location/$today/termux_$backup_name.tar.gz ~/.termux >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data...\n"
-		tar czf $backup_location/$today/userdata_$backup_name.tar.gz ~/.tel/data >&/dev/null & # last must be child process
+		tar -c --no-recursion -z -f $backup_location/$today/userdata_$backup_name.tar.gz ~/.tel/data >&/dev/null & # last must be child process
 		
 		#show working spinner
 		PID=$!
@@ -71,7 +71,7 @@ restore_backup(){
 	mkdir tmp > /dev/null 2>&1 
 	cd tmp	
 	#read extraction path from file?
-	tar -xf ../$backup_file_chosen 
+	tar -x -f ../$backup_file_chosen --overwrite --verify
 }
 
 exit_utility(){
@@ -87,7 +87,7 @@ HEIGHT=15
 WIDTH=40
 CHOICE_HEIGHT=4
 BACKTITLE="tel-backup"
-TITLE="Backup"
+TITLE="Backup & Restore"
 MENU="Choose one of the following options:"
 
 OPTIONS=(1 " Backup"
