@@ -15,13 +15,13 @@ editor=$(which $EDITOR)
 
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
-	if [ -z $1 ] ; then
+	if [ ! -z $1 ] ; then
 		file_search="$@"
 	else
 		file_search=''
 	fi
 	export FZF_DEFAULT_COMMAND='sudo fd . / -a  --type file --hidden --follow --exclude .git -E /proc -E /sys -E /dev'
-	selected_file=$($fzf_bin --cycle --color=16 --query="$file_search" --prompt="  Edit with $EDITOR (as root): ")
+	selected_file=$($fzf_bin --cycle --color=16 --query="$file_search" --prompt="  ROOT Edit with $EDITOR: ")
 	if [ ! -z $selected_file ] ; then
 		printf "\e[38;5;2m Editing\e[m%s file as root: $selected_file\n"
 		exec su --preserve-environment -c "/data/data/com.termux/files/usr/bin/nano /$selected_file"
