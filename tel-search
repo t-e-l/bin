@@ -18,13 +18,16 @@ function rand_searx_instance () {
 		n=$(( $n + 1 ))
 		lines_searx_urls+=($line)
 	done < $instance_urls_file
-	searx_selection=$((RANDOM % $n))
-	instance_online=$(curl -I ${lines_searx_urls[$searx_selection]} 2>&1 | grep -w "200\|301")
+	randomiser=$((RANDOM % $n))
+	selected_url=${lines_searx_urls[$randomiser]}
+	instance_online=$(curl -I $selected_url 2>&1 | grep -w "200\|301")
+	echo -ne "\e[38;5;2m Search \e[m%sChecking: ${selected_url:7:20}"
 	while [ -z "$instance_online" ]
 	do
-		searx_selection=$((RANDOM % $n))
-		instance_online=$(curl -I "${lines_searx_urls[$searx_selection]}" 2>&1 | grep -w "200\|301")
-    		echo "Selected: ${lines_searx_urls[$searx_selection]}"
+		randomiser=$((RANDOM % $n))
+		selected_url=${lines_searx_urls[$randomiser]}
+		echo -ne "\r\e[38;5;2m Search \e[m%sChecking: $selected_url"
+		instance_online=$(curl -I "$selected_url" 2>&1 | grep -w "200\|301")
 	done
 
 	searx_url=${lines_searx_urls[$searx_selection]}
