@@ -16,7 +16,7 @@ editor=$(which $EDITOR)
 if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
 	cd / 
-	export FZF_DEFAULT_COMMAND='sudo fd --type file --hidden --follow --exclude .git --base-directory / --ignored-file /proc --ignored-file /vendor --ignored-file /sys/block'
+	export FZF_DEFAULT_COMMAND='sudo fd --type file --hidden --follow --exclude .git --ignored-file "/proc" --ignored-file "/vendor" --ignored-file "/sys/block"'
 	selected_file=$($fzf_bin --cycle --color=16 --prompt="  Edit with $EDITOR (as root): ")
 	printf "\e[38;5;2m Editing\e[m%s file as root: /$selected_file\n"
 	exec su --preserve-environment -c "/data/data/com.termux/files/usr/bin/nano /$selected_file"
