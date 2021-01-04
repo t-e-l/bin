@@ -71,7 +71,7 @@ restore_backup(){
 	mkdir tmp > /dev/null 2>&1 
 	cd tmp	
 	#read extraction path from file?
-	tar -x -f ../$backup_file_chosen --overwrite --verify
+	tar -x -f ../$backup_file_chosen --overwrite 
 }
 
 exit_utility(){
