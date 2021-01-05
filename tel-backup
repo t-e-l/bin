@@ -78,7 +78,7 @@ restore_backup(){
 	cd tmp	
 	#read extraction path from file?
 	printf "\e[38;5;2m Restore\e[m%s: restoring archive - $backup_file_chosen\n"
-	tar -x -U -f ../$backup_file_chosen --keep-directory-symlink --overwrite-dir
+	tar -x -f ../$backup_file_chosen --keep-directory-symlink --overwrite-dir --overwrite
 	mv -f * "$(cat .restore_path)"
 	cd ..
 	rm -r tmp
