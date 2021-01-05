@@ -78,7 +78,7 @@ restore_backup(){
 	cd tmp	
 	#read extraction path from file?
 	tar -x -f ../$backup_file_chosen --overwrite 
-	mv -r * $(cat .restore_path)
+	mv -f * $(cat .restore_path)
 }
 
 exit_utility(){
