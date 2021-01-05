@@ -36,14 +36,16 @@ case $answer in
 		(apt list --installed > $backup_location/$today/userpkgs.txt > /dev/null 2>&1)
 		printf "\e[38;5;2m Backup\e[m%s: backing up configs...\n"
 		cd ~/.tel/configs
+		echo "$(pwd)" > .restore_path
 		tar -c -z -f $backup_location/$today/userconfs_$backup_name.tar.gz . >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up termux settings...\n"
 		cd ~/.termux
+		echo "$(pwd)" > .restore_path
 		tar -c -z -f $backup_location/$today/termux_$backup_name.tar.gz . >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data...\n"
 		cd ~/.tel/data
-		tar -c -z -f $backup_location/$today/userdata_$backup_name.tar.gz . >&/dev/null & # last must be child process
-		
+		echo "$(pwd)" > .restore_path
+		tar -c -z -f $backup_location/$today/userdata_$backup_name.tar.gz . >&/dev/null & # last must be child process	
 		#show working spinner
 		PID=$!
 		i=1
@@ -75,6 +77,7 @@ restore_backup(){
 	cd tmp	
 	#read extraction path from file?
 	tar -x -f ../$backup_file_chosen --overwrite 
+	mv -r * $(cat .restore_path)
 }
 
 exit_utility(){
