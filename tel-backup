@@ -45,7 +45,7 @@ case $answer in
 		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data...\n"
 		cd ~/.tel/data
 		echo "$(pwd)" > .restore_path
-		tar -c -z -f $backup_location/$today/userdata_$backup_name.tar.gz . >&/dev/null 
+		tar -c -z -f $backup_location/$today/userdata_$backup_name.tar.gz . >&/dev/null &
 		# last must be child process	
 		#show working spinner
 		PID=$!
