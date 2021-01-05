@@ -77,8 +77,8 @@ restore_backup(){
 	mkdir tmp > /dev/null 2>&1 
 	cd tmp	
 	#read extraction path from file?
-	tar -x -f ../$backup_file_chosen --overwrite 
-	mv -f * $(cat .restore_path)
+	tar -x -U -f ../$backup_file_chosen --overwrite --overwrite-dir --keep-directory-symlink
+	mv -f * "$(cat .restore_path)"
 	cd ..
 	rm -r tmp
 }
