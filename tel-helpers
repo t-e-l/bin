@@ -73,7 +73,8 @@ fix_permissions(){
 	# bin locations 
 	[[ -d ~/../usr/bin ]] && chmod +x ~/../usr/bin/*
 	[[ -d ~/.tel/bin ]] && chmod +x ~/.tel/bin/*
-	[[ -d ~/bin ]] && chmod +x ~/bin/* # scripts that receive files and urls shared to TEL
+	# chmod fails to access ~/bin :S  
+	#[[ -d ~/bin ]] && chmod +x ~/bin/* # scripts that receive files and urls shared to TEL
 }
 
 remove_data_no_prompt(){
