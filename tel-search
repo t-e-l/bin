@@ -101,7 +101,7 @@ text=${input// /%20} #replace spaces with strings
 if [ $(uname -o) == 'Android' ] ; then
 	termux-open-url "${searx_url}${text}&language=$SEARCH_LANG"
 else
-	xdg-open "${searx_url}${text}&language=$SEARCH_LANG"
+	nohup xdg-open "${searx_url}${text}&language=$SEARCH_LANG" > /dev/null 2>&1
 fi
 exit 0
 }
