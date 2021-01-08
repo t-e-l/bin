@@ -42,7 +42,12 @@ case $answer in
 		fi
 		
 		printf "\e[38;5;2m Backup\e[m%s: creating installed pkgs list...\n"
-		pkg list-installed > $backup_location/$today/$datetime/${user_custom_name}user_pkgs 2>&1
+		rm -rf $TMPDIR/tel-backup
+		mkdir -p $TMPDIR/tel-backup/pkgs
+		cd $TMPDIR/tel-backups/pkgs
+		echo -n "user_pkgs" > .restore_path
+		pkg list-installed > $TMPDIR/tel-backup/pkgs/user_pkgs.txt 2>&1
+		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}user_pkgs.tar.gz . >&/dev/null
 		#do stuff here to capture pkgs for reinstall
 		printf "\e[38;5;2m Backup\e[m%s: backing up configs...\n"
 		cd ~/.tel/configs
@@ -96,10 +101,13 @@ restore_backup(){
 			mkdir tmp > /dev/null 2>&1 
 			cd tmp	
 			tar -x -U -f ../$backup_file_chosen --keep-directory-symlink
-			printf "\e[38;5;2m Restore\e[m%s: restoring from archive -> $backup_file_chosen -> $(cat .restore_path)\n"
-			cp -rf * "$(cat .restore_path)" & 
-		       #	printf "\e[38;5;2m Restore\e[m%s: successfully restored $numfiles\n"
-
+			restore_path=$(cat .restore_path)
+			printf "\e[38;5;2m Restore\e[m%s: restoring from archive -> $backup_file_chosen -> $restore_path\n"
+			if [ "$restore_path" == "user_pkgs" ] ; then
+				install_pkgs
+			else
+				cp -rf * $restore_path & 
+			fi
 
 			# last tar make archive must be child process	
 			#show working spinner
@@ -123,6 +131,20 @@ restore_backup(){
 	esac
 	done
 
+}
+
+install_pkgs(){
+	printf "\e[38;5;2m Restore\e[m%s: reinstalling pkgs\n"
+	cat $backup_location/tmp/user_pkgs.txt | cut -d'/' -f 2 | while read line;
+	do
+	  if [ ! -f $line];
+	  then
+	    echo $line does not exist ;
+	  else
+	    pkg_list_str="$pkg_list_str $line"
+	  fi
+	done
+	pkg install -y $pkg_list_str
 }
 
 exit_utility(){
