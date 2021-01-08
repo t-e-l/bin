@@ -34,27 +34,27 @@ case $answer in
 		
 		check_folders  #create dirs if missing
 
-		read -p "Enter a unique name for this backup? (blank to skip): " user_chose_name
-		user_custom_name="_$user_chose_name"
+		read -p "Enter a unique name for this backup? (blank to skip): " answer
+		user_custom_name="$answer-"
 		
 		printf "\e[38;5;2m Backup\e[m%s: creating installed pkgs list...\n"
-		pkg list-installed > $backup_location/$today/$datetime_user_pkgs$user_custom_name 2>&1
+		pkg list-installed > $backup_location/$today/$datetime/${user_custom_name}user_pkgs 2>&1
 		#do stuff here to capture pkgs for reinstall
 		printf "\e[38;5;2m Backup\e[m%s: backing up configs...\n"
 		cd ~/.tel/configs
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime_tel_confs$user_custom_name.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}tel_confs.tar.gz . >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up termux settings...\n"
 		cd ~/.termux
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime_termux$user_custom_name.tar.gz --exclude='shell' . >&/dev/null
+		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}termux.tar.gz --exclude='shell' . >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data...\n"
 		cd ~/.tel/data
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime_tel_data$user_chose_name.tar.gz . >&/dev/null &
+		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}tel_data.tar.gz . >&/dev/null &
 		# last tar make archive must be child process	
 		#show working spinner
 		PID=$!
@@ -93,9 +93,9 @@ restore_backup(){
 			cd tmp	
 			tar -x -U -f ../$backup_file_chosen --keep-directory-symlink
 			printf "\e[38;5;2m Restore\e[m%s: restoring from archive -> $backup_file_chosen -> $(cat .restore_path)\n"
-			cp -rf * "$(cat .restore_path)" && printf "\e[38;5;2m Restore\e[m%s: successfully restored $numfiles\n"
-			cd ..
-			rm -r tmp # cleanup	
+			cp -rf * "$(cat .restore_path)" & 
+		       #	printf "\e[38;5;2m Restore\e[m%s: successfully restored $numfiles\n"
+
 
 			# last tar make archive must be child process	
 			#show working spinner
@@ -109,6 +109,8 @@ restore_backup(){
 				  sleep 0.1
 			done
 			echo -ne '\r' #remove last spinner
+			cd ..
+			rm -r tmp # cleanup	
 			printf "\e[38;5;2m Restore\e[m%s: complete\n"
 			break;;
 
