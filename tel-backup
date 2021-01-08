@@ -32,14 +32,11 @@ do
 case $answer in
 	[yY]* )
 		
-		read -p "Enter a unique name for this backup? (blank to skip): " user_chose_name
 		check_folders  #create dirs if missing
 
-		if [ ! -z "$user_chose_name" ] ; then 
-			user_custom_name="_$user_chose_name"
-		else
-			user_custom_name=""
-		fi
+		read -p "Enter a unique name for this backup? (blank to skip): " user_chose_name
+		user_custom_name="_$user_chose_name"
+		
 		printf "\e[38;5;2m Backup\e[m%s: creating installed pkgs list...\n"
 		pkg list-installed > $backup_location/$today/$datetime_user_pkgs$user_custom_name 2>&1
 		#do stuff here to capture pkgs for reinstall
