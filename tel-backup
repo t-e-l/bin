@@ -2,7 +2,7 @@
 # SealyJ
 # version 0.2
 today=$(date +"%m_%d_%Y")
-date_time=$(date +"%m-%d-%Y_%H_%M_%S")
+datetime=$(date +"%H_%M")
 temp_storage=~/../usr/tmp
 backup_location=~/storage/shared/tel/backup
 
@@ -34,22 +34,22 @@ case $answer in
 		check_folders  #create dirs if missing
 
 		printf "\e[38;5;2m Backup\e[m%s: creating installed pkgs list...\n"
-		(apt list --installed > $backup_location/$today/userpkgs.txt > /dev/null 2>&1)
+		(apt list --installed > $backup_location/$today/userpkgs-$datetime.txt > /dev/null 2>&1)
 		printf "\e[38;5;2m Backup\e[m%s: backing up configs...\n"
 		cd ~/.tel/configs
 		rm -rf .restore_path
 		echo "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/userconfs_$backup_name.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today/userconfs_$datetime.tar.gz . >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up termux settings...\n"
 		cd ~/.termux
 		rm -rf .restore_path
 		echo "$(pwd)" > .restore_path
-		find . -type f | tar --exclude 'shell' -v -c -z -f $backup_location/$today/termux_$backup_name.tar.gz >&/dev/null
+		find . -type f | tar --exclude 'shell' -v -c -z -f $backup_location/$today/termux_$datetime.tar.gz >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data...\n"
 		cd ~/.tel/data
 		rm -rf .restore_path
 		echo "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/userdata_$backup_name.tar.gz . >&/dev/null &
+		tar -v -c -z -f $backup_location/$today/userdata_$datetime.tar.gz . >&/dev/null &
 		# last tar make archive must be child process	
 		#show working spinner
 		PID=$!
