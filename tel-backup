@@ -42,12 +42,15 @@ case $answer in
 		fi
 		
 		printf "\e[38;5;2m Backup\e[m%s: creating installed pkgs list...\n"
-		rm -rf $TMPDIR/tel-backup
-		mkdir -p $TMPDIR/tel-backup/pkgs
-		cd $TMPDIR/tel-backups/pkgs
+		rm -rf $TMPDIR/tel-backup/tmp
+		mkdir -p $TMPDIR/tel-backup/tmp
+		cd $TMPDIR/tel-backup/tmp
 		echo -n "user_pkgs" > .restore_path
-		pkg list-installed > $TMPDIR/tel-backup/pkgs/user_pkgs.txt 2>&1
+		pkg list-installed > user_pkgs.txt 2>&1
 		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}user_pkgs.tar.gz . >&/dev/null
+		cd $TMPDIR 
+		rm -rf tel-backup/tmp
+
 		#do stuff here to capture pkgs for reinstall
 		printf "\e[38;5;2m Backup\e[m%s: backing up configs...\n"
 		cd ~/.tel/configs
