@@ -76,18 +76,15 @@ restore_backup(){
 	printf "\e[38;5;2m Restore\e[m%s: loading data...\n"
 	cd $backup_location 
 	backup_file_chosen=$(fzf -e --cycle --color=16 --prompt="Choose a backup file to restore from: ")
-	#cd $backup_dir_chosen
-	#backup_file_chosen=$(ls -Af | fzf -e --cycle --color=16 --prompt="Choose a file to restore from: ")
+	[[ -z "$backup_file_chosen" ]] && exit 1
+	rm -r tmp > /dev/null 2>&1 # rm any partial failure
 	mkdir tmp > /dev/null 2>&1 
 	cd tmp	
-	#read extraction path from file?
 	printf "\e[38;5;2m Restore\e[m%s: restoring archive - $backup_file_chosen to path: $(cat restore_path)\n"
 	tar -x -U -f ../$backup_file_chosen --keep-directory-symlink
-	#rm -rf "$(cat .restore_path)"
-	#mkdir "$(cat .restore_path)"
 	cp -rf * "$(cat .restore_path)"
 	cd ..
-	rm -r tmp
+	rm -r tmp # cleanup
 }
 
 exit_utility(){
