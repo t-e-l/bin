@@ -85,7 +85,7 @@ restore_backup(){
 	tar -x -U -f ../$backup_file_chosen --keep-directory-symlink
 	#rm -rf "$(cat .restore_path)"
 	#mkdir "$(cat .restore_path)"
-	mv -f * -t "$(cat .restore_path)"
+	cp -rf * "$(cat .restore_path)"
 	cd ..
 	rm -r tmp
 }
