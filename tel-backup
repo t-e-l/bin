@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SealyJ
-# version 0.2
+# version 0.3
 today=$(date +"%m_%d_%Y")
 datetime=$(date +"%H_%M")
 temp_storage=~/../usr/tmp
@@ -36,27 +36,28 @@ case $answer in
 		check_folders  #create dirs if missing
 
 		if [ ! -z "$user_chose_name" ] ; then 
-			user_custom_dir="/$user_chose_name/"
+			user_custom_dir="/$user_chose_name"
 		else
 			user_custom_dir=""
 		fi
 		printf "\e[38;5;2m Backup\e[m%s: creating installed pkgs list...\n"
-		pkg list-installed > $backup_location/$today/$datetime_user_pkgs 2>&1
+		pkg list-installed > $backup_location/$today$user_custom_dir/$datetime_user_pkgs 2>&1
+		#do stuff here to capture pkgs for reinstall
 		printf "\e[38;5;2m Backup\e[m%s: backing up configs...\n"
 		cd ~/.tel/configs
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime_tel_confs$user_chose_name.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today$user_custom_dir/$datetime_tel_confs.tar.gz . >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up termux settings...\n"
 		cd ~/.termux
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime_termux$user_chose_name.tar.gz --exclude='shell' . >&/dev/null
+		tar -v -c -z -f $backup_location/$today$user_custom_dir/$datetime_termux.tar.gz --exclude='shell' . >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data...\n"
 		cd ~/.tel/data
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime_tel_data$user_chose_name.tar.gz . >&/dev/null &
+		tar -v -c -z -f $backup_location/$today$user_custom_dir/$datetime_tel_data.tar.gz . >&/dev/null &
 		# last tar make archive must be child process	
 		#show working spinner
 		PID=$!
@@ -111,7 +112,7 @@ restore_backup(){
 				  sleep 0.1
 			done
 			echo -ne '\r' #remove last spinner
-			printf "\e[38;5;2m Backup\e[m%s: completed\n"
+			printf "\e[38;5;2m Restore\e[m%s: complete\n"
 			break;;
 
 		[nN]* ) exit_utility;;
