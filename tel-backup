@@ -140,15 +140,9 @@ restore_backup(){
 
 install_pkgs(){
 	printf "\e[38;5;2m Restore\e[m%s: reinstalling pkgs\n"
-	cat $backup_location/tmp/user_pkgs.txt | cut -d'/' -f 1 | while read line;
-	do
-	  if [ ! -f $line];
-	  then
-	    echo $line does not exist ;
-	  else
-	    pkg_list_str="$pkg_list_str $line"
-	  fi
-	done
+	while IFS= read -r line; do
+		pkg_list_str="$pkg_list_str $line"
+	done < $backup_location/tmp/user_pkgs.txt
 	echo "pkg_list_str = $pkg_list_str"
 	pkg install -y $pkg_list_str
 }
