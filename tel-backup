@@ -47,6 +47,7 @@ case $answer in
 		cd $TMPDIR/tel-backup/tmp
 		echo -n "user_pkgs" > .restore_path
 		(pkg list-installed | cut -d'/' -f 1 > user_pkgs.txt 2>&1)
+		sed -i '1d' user_pkgs.txt # delete first 'Listing done' line from apt output
 		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}user_pkgs.tar.gz . >&/dev/null
 		cd $TMPDIR 
 		rm -rf tel-backup/tmp
