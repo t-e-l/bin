@@ -230,7 +230,7 @@ MENU="Choose one of the following options:"
 OPTIONS=(1 " Backup"
          2 " Restore"
          3 " Quit"
-         3 " Remove Backups")
+         4 " Remove Backups")
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -252,7 +252,7 @@ case $CHOICE in
 	    exit_utility
             ;;
 	4)
-	    wipe_backups
+	    remove_backups
 	    ;;
 esac
 }
