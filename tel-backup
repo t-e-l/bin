@@ -50,36 +50,65 @@ case $answer in
 		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}user_pkgs.tar.gz . >&/dev/null
 		cd $TMPDIR 
 		rm -rf tel-backup/tmp
-		
-		# SSH data #
-		~/.ssh
+	
+		# ~/.config #
+		printf "\e[38;5;2m Backup\e[m%s: backing up user pkg configs\n"
+		cd ~/.config
+		rm -rf .restore_path
+		echo -n "$(pwd)" > .restore_path
+		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}pkg_config.tar.gz . >&/dev/null
+		rm -rf .restore_path	
 
-		# Theme settings #
-		.wallpapers
-		.cache/wal
+		# SSH data #
+		printf "\e[38;5;2m Backup\e[m%s: backing up ssh data\n"
+		cd ~/.ssh
+		rm -rf .restore_path
+		echo -n "$(pwd)" > .restore_path
+		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}ssh.tar.gz . >&/dev/null
+		rm -rf .restore_path
+
+		# wal colors #
+		printf "\e[38;5;2m Backup\e[m%s: backing up color data\n"
+		cd ~/.cache/wal
+		rm -rf .restore_path
+		echo -n "$(pwd)" > .restore_path
+		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}colors.tar.gz . >&/dev/null
+		rm -rf .restore_path
+
+	
+		# wallpapers #
+		printf "\e[38;5;2m Backup\e[m%s: backing up wallpapers\n"
+		cd ~/.wallpapers
+		rm -rf .restore_path
+		echo -n "$(pwd)" > .restore_path
+		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}wallpapers.tar.gz . >&/dev/null
+		rm -rf .restore_path
 
 		# Termux settings #
-		printf "\e[38;5;2m Backup\e[m%s: backing up termux settings...\n"
+		printf "\e[38;5;2m Backup\e[m%s: backing up termux settings\n"
 		cd ~/.termux
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
 		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}termux.tar.gz --exclude='shell' . >&/dev/null
-		# ~/.config #
-		.config .cache 
+		rm -rf .restore_path
+		
+
 
 		# TEL CONFIGS #
-		printf "\e[38;5;2m Backup\e[m%s: backing up TEL configs...\n"
+		printf "\e[38;5;2m Backup\e[m%s: backing up TEL configs\n"
 		cd ~/.tel/configs
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
 		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}tel_confs.tar.gz . >&/dev/null
+		rm -rf .restore_path
 
 		# TEL DATA #
-		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data...\n"
+		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data\n"
 		cd ~/.tel/data
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
 		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}tel_data.tar.gz . >&/dev/null &
+		rm -rf .restore_path
 		
 		# Spinner animation #
 		# last tar make archive must be child process	
