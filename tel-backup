@@ -31,16 +31,13 @@ do
 	read -p "This operation may overwrite previous backups made in the last minute, do you wish to continue? y/N : " answer
 case $answer in
 	[yY]* )
-		
 		check_folders  #create dirs if missing
-
 		read -p "Enter a unique name for this backup? (blank to skip): " answer
 		if [ ! -z "$answer" ] ; then
 			user_custom_name="$answer-"
 		else 
 			user_custom_name=""
 		fi
-		
 		printf "\e[38;5;2m Backup\e[m%s: creating installed pkgs list...\n"
 		rm -rf $TMPDIR/tel-backup/tmp
 		mkdir -p $TMPDIR/tel-backup/tmp
@@ -93,17 +90,17 @@ done
 restore_backup(){
 	printf "\e[38;5;2m Restore\e[m%s: loading data...\n"
 	cd $backup_location 
-	backup_file_chosen=$(fzf -e --cycle --color=16 --prompt="Choose a backup file to restore from: ")
+	backup_file_chosen=$(fzf -e --cycle --color=16 --prompt="Choose a backup archive to restore from: ")
 	[[ -z "$backup_file_chosen" ]] && exit 1
 	while true
 	do
 		printf "\e[38;5;2m Restore\e[m%s: $backup_file_chosen\n"
-		read -p "This will overwrite files relevant to the selected backup archive without any further warning! Are you sure you wish to continue? y/N : " answer
+		read -p "This action is potentially destructive are you sure you wish to continue? y/N : " answer
 	case $answer in
 		[yY]* )
-			rm -r tmp > /dev/null 2>&1 # rm any partial failure
-			mkdir tmp > /dev/null 2>&1 
-			cd tmp	
+			rm -r tmp > /dev/null 2>&1 #rm any partial failure
+			mkdir tmp > /dev/null 2>&1
+			cd tmp
 			tar -x -U -f ../$backup_file_chosen --keep-directory-symlink
 			restore_path=$(cat .restore_path)
 			if [ "$restore_path" == "user_pkgs" ] ; then
@@ -114,7 +111,6 @@ restore_backup(){
 				printf "\e[38;5;2m Restore\e[m%s: restoring from archive -> $backup_file_chosen -> $restore_path\n"
 				cp -rf * $restore_path & 
 			fi
-
 			# last tar make archive must be child process	
 			#show working spinner
 			PID=$!
@@ -131,23 +127,33 @@ restore_backup(){
 			rm -r tmp # cleanup	
 			printf "\e[38;5;2m Restore\e[m%s: complete\n"
 			break;;
-
 		[nN]* ) exit_utility;;
 		* )     echo "options are y or n...";;
 	esac
 	done
-
 }
 
 install_pkgs(){
-	printf "\e[38;5;2m Restore\e[m%s: reinstalling pkgs\n"
+	pkg update -y
 	while IFS= read -r line; do
 		pkg_list_str="$pkg_list_str $line"
 	done < $backup_location/tmp/user_pkgs.txt
-	echo "pkg_list_str = $pkg_list_str"
+	#echo "pkg_list_str = $pkg_list_str"
 	pkg install -y $pkg_list_str
 }
 
+remove_backups(){
+	cd $backup_location || exit 1
+	while true
+	do
+		read -p "This action will delete ALL TEL backup data from your devices storage? yes/no : " answer
+		case $answer in
+			yes)
+				rm -rf *
+				;;
+			no) exit_utility;;
+			*)     echo "Please type yes or no...";;
+}
 exit_utility(){
 	printf "\e[38;5;2m Backup & Restore\e[m%s: Exiting...\n"
 	exit 0
@@ -166,7 +172,8 @@ MENU="Choose one of the following options:"
 
 OPTIONS=(1 " Backup"
          2 " Restore"
-         3 " Quit")
+         3 " Quit"
+         3 " Remove Backups")
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -187,6 +194,9 @@ case $CHOICE in
         3)
 	    exit_utility
             ;;
+	4)
+	    wipe_backups
+	    ;;
 esac
 }
 
