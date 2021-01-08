@@ -105,10 +105,12 @@ restore_backup(){
 			cd tmp	
 			tar -x -U -f ../$backup_file_chosen --keep-directory-symlink
 			restore_path=$(cat .restore_path)
-			printf "\e[38;5;2m Restore\e[m%s: restoring from archive -> $backup_file_chosen -> $restore_path\n"
 			if [ "$restore_path" == "user_pkgs" ] ; then
+				printf "\e[38;5;2m Restore\e[m%s: restoring user packages\n"
 				install_pkgs
+				exit_utility
 			else
+				printf "\e[38;5;2m Restore\e[m%s: restoring from archive -> $backup_file_chosen -> $restore_path\n"
 				cp -rf * $restore_path & 
 			fi
 
@@ -147,6 +149,7 @@ install_pkgs(){
 	    pkg_list_str="$pkg_list_str $line"
 	  fi
 	done
+	echo "pkg_list_str = $pkg_list_str"
 	pkg install -y $pkg_list_str
 }
 
