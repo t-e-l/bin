@@ -44,7 +44,7 @@ case $answer in
 		cd ~/.termux
 		rm -rf .restore_path
 		echo "$(pwd)" > .restore_path
-		find . -type f | tar --exclude 'shell' -v -c -z -f $backup_location/$today/termux_$datetime.tar.gz >&/dev/null
+		tar -v -c -z -f $backup_location/$today/termux_$datetime.tar.gz --exclude='shell' >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data...\n"
 		cd ~/.tel/data
 		rm -rf .restore_path
