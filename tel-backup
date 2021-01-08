@@ -11,9 +11,10 @@ if [ ! -d $temp_storage ] ; then
 	mkdir $temp_storage
 fi
 if [ ! -d ~/storage ] ; then
+	printf "\e[38;5;2m Backup\e[m%s: "yy
 	echo "Error - No access to phone storage"
 	echo "backups are made to /storage/emulated/0/tel, (this path is also accessible to TEL through ~/storage/shared/tel) if TEL hasn't been granted storage permissions, this will likely fail. Run termux-setup-storage to grant access"
-	echo "program will exit.." && exit 1
+	echo "program will exit.." && exit_utility
 fi
 if [ ! -d ~/storage/shared/tel/backup ] ; then
 	mkdir -p $backup_location 
@@ -27,29 +28,30 @@ make_backup(){
 while true
 do
 	printf "\e[38;5;2m Backup\e[m%s: "
-	read -p "This will overwrite any previous backups made the same day are you sure you want to continue? y/N : " answer
+	read -p "This operation may overwrite previous backups made in the last minute, do you wish to continue? y/N : " answer
 case $answer in
 	[yY]* )
 		
+		read -p "Enter a unique name for this backup? (blank to skip; should start with underscore '_mybackup'): " user_chose_name
 		check_folders  #create dirs if missing
 
 		printf "\e[38;5;2m Backup\e[m%s: creating installed pkgs list...\n"
-		(apt list --installed > $backup_location/$today/userpkgs-$datetime.txt > /dev/null 2>&1)
+		pkg list-installed > $backup_location/$today/$datetime_user_pkgs$user_chose_name 2>&1
 		printf "\e[38;5;2m Backup\e[m%s: backing up configs...\n"
 		cd ~/.tel/configs
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/userconfs_$datetime.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today/$datetime_tel_confs$user_chose_name.tar.gz . >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up termux settings...\n"
 		cd ~/.termux
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/termux_$datetime.tar.gz --exclude='shell' . >&/dev/null
+		tar -v -c -z -f $backup_location/$today/$datetime_termux$user_chose_name.tar.gz --exclude='shell' . >&/dev/null
 		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data...\n"
 		cd ~/.tel/data
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/userdata_$datetime.tar.gz . >&/dev/null &
+		tar -v -c -z -f $backup_location/$today/$datetime_tel_data$user_chose_name.tar.gz . >&/dev/null &
 		# last tar make archive must be child process	
 		#show working spinner
 		PID=$!
@@ -65,7 +67,7 @@ case $answer in
 		printf "\e[38;5;2m Backup\e[m%s: completed\n"
 		break;;
 
-	[nN]* ) exit;;
+	[nN]* ) exit_utility;;
 	* )     echo "options are y or n...";;
 esac
 done
@@ -77,14 +79,41 @@ restore_backup(){
 	cd $backup_location 
 	backup_file_chosen=$(fzf -e --cycle --color=16 --prompt="Choose a backup file to restore from: ")
 	[[ -z "$backup_file_chosen" ]] && exit 1
-	rm -r tmp > /dev/null 2>&1 # rm any partial failure
-	mkdir tmp > /dev/null 2>&1 
-	cd tmp	
-	tar -x -U -f ../$backup_file_chosen --keep-directory-symlink
-	printf "\e[38;5;2m Restore\e[m%s: restoring from archive -> $backup_file_chosen -> $(cat .restore_path)\n"
-	cp -rf * "$(cat .restore_path)"
-	cd ..
-	rm -r tmp # cleanup
+	while true
+	do
+		printf "\e[38;5;2m Restore\e[m%s: $backup_file_chosen\n"
+		read -p "This will overwrite files relevant to the selected backup archive without any further warning!\nAre you sure you wish to continue? y/N : " answer
+	case $answer in
+		[yY]* )
+			rm -r tmp > /dev/null 2>&1 # rm any partial failure
+			mkdir tmp > /dev/null 2>&1 
+			cd tmp	
+			tar -x -U -f ../$backup_file_chosen --keep-directory-symlink
+			printf "\e[38;5;2m Restore\e[m%s: restoring from archive -> $backup_file_chosen -> $(cat .restore_path)\n"
+			cp -rf * "$(cat .restore_path)" && printf "\e[38;5;2m Restore\e[m%s: successfully restored $numfiles\n"
+			cd ..
+			rm -r tmp # cleanup	
+
+			# last tar make archive must be child process	
+			#show working spinner
+			PID=$!
+			i=1
+			sp="/-\|"
+			echo -n ' '
+			while [ -d /proc/$PID ]
+			do
+				  printf "\b${sp:i++%${#sp}:1}"
+				  sleep 0.1
+			done
+			echo -ne '\r' #remove last spinner
+			printf "\e[38;5;2m Backup\e[m%s: completed\n"
+			break;;
+
+		[nN]* ) exit_utility;;
+		* )     echo "options are y or n...";;
+	esac
+	done
+
 }
 
 exit_utility(){
