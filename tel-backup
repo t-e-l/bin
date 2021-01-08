@@ -167,16 +167,21 @@ install_pkgs(){
 }
 
 remove_backups(){
-	cd $backup_location || exit 1
 	while true
 	do
 		read -p "This action will delete ALL TEL backup data from your devices storage? yes/no : " answer
 		case $answer in
 			yes)
+				cd $backup_location || exit 1
 				rm -rf *
+				break
 				;;
-			no) exit_utility;;
-			*)     echo "Please type yes or no...";;
+			no)
+				exit_utility;;
+			*)
+				echo "Please type yes or no...";;
+	esac
+	done
 }
 exit_utility(){
 	printf "\e[38;5;2m Backup & Restore\e[m%s: Exiting...\n"
