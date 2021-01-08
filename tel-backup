@@ -35,7 +35,11 @@ case $answer in
 		check_folders  #create dirs if missing
 
 		read -p "Enter a unique name for this backup? (blank to skip): " answer
-		user_custom_name="$answer-"
+		if [ ! -z "$answer" ] ; then
+			user_custom_name="$answer-"
+		else 
+			user_custom_name=""
+		fi
 		
 		printf "\e[38;5;2m Backup\e[m%s: creating installed pkgs list...\n"
 		pkg list-installed > $backup_location/$today/$datetime/${user_custom_name}user_pkgs 2>&1
