@@ -135,12 +135,43 @@ done
 
 restore_backup(){
 	printf "\e[38;5;2m Restore\e[m%s: loading data...\n"
-	cd $backup_location 
-	backup_file_chosen=$(fzf -e --cycle --color=16 --prompt="Choose a backup archive to restore from: ")
-	[[ -z "$backup_file_chosen" ]] && exit 1
-	while true
+	cd $backup_location
+	restore_dir_chosen=$(find -type d | cut -d'/' -f 2- | fzf -d -e --cycle --color=16 --prompt="Choose a backup folder to restore from: ")
+	[[ -z "$restore_dir_chosen" ]] && exit 1
+	printf "\e[38;5;2m Restore\e[m%s: $restore_dir_chosen\n"
+	# OPTIONS NEED TO BE GENERATED ON FLY ACCORDING TO DIR CONTS
+	cmd=(dialog --separate-output --checklist "Use space to select backup archive(s) you wish to restore, then press enter to continue: " 22 76 16)
+	backup_archives_in_folder=$(find -type -f | cut -d'/' -f 2-)
+
+	options=(1 "Restore ALL archives in backup folder" on    # any option can be set to default to "on"
+		 2 "TEL user data" off
+		 3 "TEL user configs" off
+		 4 "Theme colors" off)
+	type $options
+	choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+	clear
+	for choice in $choices
 	do
-		printf "\e[38;5;2m Restore\e[m%s: $backup_file_chosen\n"
+	    case $choice in
+		1)
+		    echo "First Option - Restore ALL"
+		    #restore_all
+		    exit_utility
+		    ;;
+		2)
+		    echo "Second Option - Restore"
+		    ;;
+		3)
+		    echo "Third Option"
+		    ;;
+		4)
+		    echo "Fourth Option"
+		    ;;
+	    esac
+	done
+	# then below while becomes for loop each in 
+	for archive in "${selected_archives}"
+	do
 		read -p "This action is potentially destructive are you sure you wish to continue? y/N : " answer
 	case $answer in
 		[yY]* )
@@ -191,15 +222,14 @@ install_pkgs(){
 	while IFS= read -r line; do
 		pip_pkg_list_str="$pip_pkg_list_str $line"
 	done < $backup_location/tmp/pip_user_pkgs.txt
-	export PIP_DISABLE_PIP_VERSION_CHECK=1
-	pip install --user $pip_pkg_list_str
+	PIP_DISABLE_PIP_VERSION_CHECK=1 pip install --user $pip_pkg_list_str
 
 }
 
 remove_backups(){
 	while true
 	do
-		read -p "This action will delete ALL TEL backup data from your devices storage? yes/no : " answer
+		read -p "This action will delete ALL TEL backup archives from your device storage! Are you sure you wish to continue? yes/no : " answer
 		case $answer in
 			yes)
 				cd $backup_location || exit 1
