@@ -191,7 +191,7 @@ install_pkgs(){
 	while IFS= read -r line; do
 		pip_pkg_list_str="$pip_pkg_list_str $line"
 	done < $backup_location/tmp/pip_user_pkgs.txt
-	PIP_DISABLE_PIP_VERSION_CHECK=1
+	export PIP_DISABLE_PIP_VERSION_CHECK=1
 	pip install --user $pip_pkg_list_str
 
 }
