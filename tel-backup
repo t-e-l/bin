@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # SealyJ
 # version 0.3
+source tel-helpers
 today=$(date +"%m_%d_%Y")
 datetime=$(date +"%H_%M")
 temp_storage=~/../usr/tmp
@@ -174,18 +175,18 @@ restore_backup(){
 				echo -n ' '
 				while [ -d /proc/$PID ]
 				do
-					echo -ne "\r\e[38;5;2m Restoring\e[m: from archive: $archive -> $restore_path \b${sp:i++%${#sp}:1}"
+					echo -ne "\r\e[38;5;2m Restoring\e[m: from archive: $archive -> $restore_path ${sp:i++%${#sp}:1}"
 					echo -ne "\b${sp:i++%${#sp}:1}"
 					sleep 0.1
 				done
 				echo -ne '\b' #remove last spinner
 			fi
-			echo -ne "\r\e[38;5;2m Restored\e[m: $archive -> $restore_path\n"
+			echo -ne "\r\e[38;5;2m Restored\e[m: $archive -> $restore_path ${CHECK_MARK}"
+			sleep 0.1
 			# last tar make archive must be child process	
 
 			cd ..
 			rm -r tmp # cleanup	
-			printf "\e[38;5;2m Restore\e[m%s: complete\n"
 			#break
 			;;
 		[nN]* ) exit_utility;;
