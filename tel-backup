@@ -150,7 +150,7 @@ restore_backup(){
 	echo "selected_arch array = ${selected_archives[@]}"
 	for archive in "${selected_archives[@]}"
 	do
-		echo -ne "\e[38;5;2m Restore\e[m: Are you sure you wish to restore: $archive? y/N\n"
+		echo -e "\e[38;5;2m Restore\e[m: Are you sure you wish to restore: $archive? y/N\n"
 		read -r answer
 	case $answer in
 		[yY]* )
