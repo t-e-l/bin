@@ -19,8 +19,8 @@ fi
 if [ ! -d ~/storage/shared/tel/backup ] ; then
 	mkdir -p $backup_location 
 fi
-if [ ! -d "$backup_location/$today/$datetime" ] ; then
-	mkdir -p $backup_location/$today/$datetime && printf "\e[38;5;2m Backup\e[m%s: created backup folder at: $backup_location/$today \n"
+if [ ! -d "$backup_location" ] ; then
+	mkdir -p $backup_location && printf "\e[38;5;2m Backup\e[m%s: created backup folder at: $backup_location \n"
 fi
 }
 
@@ -47,7 +47,7 @@ case $answer in
 		(pkg list-installed | cut -d'/' -f 1 > user_pkgs.txt 2>&1)
 		(pip list --format freeze | cut -d'=' -f 1 > pip_user_pkgs.txt 2>&1)
 		sed -i '1d' user_pkgs.txt # delete first 'Listing done' line from apt output
-		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}user_pkgs.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}user_pkgs.tar.gz . >&/dev/null
 		cd $TMPDIR 
 		rm -rf tel-backup/tmp
 	
@@ -56,7 +56,7 @@ case $answer in
 		cd ~/.config
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}pkg_config.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}pkg_config.tar.gz . >&/dev/null
 		rm -rf .restore_path	
 
 		# SSH data #
@@ -64,7 +64,7 @@ case $answer in
 		cd ~/.ssh
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}ssh.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}ssh.tar.gz . >&/dev/null
 		rm -rf .restore_path
 
 		# wal colors #
@@ -72,7 +72,7 @@ case $answer in
 		cd ~/.cache/wal
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}colors.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}colors.tar.gz . >&/dev/null
 		rm -rf .restore_path
 
 	
@@ -81,7 +81,7 @@ case $answer in
 		cd ~/.wallpapers
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}wallpapers.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}wallpapers.tar.gz . >&/dev/null
 		rm -rf .restore_path
 
 		# Termux settings #
@@ -89,7 +89,7 @@ case $answer in
 		cd ~/.termux
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}termux.tar.gz --exclude='shell' . >&/dev/null
+		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}termux.tar.gz --exclude='shell' . >&/dev/null
 		rm -rf .restore_path
 		
 
@@ -99,7 +99,7 @@ case $answer in
 		cd ~/.tel/configs
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}tel_confs.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}tel_confs.tar.gz . >&/dev/null
 		rm -rf .restore_path
 
 		# TEL DATA #
@@ -107,7 +107,7 @@ case $answer in
 		cd ~/.tel/data
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today/$datetime/${user_custom_name}tel_data.tar.gz . >&/dev/null &
+		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}tel_data.tar.gz . >&/dev/null &
 		rm -rf .restore_path
 		
 		# Spinner animation #
@@ -136,10 +136,10 @@ done
 restore_backup(){
 	printf "\e[38;5;2m Restore\e[m%s: loading data...\n"
 	cd $backup_location
-	restore_dir_chosen=$(fd --type d | cut -d'/' -f 2- | fzf -d -e --cycle --color=16 --prompt="Choose a backup folder to restore from: ")
-	[[ -z "$restore_dir_chosen" ]] && exit 1
-	printf "\e[38;5;2m Restore\e[m%s: $restore_dir_chosen\n"
-	cd $restore_dir_chosen
+#	restore_dir_chosen=$(fd --type d -d 1 | cut -d'/' -f 2- | fzf -d -e --cycle --color=16 --prompt="Choose a backup date to restore from: ")
+#	[[ -z "$restore_dir_chosen" ]] && exit 1
+#	printf "\e[38;5;2m Restore\e[m%s: $restore_dir_chosen\n"
+#	cd $restore_dir_chosen
 #	cmd=(dialog --separate-output --checklist "Use space to select backup archive(s) you wish to restore, then press enter to continue: " 22 76 16)
 	restore_files_chosen=$(fd --type f | cut -d'/' -f 2- | fzf -m -d -e --cycle --color=16 --prompt="Select archive(s) (with tab key) to restore: ")
 	#generate array with fzf multiselect output
@@ -153,7 +153,7 @@ restore_backup(){
 			rm -r tmp > /dev/null 2>&1 #rm any partial failure
 			mkdir tmp > /dev/null 2>&1
 			cd tmp
-			tar -x -U -f $backup_location/$restore_dir_chosen/$archive --keep-directory-symlink
+			tar -x -U -f $backup_location/$archive --keep-directory-symlink
 			restore_path=$(cat .restore_path)
 			if [ "$restore_path" == "user_pkgs" ] ; then
 				install_pkgs
