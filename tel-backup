@@ -154,7 +154,7 @@ restore_backup(){
 			rm -r tmp > /dev/null 2>&1 #rm any partial failure
 			mkdir tmp > /dev/null 2>&1
 			cd tmp
-			tar -x -U -f $restore_dir_chosen/$backup_file_chosen --keep-directory-symlink
+			tar -x -U -f ../$restore_dir_chosen/$archive --keep-directory-symlink
 			restore_path=$(cat .restore_path)
 			if [ "$restore_path" == "user_pkgs" ] ; then
 				install_pkgs
