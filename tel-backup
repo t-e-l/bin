@@ -181,11 +181,10 @@ restore_backup(){
 				#	echo -ne "\b${sp:i++%${#sp}:1}"
 					sleep 0.1
 				done
-				echo -ne '\b' #remove last spinner
+			#	echo -ne '\b' #remove last spinner
+				echo -ne "\r\e[38;5;2m Restored\e[m: $archive -> $restore_path ${CHECK_MARK}\n"
+				sleep 0.1
 			fi
-			echo -ne "\r\e[38;5;2m Restored\e[m: $archive -> $restore_path ${CHECK_MARK}"
-			sleep 0.1
-			# last tar make archive must be child process	
 
 			cd ..
 			rm -r tmp # cleanup	
