@@ -139,63 +139,56 @@ done
 restore_backup(){
 	printf "\e[38;5;2m Restore\e[m%s: loading data...\n"
 	cd $backup_location
-#	restore_dir_chosen=$(fd --type d -d 1 | cut -d'/' -f 2- | fzf -d -e --cycle --color=16 --prompt="Choose a backup date to restore from: ")
-#	[[ -z "$restore_dir_chosen" ]] && exit 1
-#	printf "\e[38;5;2m Restore\e[m%s: $restore_dir_chosen\n"
-#	cd $restore_dir_chosen
-#	cmd=(dialog --separate-output --checklist "Use space to select backup archive(s) you wish to restore, then press enter to continue: " 22 76 16)
 	restore_files_chosen=$(fd --type f | fzf -m -d -e --cycle --color=16 --prompt="Select archive(s) (with tab key) to restore: ")
-
 	[[ -z "$restore_files_chosen" ]] && exit 1
 	#generate array with fzf multiselect output
 	IFS=$'\n' read -d '' -r -a selected_archives <<<"$restore_files_chosen"
 	#echo "selected_arch array = ${selected_archives[@]}"
-	for archive in "${selected_archives[@]}"
-	do
-		echo -e "\e[38;5;2m Restore\e[m: Are you sure you wish to restore: $archive? y/N\n"
-		read -r answer
+	echo -e "\e[38;5;2m Restore\e[m: Are you sure you wish to restore: ${selected_archives}? y/N : "
+	read -r answer
 	case $answer in
 		[yY]* )
-			cd $backup_location
-			rm -r tmp > /dev/null 2>&1 #rm any partial failure
-			mkdir tmp > /dev/null 2>&1
-			cd tmp
-			tar -x -U -f $backup_location/$archive --keep-directory-symlink
-			restore_path=$(cat .restore_path)
+			for archive in "${selected_archives[@]}"
+			do
+				cd $backup_location
+				rm -r tmp > /dev/null 2>&1 #rm any partial failure
+				mkdir tmp > /dev/null 2>&1
+				cd tmp
+				tar -x -U -f $backup_location/$archive --keep-directory-symlink
+				restore_path=$(cat .restore_path)
 
-			if [ "$restore_path" == "user_pkgs" ] ; then
-				install_pkgs
-			else
-				if [ ! -d $restore_path ] ; then
-					# if restore path missing make it
-					mkdir $restore_path
-				fi
-				cp -rf * $restore_path &
-				#run_spinner #move to func
-				#show working spinner
-				PID=$!
-				i=1
-				sp="/-\|"
-				echo -n ' '
-				while [ -d /proc/$PID ]
-				do
-					echo -ne "\r\e[38;5;2m Restoring\e[m: from archive: $archive -> $restore_path ${sp:i++%${#sp}:1}"
-				#	echo -ne "\b${sp:i++%${#sp}:1}"
+				if [ "$restore_path" == "user_pkgs" ] ; then
+					install_pkgs
+				else
+					if [ ! -d $restore_path ] ; then
+						# if restore path missing make it
+						mkdir $restore_path
+					fi
+					cp -rf * $restore_path &
+					#run_spinner #move to func
+					PID=$!
+					i=1
+					sp="/-\|"
+					echo -n ' '
+					while [ -d /proc/$PID ]
+					do
+						echo -ne "\r\e[38;5;2m Restoring\e[m: from archive: $archive -> $restore_path \b${sp:i++%${#sp}:1}"
+					#	echo -ne "\b${sp:i++%${#sp}:1}"
+						sleep 0.1
+					done
+				#	echo -ne '\b' #remove last spinner
+					echo -ne "\r\e[38;5;2m Restored\e[m: $archive -> $restore_path ${CHECK_MARK}"
+					echo ''
 					sleep 0.1
-				done
-			#	echo -ne '\b' #remove last spinner
-				echo -ne "\r\e[38;5;2m Restored\e[m: $archive -> $restore_path ${CHECK_MARK}\n"
-				sleep 0.1
-			fi
+				fi
 
-			cd ..
-			rm -r tmp # cleanup	
-			#break
+				cd ..
+				rm -rf tmp > /dev/null 2>&1  # cleanup	
+			done
 			;;
 		[nN]* ) exit_utility;;
 		* )     echo "options are y or n...";;
 	esac
-	done
 }
 
 install_pkgs(){
