@@ -144,7 +144,7 @@ restore_backup(){
 	#generate array with fzf multiselect output
 	IFS=$'\n' read -d '' -r -a selected_archives <<<"$restore_files_chosen"
 	#echo "selected_arch array = ${selected_archives[@]}"
-	echo -e "\e[38;5;2m Restore\e[m: Are you sure you wish to restore: ${selected_archives}? y/N : "
+	echo -e "\e[38;5;2m Restore\e[m: Are you sure you wish to restore file(s): ${selected_archives[@]}? y/N : "
 	read -r answer
 	case $answer in
 		[yY]* )
@@ -164,6 +164,7 @@ restore_backup(){
 						# if restore path missing make it
 						mkdir $restore_path
 					fi
+					echo "\e[38;5;2m Restoring\e[m: from archive: $archive -> $restore_path "
 					cp -rf * $restore_path &
 					#run_spinner #move to func
 					PID=$!
@@ -172,12 +173,11 @@ restore_backup(){
 					echo -n ' '
 					while [ -d /proc/$PID ]
 					do
-						echo -ne "\r\e[38;5;2m Restoring\e[m: from archive: $archive -> $restore_path \b${sp:i++%${#sp}:1}"
-					#	echo -ne "\b${sp:i++%${#sp}:1}"
+						echo -ne "\b${sp:i++%${#sp}:1}"
 						sleep 0.1
 					done
-				#	echo -ne '\b' #remove last spinner
-					echo -ne "\r\e[38;5;2m Restored\e[m: $archive -> $restore_path ${CHECK_MARK}"
+					echo -ne '\b' #remove last spinner
+					echo -e "\r\e[38;5;2m Restored\e[m: $archive -> $restore_path ${CHECK_MARK}"
 					echo ''
 					sleep 0.1
 				fi
