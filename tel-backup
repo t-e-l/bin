@@ -140,9 +140,7 @@ restore_backup(){
 	[[ -z "$restore_dir_chosen" ]] && exit 1
 	printf "\e[38;5;2m Restore\e[m%s: $restore_dir_chosen\n"
 	cd $restore_dir_chosen
-	# OPTIONS NEED TO BE GENERATED ON FLY ACCORDING TO DIR CONTS
 #	cmd=(dialog --separate-output --checklist "Use space to select backup archive(s) you wish to restore, then press enter to continue: " 22 76 16)
-	#backup_archives_in_folder=$(fd --type f | cut -d'/' -f 2-)
 	restore_files_chosen=$(fd --type f | cut -d'/' -f 2- | fzf -m -d -e --cycle --color=16 --prompt="Select archive(s) (with tab key) to restore: ")
 	#generate array with fzf multiselect output
 	IFS=$'\n' read -d '' -r -a selected_archives <<<"$restore_files_chosen"
@@ -155,7 +153,7 @@ restore_backup(){
 			rm -r tmp > /dev/null 2>&1 #rm any partial failure
 			mkdir tmp > /dev/null 2>&1
 			cd tmp
-			tar -x -U -f ../$restore_dir_chosen/$archive --keep-directory-symlink
+			tar -x -U -f $backup_location/$restore_dir_chosen/$archive --keep-directory-symlink
 			restore_path=$(cat .restore_path)
 			if [ "$restore_path" == "user_pkgs" ] ; then
 				install_pkgs
