@@ -145,8 +145,9 @@ restore_backup(){
 #	cmd=(dialog --separate-output --checklist "Use space to select backup archive(s) you wish to restore, then press enter to continue: " 22 76 16)
 	restore_files_chosen=$(fd --type f | fzf -m -d -e --cycle --color=16 --prompt="Select archive(s) (with tab key) to restore: ")
 	#generate array with fzf multiselect output
-	#IFS=$'\n' read -d '' -r -a selected_archives <<<"$restore_files_chosen"
-	for archive in "${restore_files_chosen}"
+	IFS=$'\n' read -d '' -r -a selected_archives <<<"$restore_files_chosen"
+	echo "selected_arch array = ${selected_archives[@]}"
+	for archive in "${selected_archives}"
 	do
 		read -p "Are you sure you wish to restore: $archive? y/N : " answer
 	case $answer in
