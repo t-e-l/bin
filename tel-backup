@@ -186,7 +186,8 @@ restore_backup(){
 			cd ..
 			rm -r tmp # cleanup	
 			printf "\e[38;5;2m Restore\e[m%s: complete\n"
-			#break;;
+			#break
+			;;
 		[nN]* ) exit_utility;;
 		* )     echo "options are y or n...";;
 	esac
