@@ -157,10 +157,15 @@ restore_backup(){
 			cd tmp
 			tar -x -U -f $backup_location/$archive --keep-directory-symlink
 			restore_path=$(cat .restore_path)
+
 			if [ "$restore_path" == "user_pkgs" ] ; then
 				install_pkgs
 				exit_utility
 			else
+				if [ ! -d $restore_path ] ;
+					# if restore path missing make it
+					mkdir $restore_path
+				fi
 				printf "\e[38;5;2m Restore\e[m%s: restoring from archive -> $backup_file_chosen -> $restore_path\n"
 				cp -rf * $restore_path & 
 			fi
