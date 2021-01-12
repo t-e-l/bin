@@ -162,7 +162,7 @@ restore_backup(){
 				install_pkgs
 				exit_utility
 			else
-				if [ ! -d $restore_path ] ;
+				if [ ! -d $restore_path ] ; then
 					# if restore path missing make it
 					mkdir $restore_path
 				fi
