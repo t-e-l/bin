@@ -60,20 +60,24 @@ case $answer in
 		rm -rf .restore_path	
 
 		# SSH data #
-		printf "\e[38;5;2m Backup\e[m%s: backing up ssh data\n"
-		cd ~/.ssh
-		rm -rf .restore_path
-		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}ssh.tar.gz . >&/dev/null
-		rm -rf .restore_path
+		if [ -d ~/.ssh ] ; then
+			printf "\e[38;5;2m Backup\e[m%s: backing up ssh data\n"
+			cd ~/.ssh
+			rm -rf .restore_path
+			echo -n "$(pwd)" > .restore_path
+			tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}ssh.tar.gz . >&/dev/null
+			rm -rf .restore_path
+		fi
 
 		# wal colors #
-		printf "\e[38;5;2m Backup\e[m%s: backing up color data\n"
-		cd ~/.cache/wal
-		rm -rf .restore_path
-		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}colors.tar.gz . >&/dev/null
-		rm -rf .restore_path
+		if [ -d ~/.cache/wal ] ; then
+			printf "\e[38;5;2m Backup\e[m%s: backing up color data\n"
+			cd ~/.cache/wal
+			rm -rf .restore_path
+			echo -n "$(pwd)" > .restore_path
+			tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}colors.tar.gz . >&/dev/null
+			rm -rf .restore_path
+		fi
 
 	
 		# wallpapers #
@@ -91,8 +95,6 @@ case $answer in
 		echo -n "$(pwd)" > .restore_path
 		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}termux.tar.gz --exclude='shell' . >&/dev/null
 		rm -rf .restore_path
-		
-
 
 		# TEL CONFIGS #
 		printf "\e[38;5;2m Backup\e[m%s: backing up TEL configs\n"
