@@ -20,7 +20,7 @@ spinner() {
 		  printf "\b${sp:i++%${#sp}:1}"
 		  sleep 0.1
 	done
-	echo -ne '\r' #remove last spinner
+	echo -ne '\r${CHECK_MARK}' #remove last spinner
 	}
 
 check_folders(){
@@ -56,7 +56,7 @@ case $answer in
 			user_custom_name=""
 		fi
 		# Termux packages #
-		printf "\e[38;5;2m Backup\e[m%s: creating installed pkgs list...\n"
+		printf "\e[38;5;2m Backup\e[m%s: creating installed pkgs list "
 		rm -rf $TMPDIR/tel-backup/tmp
 		mkdir -p $TMPDIR/tel-backup/tmp
 		cd $TMPDIR/tel-backup/tmp
@@ -70,7 +70,7 @@ case $answer in
 		rm -rf tel-backup/tmp
 	
 		# ~/.config #
-		printf "\e[38;5;2m Backup\e[m%s: backing up user pkg configs\n"
+		echo -e "\e[38;5;2m Backup\e[m: backing up user pkg configs "
 		cd ~/.config
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
@@ -80,7 +80,7 @@ case $answer in
 
 		# SSH data #
 		if [ -d ~/.ssh ] ; then
-			printf "\e[38;5;2m Backup\e[m%s: backing up ssh data\n"
+			echo -e "\e[38;5;2m Backup\e[m: backing up ssh data "
 			cd ~/.ssh
 			rm -rf .restore_path
 			echo -n "$(pwd)" > .restore_path
@@ -91,7 +91,7 @@ case $answer in
 
 		# wal colors #
 		if [ -d ~/.cache/wal ] ; then
-			printf "\e[38;5;2m Backup\e[m%s: backing up color data\n"
+			echo -e "\e[38;5;2m Backup\e[m: backing up color data"
 			cd ~/.cache/wal
 			rm -rf .restore_path
 			echo -n "$(pwd)" > .restore_path
@@ -101,7 +101,7 @@ case $answer in
 		fi
 
 		# wallpapers #
-		printf "\e[38;5;2m Backup\e[m%s: backing up wallpapers\n"
+		echo -e "\e[38;5;2m Backup\e[m%s: backing up wallpapers"
 		cd ~/.wallpapers
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
@@ -110,7 +110,7 @@ case $answer in
 		rm -rf .restore_path
 
 		# Termux settings #
-		printf "\e[38;5;2m Backup\e[m%s: backing up termux settings\n"
+		echo -e "\e[38;5;2m Backup\e[m%s: backing up termux settings"
 		cd ~/.termux
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
@@ -119,7 +119,7 @@ case $answer in
 		rm -rf .restore_path
 
 		# TEL CONFIGS #
-		printf "\e[38;5;2m Backup\e[m%s: backing up TEL configs\n"
+		echo -e "\e[38;5;2m Backup\e[m%s: backing up TEL configs"
 		cd ~/.tel/configs
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
@@ -128,7 +128,7 @@ case $answer in
 		rm -rf .restore_path
 
 		# TEL DATA #
-		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data\n"
+		echo -e "\e[38;5;2m Backup\e[m%s: backing up TEL user data"
 		cd ~/.tel/data
 		rm -rf .restore_path >&/dev/null
 		echo -n "$(pwd)" > .restore_path
@@ -136,7 +136,7 @@ case $answer in
 		spinner
 		rm -rf .restore_path
 		
-		printf "\e[38;5;2m Backup\e[m%s: completed\n"
+		echo -e "\e[38;5;2m Backup\e[m: completed\n"
 		break;;
 
 	[nN]* ) exit_utility;;
