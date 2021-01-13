@@ -48,7 +48,7 @@ case $answer in
 		(pkg list-installed | cut -d'/' -f 1 > user_pkgs.txt 2>&1)
 		(pip list --format freeze | cut -d'=' -f 1 > pip_user_pkgs.txt 2>&1)
 		sed -i '1d' user_pkgs.txt # delete first 'Listing done' line from apt output
-		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}user_pkgs.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}user_pkgs.tar.gz . >&/dev/null
 		cd $TMPDIR 
 		rm -rf tel-backup/tmp
 	
@@ -57,7 +57,7 @@ case $answer in
 		cd ~/.config
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}pkg_config.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}pkg_config.tar.gz . >&/dev/null
 		rm -rf .restore_path	
 
 		# SSH data #
@@ -66,7 +66,7 @@ case $answer in
 			cd ~/.ssh
 			rm -rf .restore_path
 			echo -n "$(pwd)" > .restore_path
-			tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}ssh.tar.gz . >&/dev/null
+			tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}ssh.tar.gz . >&/dev/null
 			rm -rf .restore_path
 		fi
 
@@ -76,7 +76,7 @@ case $answer in
 			cd ~/.cache/wal
 			rm -rf .restore_path
 			echo -n "$(pwd)" > .restore_path
-			tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}colors.tar.gz . >&/dev/null
+			tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}colors.tar.gz . >&/dev/null
 			rm -rf .restore_path
 		fi
 
@@ -86,7 +86,7 @@ case $answer in
 		cd ~/.wallpapers
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}wallpapers.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}wallpapers.tar.gz . >&/dev/null
 		rm -rf .restore_path
 
 		# Termux settings #
@@ -94,7 +94,7 @@ case $answer in
 		cd ~/.termux
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}termux.tar.gz --exclude='shell' . >&/dev/null
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}termux.tar.gz --exclude='shell' . >&/dev/null
 		rm -rf .restore_path
 
 		# TEL CONFIGS #
@@ -102,15 +102,15 @@ case $answer in
 		cd ~/.tel/configs
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}tel_confs.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}tel_confs.tar.gz . >&/dev/null
 		rm -rf .restore_path
 
 		# TEL DATA #
 		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data\n"
 		cd ~/.tel/data
 		rm -rf .restore_path
-		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today$datetime${user_custom_name}tel_data.tar.gz . >&/dev/null &
+		echo -n "~/.tel/data" > .restore_path
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}tel_data.tar.gz . >&/dev/null &
 		rm -rf .restore_path
 		
 		# Spinner animation #
