@@ -20,7 +20,7 @@ spinner() {
 		  printf "\b${sp:i++%${#sp}:1}"
 		  sleep 0.1
 	done
-	echo -ne '\r${CHECK_MARK}' #remove last spinner
+	echo -ne "\r${CHECK_MARK}" #remove last spinner
 	}
 
 check_folders(){
