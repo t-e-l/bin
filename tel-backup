@@ -7,6 +7,22 @@ datetime=$(date +"%H_%M")
 temp_storage=~/../usr/tmp
 backup_location=~/storage/shared/tel/backup
 
+spinner() {
+	# Spinner animation #
+	# line before calling spinner() must spawn bg process: eg echo hi;sleep 2 &;spinner	
+	# show working spinner
+	PID=$!
+	i=1
+	sp="/-\|"
+	echo -n ' '
+	while [ -d /proc/$PID ]
+	do
+		  printf "\b${sp:i++%${#sp}:1}"
+		  sleep 0.1
+	done
+	echo -ne '\r' #remove last spinner
+	}
+
 check_folders(){
 if [ ! -d $temp_storage ] ; then
 	mkdir $temp_storage
@@ -48,7 +64,8 @@ case $answer in
 		(pkg list-installed | cut -d'/' -f 1 > user_pkgs.txt 2>&1)
 		(pip list --format freeze | cut -d'=' -f 1 > pip_user_pkgs.txt 2>&1)
 		sed -i '1d' user_pkgs.txt # delete first 'Listing done' line from apt output
-		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}user_pkgs.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}user_pkgs.tar.gz . >&/dev/null &
+		spinner
 		cd $TMPDIR 
 		rm -rf tel-backup/tmp
 	
@@ -57,7 +74,8 @@ case $answer in
 		cd ~/.config
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}pkg_config.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}pkg_config.tar.gz . >&/dev/null &
+		spinner
 		rm -rf .restore_path	
 
 		# SSH data #
@@ -66,7 +84,8 @@ case $answer in
 			cd ~/.ssh
 			rm -rf .restore_path
 			echo -n "$(pwd)" > .restore_path
-			tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}ssh.tar.gz . >&/dev/null
+			tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}ssh.tar.gz . >&/dev/null &
+			spinner
 			rm -rf .restore_path
 		fi
 
@@ -76,7 +95,8 @@ case $answer in
 			cd ~/.cache/wal
 			rm -rf .restore_path
 			echo -n "$(pwd)" > .restore_path
-			tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}colors.tar.gz . >&/dev/null
+			tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}colors.tar.gz . >&/dev/null &
+			spinner
 			rm -rf .restore_path
 		fi
 
@@ -85,7 +105,8 @@ case $answer in
 		cd ~/.wallpapers
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}wallpapers.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}wallpapers.tar.gz . >&/dev/null &
+		spinner
 		rm -rf .restore_path
 
 		# Termux settings #
@@ -93,7 +114,8 @@ case $answer in
 		cd ~/.termux
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}termux.tar.gz --exclude='shell' . >&/dev/null
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}termux.tar.gz --exclude='shell' . >&/dev/null &
+		spinner
 		rm -rf .restore_path
 
 		# TEL CONFIGS #
@@ -101,7 +123,8 @@ case $answer in
 		cd ~/.tel/configs
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}tel_confs.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}tel_confs.tar.gz . >&/dev/null &
+		spinner
 		rm -rf .restore_path
 
 		# TEL DATA #
@@ -109,32 +132,21 @@ case $answer in
 		cd ~/.tel/data
 		rm -rf .restore_path >&/dev/null
 		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}tel_data.tar.gz . >&/dev/null
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}tel_data.tar.gz . >&/dev/null &
+		spinner
 		rm -rf .restore_path
 		
-		# Spinner animation #
-		# last tar make archive must be child process	
-		#show working spinner
-		PID=$!
-		i=1
-		sp="/-\|"
-		echo -n ' '
-		while [ -d /proc/$PID ]
-		do
-			  printf "\b${sp:i++%${#sp}:1}"
-			  sleep 0.1
-		done
-		echo -ne '\r' #remove last spinner
 		printf "\e[38;5;2m Backup\e[m%s: completed\n"
 		break;;
 
 	[nN]* ) exit_utility;;
 	* )     echo "options are y or n...";;
-esac
-done
+	esac
+	done
 
 }
 
+	
 restore_backup(){
 	printf "\e[38;5;2m Restore\e[m%s: loading data...\n"
 	cd $backup_location
