@@ -80,7 +80,6 @@ case $answer in
 			rm -rf .restore_path
 		fi
 
-	
 		# wallpapers #
 		printf "\e[38;5;2m Backup\e[m%s: backing up wallpapers\n"
 		cd ~/.wallpapers
@@ -108,9 +107,9 @@ case $answer in
 		# TEL DATA #
 		printf "\e[38;5;2m Backup\e[m%s: backing up TEL user data\n"
 		cd ~/.tel/data
-		rm -rf .restore_path
-		echo -n "~/.tel/data" > .restore_path
-		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}tel_data.tar.gz . >&/dev/null &
+		rm -rf .restore_path >&/dev/null
+		echo -n "$(pwd)" > .restore_path
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}tel_data.tar.gz . >&/dev/null
 		rm -rf .restore_path
 		
 		# Spinner animation #
@@ -144,7 +143,11 @@ restore_backup(){
 	#generate array with fzf multiselect output
 	IFS=$'\n' read -d '' -r -a selected_archives <<<"$restore_files_chosen"
 	#echo "selected_arch array = ${selected_archives[@]}"
-	echo -e "\e[38;5;2m Restore\e[m: Are you sure you wish to restore file(s): ${selected_archives[@]}? y/N : "
+	echo -e "\r\e[38;5;2m Restore\e[m: Are you sure you wish to restore file(s): "
+	for archive in "${selected_archives[@]}"
+	do
+		echo " -> $archive"
+	done	
 	read -r answer
 	case $answer in
 		[yY]* )
