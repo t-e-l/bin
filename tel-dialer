@@ -103,8 +103,8 @@ main() {
     case "$?" in
         	# No contact found
         "1"  )
-		
-    		termux-telephony-call "$contact"
+		echo "contact reads $contact"
+    		termux-telephony-call $contact
     		#printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mContact not found%s\n\e[m"
 		exit 1
         ;;
