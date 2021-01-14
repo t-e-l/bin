@@ -27,81 +27,82 @@ check_folders(){
 if [ ! -d $temp_storage ] ; then
 	mkdir $temp_storage
 fi
-if [ ! -d ~/storage ] ; then
-	printf "\e[38;5;2m Backup\e[m%s: "yy
-	echo "Error - No access to phone storage"
-	echo "backups are made to /storage/emulated/0/tel, (this path is also accessible to TEL through ~/storage/shared/tel) if TEL hasn't been granted storage permissions, this will likely fail. Run termux-setup-storage to grant access"
-	echo "program will exit.." && exit_utility
-fi
-if [ ! -d ~/storage/shared/tel/backup ] ; then
-	mkdir -p $backup_location 
-fi
-if [ ! -d "$backup_location" ] ; then
-	mkdir -p $backup_location && printf "\e[38;5;2m Backup\e[m%s: created backup folder at: $backup_location \n"
-fi
-}
+	if [ ! -d ~/storage ] ; then
+		printf "\e[38;5;2m Backup\e[m%s: "yy
+		echo "Error - No access to phone storage"
+		echo "backups are made to /storage/emulated/0/tel, (this path is also accessible to TEL through ~/storage/shared/tel) if TEL hasn't been granted storage permissions, this will likely fail. Run termux-setup-storage to grant access"
+		echo "program will exit.." && exit_utility
+	fi
+	if [ ! -d ~/storage/shared/tel/backup ] ; then
+		mkdir -p $backup_location 
+	fi
+	if [ ! -d "$backup_location" ] ; then
+		mkdir -p $backup_location && printf "\e[38;5;2m Backup\e[m%s: created backup folder at: $backup_location \n"
+	fi
+	}
 
-make_backup(){
-while true
-do
-	printf "\e[38;5;2m Backup\e[m%s: "
-	read -p "This operation may overwrite previous backups made in the last minute, do you wish to continue? y/N : " answer
-case $answer in
-	[yY]* )
-		check_folders  #create dirs if missing
-		read -p "Enter a unique name for this backup? (blank to skip): " answer
-		if [ ! -z "$answer" ] ; then
-			user_custom_name="$answer-"
-		else 
-			user_custom_name=""
-		fi
-		# Termux packages #
-		printf "\e[38;5;2m Backup\e[m%s: creating installed pkgs list "
-		rm -rf $TMPDIR/tel-backup/tmp
-		mkdir -p $TMPDIR/tel-backup/tmp
-		cd $TMPDIR/tel-backup/tmp
-		echo -n "user_pkgs" > .restore_path
-		(pkg list-installed | cut -d'/' -f 1 > user_pkgs.txt 2>&1)
-		(pip list --format freeze | cut -d'=' -f 1 > pip_user_pkgs.txt 2>&1)
-		sed -i '1d' user_pkgs.txt # delete first 'Listing done' line from apt output
-		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}user_pkgs.tar.gz . >&/dev/null &
-		spinner
-		cd $TMPDIR 
-		rm -rf tel-backup/tmp
-	
-		# ~/.config #
-		echo -e "\e[38;5;2m Backup\e[m: backing up user pkg configs "
-		cd ~/.config
-		rm -rf .restore_path
-		echo -n "$(pwd)" > .restore_path
-		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}pkg_config.tar.gz . >&/dev/null &
-		spinner
-		rm -rf .restore_path	
-
-		# SSH data #
-		if [ -d ~/.ssh ] ; then
-			echo -e "\e[38;5;2m Backup\e[m: backing up ssh data "
-			cd ~/.ssh
+	make_backup(){
+	while true
+	do
+		printf "\e[38;5;2m Backup\e[m%s: "
+		read -p "This operation may overwrite previous backups made in the last minute, do you wish to continue? y/N : " answer
+	case $answer in
+		[yY]* )
+			check_folders  #create dirs if missing
+			echo -e "\e[38;5;2m Backup\e[m: Name backup files? (blank to skip): "
+			read answer
+			if [ ! -z "$answer" ] ; then
+				user_custom_name="$answer-"
+			else 
+				user_custom_name=""
+			fi
+			# Termux packages #
+			echo -ne "\e[38;5;2m Backup\e[m: creating installed pkgs list "
+			rm -rf $TMPDIR/tel-backup/tmp
+			mkdir -p $TMPDIR/tel-backup/tmp
+			cd $TMPDIR/tel-backup/tmp
+			echo -n "user_pkgs" > .restore_path
+			(pkg list-installed | cut -d'/' -f 1 > user_pkgs.txt 2>&1)
+			(pip list --format freeze | cut -d'=' -f 1 > pip_user_pkgs.txt 2>&1)
+			sed -i '1d' user_pkgs.txt # delete first 'Listing done' line from apt output
+			tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}user_pkgs.tar.gz . >&/dev/null &
+			spinner
+			cd $TMPDIR 
+			rm -rf tel-backup/tmp
+		
+			# ~/.config #
+			echo -ne "\e[38;5;2m Backup\e[m: backing up user pkg configs "
+			cd ~/.config
 			rm -rf .restore_path
 			echo -n "$(pwd)" > .restore_path
-			tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}ssh.tar.gz . >&/dev/null &
+			tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}pkg_config.tar.gz . >&/dev/null &
 			spinner
-			rm -rf .restore_path
-		fi
+			rm -rf .restore_path	
 
-		# wal colors #
-		if [ -d ~/.cache/wal ] ; then
-			echo -e "\e[38;5;2m Backup\e[m: backing up color data"
-			cd ~/.cache/wal
-			rm -rf .restore_path
-			echo -n "$(pwd)" > .restore_path
-			tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}colors.tar.gz . >&/dev/null &
-			spinner
-			rm -rf .restore_path
-		fi
+			# SSH data #
+			if [ -d ~/.ssh ] ; then
+				echo -ne "\e[38;5;2m Backup\e[m: backing up ssh data "
+				cd ~/.ssh
+				rm -rf .restore_path
+				echo -n "$(pwd)" > .restore_path
+				tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}ssh.tar.gz . >&/dev/null &
+				spinner
+				rm -rf .restore_path
+			fi
+
+			# wal colors #
+			if [ -d ~/.cache/wal ] ; then
+				echo -ne "\e[38;5;2m Backup\e[m: backing up color data "
+				cd ~/.cache/wal
+				rm -rf .restore_path
+				echo -n "$(pwd)" > .restore_path
+				tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}colors.tar.gz . >&/dev/null &
+				spinner
+				rm -rf .restore_path
+			fi
 
 		# wallpapers #
-		echo -e "\e[38;5;2m Backup\e[m%s: backing up wallpapers"
+		echo -ne "\e[38;5;2m Backup\e[m: backing up wallpapers "
 		cd ~/.wallpapers
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
@@ -110,7 +111,7 @@ case $answer in
 		rm -rf .restore_path
 
 		# Termux settings #
-		echo -e "\e[38;5;2m Backup\e[m%s: backing up termux settings"
+		echo -ne "\e[38;5;2m Backup\e[m: backing up termux settings "
 		cd ~/.termux
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
@@ -119,7 +120,7 @@ case $answer in
 		rm -rf .restore_path
 
 		# TEL CONFIGS #
-		echo -e "\e[38;5;2m Backup\e[m%s: backing up TEL configs"
+		echo -ne "\e[38;5;2m Backup\e[m: backing up TEL configs "
 		cd ~/.tel/configs
 		rm -rf .restore_path
 		echo -n "$(pwd)" > .restore_path
@@ -128,7 +129,7 @@ case $answer in
 		rm -rf .restore_path
 
 		# TEL DATA #
-		echo -e "\e[38;5;2m Backup\e[m%s: backing up TEL user data"
+		echo -ne "\e[38;5;2m Backup\e[m: backing up TEL user data "
 		cd ~/.tel/data
 		rm -rf .restore_path >&/dev/null
 		echo -n "$(pwd)" > .restore_path
@@ -136,7 +137,7 @@ case $answer in
 		spinner
 		rm -rf .restore_path
 		
-		echo -e "\e[38;5;2m Backup\e[m: completed\n"
+		echo -ne "\e[38;5;2m Backup\e[m: completed\n "
 		break;;
 
 	[nN]* ) exit_utility;;
