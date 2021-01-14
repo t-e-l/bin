@@ -87,7 +87,6 @@ fi
 				echo -n "$(pwd)" > .restore_path
 				tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}ssh.tar.gz . >&/dev/null &
 				spinner
-				echo
 				rm -rf .restore_path
 			fi
 
@@ -99,7 +98,6 @@ fi
 				echo -n "$(pwd)" > .restore_path
 				tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}colors.tar.gz . >&/dev/null &
 				spinner
-				echo
 				rm -rf .restore_path
 			fi
 
@@ -110,7 +108,6 @@ fi
 		echo -n "$(pwd)" > .restore_path
 		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}wallpapers.tar.gz . >&/dev/null &
 		spinner
-		echo
 		rm -rf .restore_path
 
 		# Termux settings #
@@ -120,7 +117,6 @@ fi
 		echo -n "$(pwd)" > .restore_path
 		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}termux.tar.gz --exclude='shell' . >&/dev/null &
 		spinner
-		echo
 		rm -rf .restore_path
 
 		# TEL CONFIGS #
@@ -130,7 +126,6 @@ fi
 		echo -n "$(pwd)" > .restore_path
 		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}tel_confs.tar.gz . >&/dev/null &
 		spinner
-		echo
 		rm -rf .restore_path
 
 		# TEL DATA #
@@ -140,10 +135,9 @@ fi
 		echo -n "$(pwd)" > .restore_path
 		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}tel_data.tar.gz . >&/dev/null &
 		spinner
-		echo
 		rm -rf .restore_path
 		
-		echo -ne "\n\e[38;5;2m Backup\e[m: completed\n "
+		echo -ne "\n\e[38;5;2m Backup\e[m: completed! \n "
 		break;;
 
 	[nN]* ) exit_utility;;
