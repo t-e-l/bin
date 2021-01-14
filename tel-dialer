@@ -101,9 +101,11 @@ main() {
     # Name | Number
     contact=$(fzf -e --cycle --color=16 --prompt=" Call: " --query="$*" --select-1 -0 < "$contactsfile")
     case "$?" in
-        	# No app found
+        	# No contact found
         "1"  )
-    		printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mContact not found%s\n\e[m"
+		
+    		termux-telephony-call "$contact"
+    		#printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mContact not found%s\n\e[m"
 		exit 1
         ;;
 
