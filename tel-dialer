@@ -82,13 +82,15 @@ add_contact(){
 
 
 main() {
-    
+	request_output="false"
 	if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
         	show_help 
 	elif [ "$1" == "-a" ] || [ "$1" == "--add" ] ; then
 		add_contact "$@"
-#	elif [ "$1" == "-o" ] || [ "$1" == "--output" ] ; then
+	elif [ "$1" == "-o" ] || [ "$1" == "--output" ] ; then
 #		output_contact "$@"
+		request_output="true"
+		shift
 #	elif [ "$1" == "-s" ] || [ "$1" == "--share" ] ; then
 	fi
 
@@ -149,7 +151,7 @@ esac
     ( command -v termux-telephony-call >/dev/null 2>&1 ) || { 
         print_ERR_and_die "termux-telephony-call not available, have you installed termux api?"
     }
-    if [ "$1" == "-o" || "$1" == "--output" ] ; then
+    if [ "$request_output" == "true" ] ; then
 	    echo "$contact_number"
     else
 	termux-telephony-call "$contact_number"
