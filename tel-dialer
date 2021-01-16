@@ -145,8 +145,6 @@ esac
     contact_name=$(echo "${contact}" | cut -d "|" -f1) 
     # get the contact's number
     contact_number=$(echo "${contact}" | cut -d "|" -f2 | tr -d '[:space:]')
-    printf  "\e[38;5;2m Calling:\e[m %s\n"\
-	    "$contact_name[$contact_number]"
     #kills the program if termux-telephony-call command is not available
     ( command -v termux-telephony-call >/dev/null 2>&1 ) || { 
         print_ERR_and_die "termux-telephony-call not available, have you installed termux api?"
@@ -154,6 +152,9 @@ esac
     if [ "$request_output" == "true" ] ; then
 	    echo "$contact_number"
     else
+	    printf  "\e[38;5;2m Calling:\e[m %s\n"\
+	    "$contact_name[$contact_number]"
+
 	termux-telephony-call "$contact_number"
     fi
 }
