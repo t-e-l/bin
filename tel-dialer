@@ -108,6 +108,9 @@ main() {
     case "$?" in
         	# No contact found
         "1"  )
+		if [ "$request_output" == "true" ] ; then
+			exit 1
+		fi
 		IFS=$'\n' read -d '' -r -a selected_contact <<< "$fzf_output"
 		if [ ${#selected_contact[@]} -gt 1 ] ; then #no match found assume output is printed number
 			unknown_number="${selected_contact[0]}"
