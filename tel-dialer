@@ -106,7 +106,7 @@ main() {
         "1"  )
 		#fail to get matching contact trying calling number
     		printf  "\e[38;5;2m Calling:\e[m %s\n"\
-	    	"[{$selected_contact[0]}"
+	    	"[${selected_contact[0]}"
     		termux-telephony-call ${selected_contact[0]}
     		#printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mContact not found%s\n\e[m"
     		#printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mContact not found%s\n\e[m"
