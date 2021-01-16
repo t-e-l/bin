@@ -87,6 +87,9 @@ main() {
         	show_help 
 	elif [ "$1" == "-a" ] || [ "$1" == "--add" ] ; then
 		add_contact "$@"
+#	elif [ "$1" == "-o" ] || [ "$1" == "--output" ] ; then
+#		output_contact "$@"
+#	elif [ "$1" == "-s" ] || [ "$1" == "--share" ] ; then
 	fi
 
     [[ ! -a "$contactsfile" || "$1" == '-u' || -f ~/.dialer_flag ]] && {
@@ -146,7 +149,11 @@ esac
     ( command -v termux-telephony-call >/dev/null 2>&1 ) || { 
         print_ERR_and_die "termux-telephony-call not available, have you installed termux api?"
     }
-    termux-telephony-call "$contact_number"
+    if [ "$1" == "-o" || "$1" == "--output" ] ; then
+	    echo "$contact_number"
+    else
+	termux-telephony-call "$contact_number"
+    fi
 }
 
 main "$@"
