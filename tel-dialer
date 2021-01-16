@@ -101,16 +101,16 @@ main() {
     # Name | Number
     fzf_output=$(fzf --print-query --cycle --color=16 --prompt=" Call: " --query="$*" --select-1 -0 < "$contactsfile")
     IFS=$'\n' read -d '' -r -a selected_contact <<< "$fzf_output"
-    if [ "${#selected_contact[@]}" == 2 ] ; then
+    if [ ${#selected_contact[@]} -gt 1 ] ; then
 	   unknown_number=${selected_contact[0]}
-	   contact=${selected_contact[1]}
+	   contact="${selected_contact[1]}"
    else
-	   contact=${selected_contact[0]}
+	   contact="${selected_contact[0]}"
     fi
     case "$?" in
         	# No contact found
         "1"  )
-		if [ "${#unknown_number}" > 2 ] ; then
+		if [ ${#unknown_number} -gt 2 ] ; then
 			#fail to get matching contact trying calling number
 			printf  "\e[38;5;2m Calling:\e[m %s\n"\
 			"[${unknown_number}]"
