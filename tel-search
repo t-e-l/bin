@@ -65,7 +65,7 @@ elif [ "$1" == "-yt" ] ; then
 			;;
 	esac
 
-	if [ "$app_to_use"=="newpipe" ] ; then
+	if [ "$app_to_use"=="youtube" ] ; then
 		printf "\e[38;5;2m Search \e[m%sYouTube for: $user_query"
 		yt_url="https://m.youtube.com/results?search_query=$text"
 		am start -a android.intent.action.MAIN -n 'com.google.android.youtube/com.google.android.apps.youtube.app.application.Shell$UrlActivity' "$yt_url" > /dev/null 2>&1  
