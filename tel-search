@@ -55,9 +55,20 @@ elif [ "$1" == "-yt" ] ; then
 	user_query=${@:2}
 	text=${user_query// /+} #replace spaces with strings
 	#youtube_or_newpipe?
-	use_newpipe='false'
-	cat ~/.app_names | grep -e 'NewPipe' && use_newpipe='true'
-	if [ "$use_newpipe"='false' ] ; then
+	cat ~/.app_names | grep -e 'NewPipe' > /dev/null 2>&1
+	case "$?" in 
+		"1" ) 
+			app_to_use="youtube"
+			;;
+		"0" )
+			app_to_use="newpipe"
+			;;
+		*)
+			app_to_use="youtube"
+			;;
+	esac
+
+	if [ "$app_to_use"=="newpipe" ] ; then
 		printf "\e[38;5;2m Search \e[m%sYouTube for: $user_query"
 		yt_url="https://m.youtube.com/results?search_query=$text"
 		am start -a android.intent.action.MAIN -n 'com.google.android.youtube/com.google.android.apps.youtube.app.application.Shell$UrlActivity' "$yt_url" > /dev/null 2>&1  
