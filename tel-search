@@ -53,7 +53,6 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
 	exit 0	
 elif [ "$1" == "-yt" ] ; then
 	user_query=${@:2}
-	text=${user_query// /+} #replace spaces with strings
 	#youtube_or_newpipe?
 	cat ~/.app_names | grep -e 'NewPipe' > /dev/null 2>&1
 	case "$?" in 
@@ -66,15 +65,15 @@ elif [ "$1" == "-yt" ] ; then
 	esac
 
 	if [ "$app_to_use" == "youtube" ] ; then
+		text=${user_query// /+} #replace spaces with strings
 		printf "\e[38;5;2m Search \e[m%sYouTube for: $user_query"
 		yt_url="https://m.youtube.com/results?search_query=$text"
 		am start -a android.intent.action.MAIN -n 'com.google.android.youtube/com.google.android.apps.youtube.app.application.Shell$UrlActivity' "$yt_url" > /dev/null 2>&1  
 	else
 		printf "\e[38;5;2m Search \e[m%sNewPipe for: $user_query \n"
-		am start -a android.intent.action.SEND -t text/plain -e android.intent.extra.TEXT "$text" -p org.schabi.newpipe
-
-		exit 0
+		am start -a android.intent.action.SEND -t text/plain -e android.intent.extra.TEXT "$user_query" -p org.schabi.newpipe > /dev/null 2>&1
 	fi
+	exit 0
 elif [ "$1" == "-t" ] ; then
 	input=${@:2}
 	text=${input// /%20} #replace spaces with strings
