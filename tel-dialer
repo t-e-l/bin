@@ -27,7 +27,8 @@ show_help() {
                 "__________________________"\
                 "OPTIONS"\
 		"  -a 'name' 'number'	Add a new contact"\
-		"  -d			Display my number"\
+		"  -s			Share contacts number"\
+		"  -o			Output contacts number"\
                 "  -h   		Display this help"\
                 "  -u   		Update contact list"
         exit 0
@@ -90,8 +91,12 @@ main() {
 	elif [ "$1" == "-o" ] || [ "$1" == "--output" ] ; then
 #		output_contact "$@"
 		request_output="true"
+		share="false"
 		shift
-#	elif [ "$1" == "-s" ] || [ "$1" == "--share" ] ; then
+	elif [ "$1" == "-s" ] || [ "$1" == "--share" ] ; then
+		request_output="true"
+		share="true"
+		shift
 	fi
 
     [[ ! -a "$contactsfile" || "$1" == '-u' || -f ~/.dialer_flag ]] && {
@@ -154,6 +159,9 @@ esac
     }
     if [ "$request_output" == "true" ] ; then
 	    echo "$contact_number"
+    elif [ "$share" == "true" ] ; then
+	    am start -a android.intent.action.SEND -t text/plain -e android.intent.extra.TEXT "$contact_number" > /dev/null 2>&1
+
     else
 	    printf  "\e[38;5;2m Calling:\e[m %s\n"\
 	    "$contact_name[$contact_number]"
