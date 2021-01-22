@@ -16,7 +16,8 @@ show_help(){
             "tel-share [OPTIONS] [FILE]"\
             "__________________________"\
             "USAGE"\
-	    "tel-share example.jpg = share example.jpg"\
+	    "tel-share			= find a file to share"\
+	    "tel-share example.jpg 	= share example.jpg"\
 	    "echo hi | tel-share	= share output of echo command"\
 	    "fortune | tel-share -l	= share output of fortune and display output of piped command"\
             "  -h   display this help message"

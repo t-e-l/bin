@@ -41,7 +41,7 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
 	echo -e "Usage: tel-search [options] [search term]
 	tel-search			= interactive site search prompt
 	tel-search -h			= show this help menu
-	tel-search -yt 'how to meme'	= search in youtube app for how to meme
+	tel-search -yt 'how to meme'	= search in youtube / newpipe app for how to meme
 	tel-search -t '!!w tty'		= search wiki using terminal browser
 	tel-search what are bangs?	= search for what are bangs?
 	tel-search '!!gh TEL'		= search github for TEL

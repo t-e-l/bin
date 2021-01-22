@@ -13,7 +13,15 @@ fzf_bin=$(which fzf)
 editor=$(which $EDITOR)
 
 
-if [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
+if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
+	echo -e "Usage: tel-edit [options] [filename]
+	tel-edit			= interactive file picker
+	tel-edit configs		= display file picker with matches for configs
+	tel-edit -h			= show this help menu
+	tel-edit -r			= search from root directory with root privs
+	"
+	exit 0
+elif [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	shift
 	if [ ! -z $1 ] ; then
 		file_search="$@"
