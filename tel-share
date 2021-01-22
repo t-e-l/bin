@@ -17,10 +17,10 @@ show_help(){
             "__________________________"\
             "USAGE"\
 	    "tel-share			= find a file to share"\
-	    "tel-share example.jpg 	= share example.jpg"\
-	    "echo hi | tel-share	= share output of echo command"\
-	    "fortune | tel-share -l	= share output of fortune and display output of piped command"\
-            "  -h   display this help message"
+	    "tel-share example.jpg 		= share example.jpg"\
+	    "echo Sent from tel | tel-share	= share output of echo command"\
+	    "fortune | tel-share -l		= share output of fortune and display output of piped command"\
+            "tel-share -h  			= display this help message"
 }
 
 if [ ! -t 0 ] ; then # Script is getting input from pipe or file - non-interactivethen
