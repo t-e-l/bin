@@ -87,7 +87,7 @@ elif [ -z $1 ] ; then
 		exit 1
 	elif [ "$provider" == "Skip" ]; then	
 		rand_searx_instance
-		printf "\e[38;5;2m Search \e[m%sfor: "
+		printf "\n\e[38;5;2m Search \e[m%sfor: "
 		read user_query
 		input="$user_query"
 	elif [ "$provider" == "YouTube (in App)" ]; then	
