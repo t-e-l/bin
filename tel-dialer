@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 #
-# TEL caller
-#_______________________________________________________________________
-
-# Usage
-# call [OPTIONS] [PATTERN]
-# call -h
-# call -u
-# call blah
-# call 2121821218
-
 # location of the contacts folder
 contactsfile="$HOME/.tel/data/.contacts";
 
@@ -42,7 +32,7 @@ update_contacts() {
     # file descriptor 9
     termux-contact-list > ~/.temp
 
-    # delay for 2 seconds   #what is this for? 
+    # delay for 2 seconds   
     read -rt "2" <> <(:) || :  
 
     while IFS=$'\n' read -sr line; do

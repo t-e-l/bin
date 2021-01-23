@@ -9,9 +9,16 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
 	exit 0
 fi
 if [ -z "$1" ] ; then
-	printf  "\e[38;5;2m Calculate\e[m: "
-	read input
-	echo "scale=2; $input" | bc
+	echo -e "\e[38;5;2m Calculator\e[m: operations [ + - / * ^ % ] ctrl c exits" 
+	prev=
+	while true
+	do
+		echo -ne "\e[38;5;2m Calculate\e[m: "
+		IFS=''; read -e -i "$prev" input
+
+		prev=$(echo "scale=4; $input" | bc)
+		echo -ne "\r\033[K\e[38;5;2m Calculate\e[m: $input = $prev \n"
+			done
 else
-	echo "scale=2; $@" | bc
+	echo "scale=5; $@" | bc
 fi
