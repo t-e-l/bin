@@ -28,7 +28,7 @@ term_width() {
 check_connection() {
 	reply=$(ping -c 1 -q google.com >&/dev/null; echo $?)
 	if [ $reply != 0 ] ; then 
-		printf "${RED}[TEL]: ${NC}${WHITE} Warning: network appears to be down${NC}\n"
+		printf "${RED}[TEL]: ${NC}${WHITE}Warning! network appears to be down${NC}\n"
 		return 1
 	fi
 }
