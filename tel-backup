@@ -23,12 +23,13 @@ spinner() {
 	echo -ne "\b${CHECK_MARK}" #remove last spinner
 	}
 
+
 check_folders(){
 if [ ! -d $temp_storage ] ; then
 	mkdir $temp_storage
 fi
 	if [ ! -d ~/storage ] ; then
-		printf "\e[38;5;2m Backup\e[m%s: "yy
+		printf "\e[38;5;2m Backup\e[m%s: "
 		echo "Error - No access to phone storage"
 		echo "backups are made to /storage/emulated/0/tel, (this path is also accessible to TEL through ~/storage/shared/tel) if TEL hasn't been granted storage permissions, this will likely fail. Run termux-setup-storage to grant access"
 		echo "program will exit.." && exit_utility
@@ -289,5 +290,9 @@ case $CHOICE in
 esac
 }
 
-main $@
+	if [ "$1" == "help" ] ; then
+		echo "usage: tel-backup"
+	else
+		main $@
+	fi
 
