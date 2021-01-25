@@ -15,35 +15,42 @@ if [ -z "$1" ] ; then
 else
 
 case ${option} in 
-	-h)
+	-h | --help)
 		echo "tel-todo [OPTION] [PATTERN]
 	'$> tel-todo'            = show to-do list
 	'$> tel-todo free willy' = add free willy to your to-do list
 	'$> tel-todo -h'         = show this help menu
 	'$> tel-todo -e'         = open list in $EDITOR
-	'$> tel-todo -c'         = clear entire list
+	'$> tel-todo -c | clear' = clear entire list
 	'$> tel-todo -r'         = remove the most recent line
 	'$> tel-todo -r 3'       = remove line numbered 3"
 	;; 
-	-c)
-	> $todolist && printf "\e[38;5;2m To Do:\e[m " ; echo "cleared the list of entries"
-	;;
-        -r)
-	if [ -z $2 ] ; then
-		printf "\e[38;5;2m To Do:\e[m "
-		echo "- Removed the most recent line from the list"
-		sed -i '$d' $todolist
-		exit 0
+	-c | --clear)
+		printf "\e[38;5;2m To Do:\e[m Are you sure you want to clear the whole list? y/N : "
+		read confirm
+		if [ "$confirm" == "y" ] || [ "$confirm" == "Y" ] ; then
+			> $todolist
+			printf "\e[38;5;2m To Do:\e[m " ; echo "Cleared the list of entries"
+		else
+			printf "\e[38;5;2m To Do:\e[m " ; echo "Cancelled clearing the list"
+		fi	
+			;;
+        -r | --remove)
+	if [ -z "$2" ] ; then
+			printf "\e[38;5;2m To Do:\e[m "
+			echo "- Removed the most recent line from the list"
+			sed -i '$d' $todolist
+			exit 0
 	else	
 		sed -i "${2}d" $todolist && printf "\e[38;5;2m To Do:\e[m " ;echo "Removed line $2 from the list"
 	fi
 	;;
-        -e)
-	#source ~/.tel/config.sh
-	printf "\e[38;5;2m To Do:\e[m "
-	echo "Opening in $EDITOR"
-	$EDITOR $todolist
-	;; 
+        -e | --edit)
+		#source ~/.tel/config.sh
+		printf "\e[38;5;2m To Do:\e[m "
+		echo "Opening in $EDITOR"
+		$EDITOR $todolist
+		;; 
 	*)  
 	printf "\e[38;5;2m To Do:\e[m "
 	echo $@ >> $todolist
