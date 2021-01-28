@@ -38,11 +38,13 @@ case ${option} in
         -r | --remove)
 	if [ -z "$2" ] ; then
 			printf "\e[38;5;2m To Do:\e[m "
-			echo "- Removed the most recent line from the list"
+			echo "Removed the most recent line from the list"
 			sed -i '$d' $todolist
 			exit 0
 	else	
-		sed -i "${2}d" $todolist && printf "\e[38;5;2m To Do:\e[m " ;echo "Removed line $2 from the list"
+		sed -i "${2}d" $todolist && {
+			printf "\e[38;5;2m To Do:\e[m " ;echo "Removed line #$2 from the list"
+	}
 	fi
 	;;
         -e | --edit)
@@ -54,7 +56,7 @@ case ${option} in
 	*)  
 	printf "\e[38;5;2m To Do:\e[m "
 	echo $@ >> $todolist
-	echo "Added $@ to your list"
+	echo "[$@] - was added to your list"
 	exit 0 
 	;;
 esac 
