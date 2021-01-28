@@ -56,7 +56,7 @@ case ${option} in
 	*)  
 	printf "\e[38;5;2m To Do:\e[m "
 	echo $@ >> $todolist
-	echo "[$@] - was added to your list"
+	echo "Added [ $@ ] to your list"
 	exit 0 
 	;;
 esac 
