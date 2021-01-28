@@ -13,8 +13,8 @@ show_help(){
             "tel-app [OPTIONS] [PATTERN]"\
             "__________________________"\
             "OPTIONS"\
-            "  -h   display this help message"\
-            "  -u   update app cache"
+            "  -h | --help   		display this help message"\
+            "  -u | --update-cache  	update app cache"
 }
 
 update_cache(){
@@ -31,12 +31,12 @@ main(){
     case "$1" in
         # Update the app list
         # Incase a new app has been installed
-        -u)
+        -u | --update-cache)
             update_cache
             exit 0
         ;;
         # Display the help message
-        -h)
+        -h | --help)
             show_help
             exit 0
         ;;
@@ -69,10 +69,18 @@ esac
 
     # get the activity name
     activity=$( grep "$app_code" "$cachefile" | cut -d "|" -f2 )
-    printf  "\e[38;5;2m Launching\e[m %s\n"\
+    
+    
+    if [ "$1" == "-i" ] || [ "$1" == "--info" ] ; then
+    	printf  "\e[38;5;2m Launching\e[m %s\n"\
+            "$app_name - app info page"
+	am start -a android.settings.APPLICATION_DETAILS_SETTINGS "package:$activity" > /dev/null 2>&1
+    else
+    	printf  "\e[38;5;2m Launching\e[m %s\n"\
             "$app_name - $activity"
 
-    # Laucnh the app
-    am start -n "$activity" --user 0 > /dev/null 2>&1
+    # Launch the app
+    	am start -n "$activity" --user 0 > /dev/null 2>&1
+    fi
 }
 main "$@"
