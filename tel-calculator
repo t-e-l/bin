@@ -1,25 +1,46 @@
 #!/usr/bin/env bash
 # an extremely simple wrapper for casual use of linux package - bc 
+default_scale=4 # number of decimal places to calculate to if not specified
+
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
 	echo -e "Usage: tel-calculator [options] [calculation]
 	accepted operations: + - / * ^ 
-	tel-calculator -h	= show this help menu
-	tel-calculator '5 * 5'	= return answer and exit
-	tel-calculator		= prompt user for calculation to perform"
+	tel-calculator			= prompt user for calculation to perform
+	tel-calculator '20 * 4'		= return answer
+	-h | --help			= show this help menu
+	-s | --scale 			= prompt to set decimal places shown 
+	-s | --scale 4			= set decimal places show to 4 "
 	exit 0
 fi
+
+if [ "$1" == "-s" ] || [ "$1" == "--scale" ]; then
+	shift
+	if [ ! -z $1 ] ; then
+		default_scale="$1"
+		shift
+	else
+		printf "\e[38;5;2m Calculator:\e[m number of decimal places? (skip for $default_scale) : "
+		read decimal_places_input
+		if [ ! -z $decimal_places_input ] ; then 
+			default_scale=$decimal_places_input
+		fi
+	fi
+else
+		default_scale=4
+fi
 if [ -z "$1" ] ; then
-	echo -ne "\e[38;5;2m Calculator\e[m: operations [ + - / * ^ % ] ctrl c exits\n" 
+	echo -ne "\e[38;5;2m Calculator\e[m: [ + - / * ^ % ] 'ctrl c' quits\n" 
 	prev=
 	while true
 	do
 		echo -ne "\r\e[38;5;2m Calculate\e[m: "
 		IFS=''; read -e -i "$prev" input
-
 		echo -en "\033[1A\033[2K"
-		prev=$(echo "scale=4; $input" | bc)
-		echo -ne "\r\033[2K\e[38;5;2m Calculate\e[m: $input = $prev\n"
-			done
+		prev=$(echo "scale=$default_scale; $input" | bc)
+	#	echo -ne "\r\033[2K\e[38;5;2m Calculate\e[m: $input = $prev\n"
+		echo -ne "\r$input = $prev\n"
+		prev="$prev "
+	done
 else
-	echo "scale=5; $@" | bc
+	echo "scale=$default_scale; $@" | bc
 fi
