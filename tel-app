@@ -28,7 +28,12 @@ update_cache(){
 main(){
     cachefile="$HOME/.apps"
     app_namefile="$HOME/.app_names"
+    show_info_page="false"
     case "$1" in
+        -i | --info)
+		shift
+        	show_info_page="true"
+        ;;
         # Update the app list
         # Incase a new app has been installed
         -u | --update-cache)
@@ -71,7 +76,7 @@ esac
     activity=$( grep "$app_code" "$cachefile" | cut -d "|" -f2 )
     
     
-    if [ "$1" == "-i" ] || [ "$1" == "--info" ] ; then
+    if [ "$show_info_page" == "true" ] ; then
     	printf  "\e[38;5;2m Launching\e[m %s\n"\
             "$app_name - app info page"
 	am start -a android.settings.APPLICATION_DETAILS_SETTINGS "package:$activity" > /dev/null 2>&1
