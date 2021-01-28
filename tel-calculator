@@ -25,10 +25,9 @@ if [ "$1" == "-s" ] || [ "$1" == "--scale" ]; then
 			default_scale=$decimal_places_input
 		fi
 	fi
-else
-		default_scale=4
 fi
-if [ -z "$1" ] ; then
+
+if [ -z "$1" ] ; then # no user args = enter interactive mode
 	echo -ne "\e[38;5;2m Calculator\e[m: [ + - / * ^ % ] 'ctrl c' quits\n" 
 	prev=
 	while true
@@ -41,6 +40,6 @@ if [ -z "$1" ] ; then
 		echo -ne "\r$input = $prev\n"
 		prev="$prev "
 	done
-else
+else # user args are calculation to perform
 	echo "scale=$default_scale; $@" | bc
 fi
