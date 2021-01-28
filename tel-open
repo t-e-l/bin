@@ -2,6 +2,8 @@
 # Open applet for TEL
 # Version 0.2
 # SealyJ 2020
+# requires: fzf fd 
+#if not on android also requires: perl-file-mimeinfo
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS="
@@ -73,7 +75,7 @@ else
 	if [ $(uname -o) == 'Android' ] ; then
 		termux-open "$selected_file" || echo "Couldn't open $selected_file"
 	else
-		xdg-open "$selected_file" || echo "Couldn't open $selected_file"
+		mimeopen -n "$selected_file" || echo "Couldn't open $selected_file"
 	fi
 fi
 
