@@ -3,7 +3,7 @@
 ~/.tel/scripts/readconfigs.sh
 . ~/.zshrc
 termux-reload-settings
-tmux source-file ~/.tel_tmux.conf
+tmux source-file ~/.tel/.tel_tmux.conf
 tmux source-file ~/.tmux.conf
 am broadcast --user 0 -a com.termux.app.reload_style com.termux > /dev/null 2>&1 # reload cols in termux
 status_running=$(pgrep -f status_manager.py)
