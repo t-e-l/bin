@@ -20,7 +20,13 @@ FONT_SIZE_SYMBOL=""
 
 
 # FUNCTIONS #
-
+clear_line(){
+	echo -ne "\033[2K"
+	# usage clear_line ; printf "\rNewtxt"
+}
+move_up_line(){
+	echo -en "\033[1A\033[2K"
+}
 term_width() {
 	echo $(tput cols)
 	# usage width=$(term_width)

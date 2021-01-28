@@ -10,7 +10,7 @@ todolist=~/.tel/data/todo
 option="${1}" 
 [[ -e $todolist ]] || echo "Manage your notes list with the 'tel-todo' command\nEnjoy TEL updates" > ${todolist}  #if no list make a new one
 if [ -z "$1" ] ; then
-	printf "\e[38;5;2m To Do\e[m list reads:\n"
+	printf "\e[38;5;2m To Do\e[m:\n"
 	cat -n $todolist
 else
 
@@ -48,7 +48,6 @@ case ${option} in
 	fi
 	;;
         -e | --edit)
-		#source ~/.tel/config.sh
 		printf "\e[38;5;2m To Do:\e[m "
 		echo "Opening in $EDITOR"
 		$EDITOR $todolist
