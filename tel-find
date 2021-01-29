@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# SealyJ 2021
+fzf_bin=$(which fzf)
+editor=$(which $EDITOR)
+
+
+if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
+	echo -e "Usage: tel-find [options] [filename]
+	tel-edit			= interactive file picker
+	tel-edit configs		= display file picker with matches for configs
+	tel-edit -h			= show this help menu
+	tel-edit -r			= search from root directory with root privs
+	"
+	exit 0
+else
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_DEFAULT_OPTS="
+--info=inline
+--multi
+--preview-window=up:60%:follow:sharp
+--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
+--prompt='∼ ' --pointer='>' --marker='✓'
+--bind '?:toggle-preview'
+--bind 'ctrl-a:select-all'
+--bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
+"
+fi
+
+#--color='hl:148,hl+:154,pointer:032,marker:010,bg+:237,gutter:008'
+show_help(){
+    printf  "%s\n"\
+            "Opens a file in your terminals text editor"\
+            "tel-edit [OPTIONS] [PATTERN]"\
+            "__________________________"\                                              "OPTIONS"\
+            "  -h   display this help message"\
+            "  -r | --root use root privledged"
+}
+
+
+if [ -z $1 ] ; then
+	selected_file=$($fzf_bin --cycle --color=16 --prompt="file/dir for commandline: ")
+else
+	file_search=$(echo "$@")
+	selected_file=$($fzf_bin --cycle --color=16 --query="$file_search" --prompt="file/dir for commandline" --select-1)
+fi
+
+if [ -z "$selected_file" ] ; then
+	# no file selected or cancel fzf selection, this is preferable as it allows user to correct typos in fzf prompt rather than giving 'file not found error' 
+	# printf "\e[38;5;2m Edit\e[m%s: Error - file not found "
+	exit 1
+else
+	curr_dir=$(pwd)
+	# manipulate history here
+	#print -S "$useroot $EDITOR $curr_dir/$selected_file"
+	printf "\e[38;5;2m Editing\e[m%s file: $curr_dir/$selected_file\n"
+	tmux send-keys "$current_dir/$selected_file"
+fi
+
