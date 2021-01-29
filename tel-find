@@ -33,7 +33,7 @@ show_help(){
 
 
 if [ -z $1 ] ; then
-	#selected_file=$(fd -Ha |  $fzf_bin --cycle --color=16 --prompt="file/dir to insert: ")
+	selected_file=$(fd -Ha |  $fzf_bin --cycle --color=16 --prompt="file/dir to insert: ")
 else
 	file_search=$(echo "$@")
 	selected_file=$(fd -Ha | $fzf_bin --cycle --color=16 --query="$file_search" --prompt="file/dir to insert" --select-1)
