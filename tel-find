@@ -49,7 +49,7 @@ if [ -z "$selected_file" ] ; then
 	# printf "\e[38;5;2m Edit\e[m%s: Error - file not found "
 	exit 1
 else
-	curr_dir=$(pwd)
+	current_dir=$(pwd)
 	# manipulate history here
 	#print -S "$useroot $EDITOR $curr_dir/$selected_file"
 	tmux send-keys "$current_dir/$selected_file" > /dev/null 2>&1
