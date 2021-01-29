@@ -5,11 +5,7 @@ editor=$(which $EDITOR)
 
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
-	echo -e "Usage: tel-find [options] [filename]
-	tel-edit			= interactive file picker
-	tel-edit configs		= display file picker with matches for configs
-	tel-edit -h			= show this help menu
-	tel-edit -r			= search from root directory with root privs
+	echo -e "Usage: tel-find
 	"
 	exit 0
 else
@@ -29,19 +25,18 @@ fi
 #--color='hl:148,hl+:154,pointer:032,marker:010,bg+:237,gutter:008'
 show_help(){
     printf  "%s\n"\
-            "Opens a file in your terminals text editor"\
-            "tel-edit [OPTIONS] [PATTERN]"\
+            "Used to echo found files to stdout"\
+            "tel-find [OPTIONS] [PATTERN]"\
             "__________________________"\                                              "OPTIONS"\
-            "  -h   display this help message"\
-            "  -r | --root use root privledged"
+            "  -h | --help  display this help message"
 }
 
 
 if [ -z $1 ] ; then
-	selected_file=$($fzf_bin --cycle --color=16 --prompt="file/dir for commandline: ")
+	selected_file=$(fd -Ha |  $fzf_bin --cycle --color=16 --prompt="file/dir to insert: ")
 else
 	file_search=$(echo "$@")
-	selected_file=$($fzf_bin --cycle --color=16 --query="$file_search" --prompt="file/dir for commandline" --select-1)
+	selected_file=$(fd -Ha | $fzf_bin --cycle --color=16 --query="$file_search" --prompt="file/dir to insert" --select-1)
 fi
 
 if [ -z "$selected_file" ] ; then
