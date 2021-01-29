@@ -25,7 +25,7 @@ fi
 #--color='hl:148,hl+:154,pointer:032,marker:010,bg+:237,gutter:008'
 show_help(){
     printf  "%s\n"\
-            "Used to echo found files to stdout"\
+            "Used to echo found files to stdout, targets previous pane"\
             "tel-find [OPTIONS] [PATTERN]"\
             "__________________________"\                                              "OPTIONS"\
             "  -h | --help  display this help message"
@@ -47,6 +47,6 @@ else
 	current_dir=$(pwd)
 	# manipulate history here
 	#print -S "$useroot $EDITOR $curr_dir/$selected_file"
-	tmux send-keys "$selected_file" > /dev/null 2>&1
+	tmux send-keys -t ! "$selected_file" > /dev/null 2>&1
 fi
 
