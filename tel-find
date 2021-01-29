@@ -47,6 +47,6 @@ else
 	current_dir=$(pwd)
 	# manipulate history here
 	#print -S "$useroot $EDITOR $curr_dir/$selected_file"
-	tmux send-keys "$current_dir/$selected_file" > /dev/null 2>&1
+	tmux send-keys "$current_dir/$selected_file"
 fi
 
