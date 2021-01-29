@@ -26,16 +26,17 @@ show_help(){
     printf  "%s\n"\
             "Opens a file or link in external app"\
             "tel-open [OPTIONS] [PATTERN]"\
-            "__________________________"\                                              "OPTIONS"\
-            "  -h   				display this help message"\
-            "  -u https://www.github.com 	 Open github in android browser"\
-            "  -u   Open url picker"
+            "__________________________"\                                             
+	    "OPTIONS"\
+            "  -h | --help  				Display this help message"\
+            "  -u | --url https://www.github.com 	Open github in android browser"\
+            "  -u | --url  				Open url picker"
 }
 open_url(){
    	if [ -n "$global_url" ]; then
 		url=$global_url
 	else
-		url=$(cat $bookmarks_file | fzf -e --cycle --color=16 --prompt=" Pick a URL to open with an android app:" --select-1)
+		url=$(cat $bookmarks_file | fzf -e --cycle --color=16 --prompt=" URL to open in app:" --select-1)
 	fi
 	if [ ! -z $url ] ; then
 		if [ $(uname -o) == 'Android' ] ; then
@@ -50,7 +51,7 @@ open_url(){
 }
 
 if [ -z $1 ] ; then
-	selected_files=$(fd --type f | fzf -m -d -e --cycle --color=16 --prompt="Select files(s) (with tab key) to open with app: ")
+	selected_files=$(fd --type f | fzf -m -d -e --cycle --color=16 --prompt="Select (tab key) Open: ")
 	IFS=$'\n' read -d '' -r -a files_to_open <<<"$selected_files"
 else
 	case "$1" in
@@ -66,7 +67,7 @@ else
 
 	file_search="$@"
  
-	selected_files=$(fd --type f | fzf -m -d -e --cycle -q "$file_search" --color=16 --prompt="Select (tab key) to Open: ")
+	selected_files=$(fd --type f | fzf -m -d -e --cycle -q "$file_search" --color=16 --prompt="Select (tab key) Open: ")
 	IFS=$'\n' read -d '' -r -a files_to_open <<<"$selected_files"
 fi
 

@@ -14,6 +14,7 @@ show_help(){
             "__________________________"\
             "OPTIONS"\
             "  -h | --help   		display this help message"\
+            "  -i | --info   		show settings page for app"\
             "  -u | --update-cache  	update app cache"
 }
 
