@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Used to reload TEL
-~/.tel/scripts/readconfigs.sh
 if [ "$THEME_COLS" == "true" ] ; then
 	[[ -f ~/.cache/wal/sequences ]] && (wal -R -q -e && cat ~/.cache/wal/sequences)
 	~/.tel/scripts/wal_cols_termux.sh
