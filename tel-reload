@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # Used to reload TEL
 ~/.tel/scripts/readconfigs.sh
-. ~/.zshrc
 termux-reload-settings
-tmux source-file ~/.tel/.tel_tmux.conf
 tmux source-file ~/.tmux.conf
+if [ "$THEME_COLS" == "true" ] ; then
+	[[ -f ~/.cache/wal/sequences ]] && (wal -R -q -e && cat ~/.cache/wal/sequences)
+fi
 am broadcast --user 0 -a com.termux.app.reload_style com.termux > /dev/null 2>&1 # reload cols in termux
 status_running=$(pgrep -f status_manager.py)
 if [ ! -z "$status_running" ] ; then
