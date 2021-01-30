@@ -63,9 +63,10 @@ case ${option} in
 		done < <(printf '%s\n' "${@}" | sort -r -g)
 		unset IFS
 		#echo "sorted = ${sorted[@]}"
-		printf "\e[38;5;2m To Do:\e[m " ;echo "Removing lines - ${@}"
+		printf "\e[38;5;2m To Do:\e[m " ;echo -ne "Removing "
 		for delete_number in "${sorted[@]}"
 		do
+			echo -ne "line number: ${delete_number}\n"
 			sed_format="${delete_number}d"
 			sed -i "$sed_format" $todolist
 		done
