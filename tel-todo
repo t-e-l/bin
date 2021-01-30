@@ -53,7 +53,7 @@ case ${option} in
 	else
 		shift
 		#organise delete numbers high to low order so 2 i
-		IFS=$'\n' sorted=($(sort <<<"${@[*]}"))
+		IFS=$'\n' sorted=($(sort <<<"${@}"))
 unset IFS
 		for delete_number in "${sorted[@]}"
 		do
