@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Used to reload TEL
+tmux detach
 ~/.tel/scripts/readconfigs.sh
 if [ "$THEME_COLS" == "true" ] ; then
 	[[ -f ~/.cache/wal/sequences ]] && (wal -R -q -e && cat ~/.cache/wal/sequences)
@@ -12,4 +13,6 @@ if [ ! -z "$status_running" ] ; then
 	~/.tel/scripts/status_manager/toggle_ui.sh
 fi
 termux-reload-settings
+tmux attach
 tmux source-file ~/.tmux.conf
+
