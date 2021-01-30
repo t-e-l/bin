@@ -38,8 +38,11 @@ check_connection() {
 		return 1
 	fi
 }
+log_no_newline() {
+	echo -ne "${GREEN}[TEL]: ${NC}${WHITE}${1}${NC}"
+}
 log_replace_last() {
-	echo -ne "\r${GREEN}[TEL]: ${NC}${WHITE}${1}${NC}"
+	echo -ne "\033[2K\r${GREEN}[TEL]: ${NC}${WHITE}${1}${NC}"
 }
 log() {
 	printf "${GREEN}[TEL]: ${NC}${WHITE}${1}${NC}\n"
