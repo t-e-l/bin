@@ -15,4 +15,5 @@ fi
 termux-reload-settings
 tmux attach
 tmux source-file ~/.tmux.conf
+tmux display-message '[TEL] Reloaded!'
 
