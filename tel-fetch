@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+if [ -d /system/app ] && [ -d /system/priv-app ]; then
+
+	read -r os kernel arch <<-EOF
+		$(uname -srm)
+	EOF
+	android_version="Android $(getprop ro.build.version.release)"
+	country="$(getprop gsm.operator.iso-country)"
+        kernel="$(uname -r)"
+        country="Android $(getprop gsm.operator.iso-country)"
+	user_name="$NAME"
+	device_model="$(getprop ro.product.device)"
+	cpu=
+	mem=
+
+	
+
+	
+echo """   
+                        ▒°		
+                        ▒▒▒o             
+           ▒▒▒▒▒▒▒▒▒      ▒▒▒o           
+         ▒▒▒▒▒▒▒▒▒▒▒▒      ▒▒▒O          
+         ▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒0          
+    ▒▒▒   ▒▒▒▒▒^▒▒▒^▒▒▒  ▒▒▒▒0▒▒▒▒	 	
+ ▄▄▒▒▒▒▒▄▄▄▄▄▒▒▒▒▒▒▒▒▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒  	 User: $user_name  Country: $country
+ ▌  ▒▒▒        ▌          ▒▒▒▒    ▌▒▒	 TEL: $TEL_VERSION  Theme: $TEL_THEME
+ ▌▄▄▄▒▒ .;▒▄▄▄▄▌    ▄▄▄▄▄▄o▒▒▒▒   ▌▒▒	 OS: $os $android_version
+   ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒   Device Codename: $device_model
+  ▒▒▒▌     ▌▒▒0▌         o▒▒▒     ▌O▒▒ 	 Screen Res: $screen_res Arch: $arch 
+ ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒   CPU: $cpu  Mem: $mem  
+ ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄ Kern: $kernel  Uptime: $uptime
+  ▒▒▒o▒▒▒▒▒▌  ▒▒o      O▒▒ ▌     ▒▒     ▌
+    ▒▒▒▄▄▄▄▌   ▒▒o▄▄▄▄▄▄▒▒▒▌▄▄▄▄▄▄▄▄▄▄▄▄▌
+                ▒▒o      o▒▒  o▒▒       
+                ▒o             °▒   
+ 
+"""
+
+else
+	echo 'Only made for android'
+fi
