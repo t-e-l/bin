@@ -52,10 +52,17 @@ case ${option} in
 			exit 0
 	else
 		shift
-		#organise delete numbers high to low order so 2 i
-		IFS=$' ' sorted=($(sort <<<"${@}"))
-unset IFS
-		echo "sorted = ${sorted[0]}"
+
+		# define the input array
+		#arr=(12345_34 5_32134 8_123 13_1234)
+
+		# generate a sorted version
+		sorted=( )
+		while IFS= read -r item; do
+		  sorted+=( "$item" )
+		done < <(printf '%s\n' "${@}" | sort -r -g)
+		unset IFS
+		#echo "sorted = ${sorted[@]}"
 		for delete_number in "${sorted[@]}"
 		do
 			sed_format="${delete_number}d"
