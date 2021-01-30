@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 # Used to reload TEL
-tmux detach
 ~/.tel/scripts/readconfigs.sh
 if [ "$THEME_COLS" == "true" ] ; then
 	[[ -f ~/.cache/wal/sequences ]] && (wal -R -q -e && cat ~/.cache/wal/sequences)
+	~/.tel/scripts/wal_cols_termux.sh
 fi
 am broadcast --user 0 -a com.termux.app.reload_style com.termux > /dev/null 2>&1 # reload cols in termux
 status_running=$(pgrep -f status_manager.py)
 if [ ! -z "$status_running" ] ; then
 	~/.tel/scripts/status_manager/toggle_ui.sh
 	sleep 0.7	
-	~/.tel/scripts/status_manager/toggle_ui.sh
+	~/.tel/scripts/status_manager/toggle_ui.sh &
 fi
 termux-reload-settings
 tmux attach
