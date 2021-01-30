@@ -55,12 +55,12 @@ if [ -z $1 ] ; then
 	IFS=$'\n' read -d '' -r -a files_to_open <<<"$selected_files"
 else
 	case "$1" in
-		-u) #open url in app instead of file
+		-u | --url) #open url in app instead of file
 		open_url
 		exit 0
 		;;
 		# Display the help message
-		-h)                                                                        show_help
+		-h | --help)                                                                        show_help
 		exit 0
 		;;
  	esac

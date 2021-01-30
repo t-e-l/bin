@@ -9,8 +9,8 @@ show_help(){
             "tel-theme [OPTIONS] [PATTERN]"\
             "__________________________"\
 	    "OPTIONS"\
-            "  --install-theme   collect your current theme into a package ready for sharing"\
-            "  --create-theme   collect your current theme into a package ready for sharing"\
+           # "  --install-theme   collect your current theme into a package ready for sharing"\
+           # "  --create-theme   collect your current theme into a package ready for sharing"\
             "  -h   display this help message"\
             "  -f ~/mywallpaper.jpg  use supplied file"
 }
