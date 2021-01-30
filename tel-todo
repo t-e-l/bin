@@ -57,7 +57,8 @@ case ${option} in
 unset IFS
 		for delete_number in "${sorted[@]}"
 		do
-			sed -i '${delete_number}d' $todolist && {
+			sed_format="'${delete_number}d'"
+			sed -i $sed_format $todolist && {
 				printf "\e[38;5;2m To Do:\e[m " ;echo "Removed line $delete_number from the list"
 			}
 		done
