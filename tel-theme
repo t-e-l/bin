@@ -33,30 +33,30 @@ if [ -z $1 ] ; then
 	options='-f'
 else
 	case "$1" in
-		--install-theme)
+		-i | --install-theme)
 		install_theme
 		exit 0
 		;;
-		--create-theme)
+		-c | --create-theme)
 		create_theme
 		exit 0
 		;;
-		-f) #use file
+		-f | --file) #use file
 		options=$1
 		selected_file=$2
 		exit 0
 		;;
-		-u) #use url
+		-u | --url) #use url
 		options=$1
 		selected_file=$2
 		exit 0
 		;;
 		# Display the help message
-		-h)                                                                        show_help
+		-h | --help)
+		show_help
 		exit 0
 		;;
  	esac
-
 	file_search="$@"
 	selected_file=$(fzf -e --cycle --color=16 --query="$file_search" --prompt=" Open in app: " --select-1)
 fi
