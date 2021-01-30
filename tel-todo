@@ -50,10 +50,14 @@ case ${option} in
 			echo "Removed the most recent line from the list"
 			sed -i '$d' $todolist
 			exit 0
-	else	
-		sed -i "${2}d" $todolist && {
-			printf "\e[38;5;2m To Do:\e[m " ;echo "Removed line #$2 from the list"
-	}
+	else
+		shift
+		for delete_number in "${@}"
+		do
+			sed -i "${2}d" $todolist && {
+				printf "\e[38;5;2m To Do:\e[m " ;echo "Removed line delete_number from the list"
+			}
+		done
 	fi
 	;;
         -e | --edit)
