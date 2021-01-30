@@ -2,7 +2,7 @@
 # SealyJ 2021
 fzf_bin=$(which fzf)
 editor=$(which $EDITOR)
-
+cd ~/..
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
 	echo -e "Usage: tel-find
