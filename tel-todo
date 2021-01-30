@@ -54,8 +54,8 @@ case ${option} in
 		shift
 		for delete_number in "${@}"
 		do
-			sed -i "${2}d" $todolist && {
-				printf "\e[38;5;2m To Do:\e[m " ;echo "Removed line delete_number from the list"
+			sed -i "${delete_number}d" $todolist && {
+				printf "\e[38;5;2m To Do:\e[m " ;echo "Removed line $delete_number from the list"
 			}
 		done
 	fi
