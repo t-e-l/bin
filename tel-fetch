@@ -14,6 +14,8 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then
 	cpu_cores=$(cat /proc/cpuinfo | grep -e 'CPU architecture' | tail -n 1 | cut -d' ' -f3)
 	memtotal="$(cat /proc/meminfo | grep -e 'MemTotal' | cut -d' ' -f9)"
 	memtotal="$(( memtotal / 1000 )) mB"
+	memfree="$(cat /proc/meminfo | grep -e 'MemFree' | cut -d' ' -f9)"
+	memfree="$(( memtotal / 1000 )) mB"
 
 	uptime=$(uptime | awk -F'( |,|:)+' '{d=h=m=0; if ($7=="min") m=$6; else {if ($7~/^day/) {d=$6;h=$8;m=$9} else {h=$6;m=$7}}} {print d+0,"days,",h+0,"hrs,",m+0,"mins."}')
 
@@ -27,13 +29,13 @@ echo """
          ▒▒▒▒▒▒▒▒▒▒▒▒      ▒▒▒O          
          ▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒0          
     ▒▒▒   ▒▒▒▒▒^▒▒▒^▒▒▒  ▒▒▒▒0▒▒▒▒	  TEL: $TEL_VERSION  Theme: $TEL_THEME	
- ▄▄▒▒▒▒▒▄▄▄▄▄▒▒▒▒▒▒▒▒▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒  	  User: $user_name  
- ▌  ▒▒▒        ▌          ▒▒▒▒    ▌▒▒	  TZ: $time_zone 
- ▌▄▄▄▒▒ .;▒▄▄▄▄▌    ▄▄▄▄▄▄o▒▒▒▒   ▌▒▒	  OS: $os $android_version
-   ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒    Device Codename: $device_model
-  ▒▒▒▌     ▌▒▒0▌         o▒▒▒     ▌O▒▒ 	  ROM: $device_rom root: $device_rooted
- ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒    Arch: $arch Cpu: $cpu_cores    
- ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄  Mem: $memtotal   
+ ▄▄▒▒▒▒▒▄▄▄▄▄▒▒▒▒▒▒▒▒▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒  	  user: $user_name  
+ ▌  ▒▒▒        ▌          ▒▒▒▒    ▌▒▒	  tz: $time_zone 
+ ▌▄▄▄▒▒ .;▒▄▄▄▄▌    ▄▄▄▄▄▄o▒▒▒▒   ▌▒▒	  os: $os $android_version
+   ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒    device: $device_model
+  ▒▒▒▌     ▌▒▒0▌         o▒▒▒     ▌O▒▒ 	  rom: $device_rom root: $device_rooted
+ ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒    arch: $arch cores: $cpu_cores    
+ ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄  mem: $memfree free / $memtotal   
   ▒▒▒o▒▒▒▒▒▌  ▒▒o      O▒▒ ▌     ▒▒     ▌ Kern: $kernel
     ▒▒▒▄▄▄▄▌   ▒▒o▄▄▄▄▄▄▒▒▒▌▄▄▄▄▄▄▄▄▄▄▄▄▌ Uptime: $uptime
                 ▒▒o      o▒▒  o▒▒       
