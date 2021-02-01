@@ -13,7 +13,7 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then
 	device_rooted="$(getprop ro.build.system_root_image)"
 	cpu_cores=$(cat /proc/cpuinfo | grep -e 'CPU architecture' | tail -n 1 | cut -d' ' -f3)
 	memtotal="$(cat /proc/meminfo | grep -e 'MemTotal' | cut -d' ' -f9)"
-	memtotal="$(( memtotal / 1000 )) mB"
+	memtotal="$(( memfree / 1000 )) mB"
 	memfree="$(cat /proc/meminfo | grep -e 'MemFree' | cut -d' ' -f9)"
 	memfree="$(( memtotal / 1000 )) mB"
 
