@@ -99,7 +99,7 @@ main() {
     # fuzzy search in $contactsfile to get the number and
     # name in the format
     # Name | Number
-	fzf_output=$(fzf --print-query --cycle --color=16 --prompt=" Call: " --query="$*" --select-1 -0 < "$contactsfile")
+	fzf_output=$(fzf --print-query --cycle --color=16 --prompt=" Contact: " --query="$*" --select-1 -0 < "$contactsfile")
     case "$?" in
         	# No contact found
         "1"  )
@@ -145,7 +145,7 @@ esac
     contact_number=$(echo "${contact}" | cut -d "|" -f2 | tr -d '[:space:]')
     #kills the program if termux-telephony-call command is not available
     ( command -v termux-telephony-call >/dev/null 2>&1 ) || { 
-        print_ERR_and_die "termux-telephony-call not available, have you installed termux api?"
+        print_ERR_and_die "termux-telephony-call not found, have you installed termux-api?"
     }
     if [ "$request_output" == "true" ] ; then
 	    echo "$contact_number"
