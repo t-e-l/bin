@@ -78,7 +78,7 @@ elif [ "$1" == "-t" ] ; then
 	input=${@:2}
 	text=${input// /%20} #replace spaces with strings
 	rand_searx_instance
-	$BROWSER "${searx_url}${text}&language=$SEARCH_LANG"
+	"${BROWSER:-links}" "${searx_url}${text}&language=$SEARCH_LANG"
 	exit 0
 elif [ -z $1 ] ; then
 	provider=$(cat $provider_bangs_file | fzf -e --cycle --color=16 --prompt=" Search site: " --select-1)
