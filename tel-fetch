@@ -25,7 +25,6 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
        # maxspeed="$(< "${speed_dir}/cpuinfo_max_freq")"
        # maxspeed="$((maxspeed / 1000)) MHz"
         speed="$(< "${speed_dir}/${speed_type}")" ||\
-        speed="$(< "${speed_dir}/bios_limit")" ||\
         speed="$(< "${speed_dir}/scaling_max_freq")" ||\
         speed="$(< "${speed_dir}/cpuinfo_max_freq")"
         speed="$((speed / 1000))"
