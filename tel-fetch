@@ -7,7 +7,6 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then
 	android_version="Android $(getprop ro.build.version.release)"
 	country="$(getprop gsm.operator.iso-country)"
         kernel="$(uname -r)"
-        country="Android $(getprop gsm.operator.iso-country)"
 	user_name="$NAME"
 	device_model="$(getprop ro.product.device)"
 	cpu_cores=$(cat /proc/cpuinfo | grep -e 'cpu cores' | tail -n 1 | cut -d' ' -f3)
@@ -31,8 +30,8 @@ echo """
    ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒   Device Codename: $device_model
   ▒▒▒▌     ▌▒▒0▌         o▒▒▒     ▌O▒▒ 	 Screen Res: $screen_res Arch: $arch 
  ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒   CPU: $cpu_cores  Mem: $memtotal  
- ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄ Kern: $kernel  Uptime: $uptime
-  ▒▒▒o▒▒▒▒▒▌  ▒▒o      O▒▒ ▌     ▒▒     ▌
+ ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄ Kern: $kernel  
+  ▒▒▒o▒▒▒▒▒▌  ▒▒o      O▒▒ ▌     ▒▒     ▌Uptime: $uptime
     ▒▒▒▄▄▄▄▌   ▒▒o▄▄▄▄▄▄▒▒▒▌▄▄▄▄▄▄▄▄▄▄▄▄▌
                 ▒▒o      o▒▒  o▒▒       
                 ▒o             °▒   
