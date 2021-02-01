@@ -45,10 +45,10 @@ echo -ne """
     \e[1;32m▒▒▒   ▒▒▒▒▒\e[0m^\e[1;32m▒▒▒\e[0m^\e[1;32m▒▒▒  ▒▒▒▒\e[0m0 \e[1;32m▒▒▒▒\e[0m	  \e[9m                \e[m
  ▄▄\e[1;32m▒▒▒▒▒\e[0m▄▄▄▄▄\e[1;32m▒▒▒▒▒▒▒▒▒\e[0m▄▄\e[1;32m▒▒▒▒▒▒▒▒▒▒▒▒\e[0m  	 \e[1m os:\e[0m Android $android_version $arch 
  ▌   \e[1;32m▒▒▒\e[0m       ▌           \e[1;32m▒▒▒▒\e[0m    ▌ \e[1;32m▒▒\e[0m	 \e[1m rom:\e[0m $device_rom 
- ▌▄▄▄\e[1;32m▒▒\e[0m.; \e[1;32m▒\e[0m▄▄▄▄▌    ▄▄▄▄▄▄o \e[1;32m▒▒▒▒\e[0m   ▌\e[1;32m▒▒\e[0m	 \e[1m kern:\e[0m $kernel 
+ ▌▄▄▄\e[1;32m▒▒\e[0m .;\e[1;32m▒\e[0m▄▄▄▄▌    ▄▄▄▄▄▄o \e[1;32m▒▒▒▒\e[0m   ▌\e[1;32m▒▒\e[0m	 \e[1m kern:\e[0m $kernel 
    \e[1;32m▒▒\e[0m▌\e[1;32m▒▒▒▒\e[0m▌\e[1;32m▒▒▒\e[0m▌    ▌▄▄▄▄▄o\e[1;32m▒▒▒▒\e[0m   ▌0\e[1;32m▒▒\e[0m   \e[1m cpu:\e[0m $cpu ($cores) @ $speed 
-  \e[1;32m▒▒▒\e[0m▌     ▌ \e[1;32m▒▒\e[0m0▌         o\e[1;32m▒▒▒\e[0m     ▌O\e[1;32m▒▒\e[0m 	 \e[1m mem:\e[0m $memfree / $memtotal free 
- \e[1;32m▒▒▒\e[0m0▌     ▌ \e[1;32m▒▒\e[0mO▌    ▄▄▄▄o\e[1;32m▒▒▒▒\e[0m   . ▌o\e[1;32m▒▒\e[0m   \e[1m up:\e[0m $uptime      
+  \e[1;32m▒▒▒\e[0m▌     ▌\e[1;32m▒▒\e[0m0▌         o\e[1;32m▒▒▒\e[0m     ▌O\e[1;32m▒▒\e[0m 	 \e[1m mem:\e[0m $memfree / $memtotal free 
+ \e[1;32m▒▒▒\e[0m0▌     ▌\e[1;32m▒▒\e[0mO▌    ▄▄▄▄o\e[1;32m▒▒▒▒\e[0m   . ▌o\e[1;32m▒▒\e[0m   \e[1m up:\e[0m $uptime      
  \e[1;32m▒▒▒\e[0mO▌ ∙ °\e[1;32m▒\e[0m▌  \e[1;32m▒▒\e[0mO   ▌▄▄▄\e[1;32m▒▒▒\e[0m▌    \e[1;32m▒\e[0mo\e[1;32m▒▒▒\e[0m▄▄▄   
   \e[1;32m▒▒▒\e[0mo\e[1;32m▒▒▒▒▒\e[0m▌   \e[1;32m▒▒\e[0mo      O\e[1;32m▒▒\e[0m▌     \e[1;32m▒▒\e[0m     ▌ 
     \e[1;32m▒▒▒\e[0m▄▄▄▄▌   \e[1;32m▒▒\e[0mo▄▄▄▄▄▄\e[1;32m▒▒▒\e[0m▌▄▄▄▄▄▄▄▄▄▄▄▄▌ 
