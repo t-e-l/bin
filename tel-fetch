@@ -29,7 +29,7 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
         speed="$((speed / 1000000))GHz"
 
 	
-	cpu_cores=$(cat /proc/cpuinfo | grep -e 'CPU architecture' | tail -n 1 | cut -d' ' -f3)
+	cores=$(cat /proc/cpuinfo | grep -e 'CPU architecture' | tail -n 1 | cut -d' ' -f3)
 	memtotal="$(cat /proc/meminfo | grep -e 'MemTotal' | cut -d' ' -f9)"
 	memtotal="$(( memtotal / 1000 )) mB"
 	memfree="$(cat /proc/meminfo | grep -e 'MemFree' | cut -d' ' -f11)"
@@ -40,19 +40,19 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
 	
 
 	
-echo """   
+echo -ne """   
                         ▒°		
                         ▒▒▒o             
            ▒▒▒▒▒▒▒▒▒      ▒▒▒o           
          ▒▒▒▒▒▒▒▒▒▒▒▒      ▒▒▒O           
-         ▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒0           ${NAME}@${device_model} $time_zone
-    ▒▒▒   ▒▒▒▒▒^▒▒▒^▒▒▒  ▒▒▒▒0▒▒▒▒	  --------------
- ▄▄▒▒▒▒▒▄▄▄▄▄▒▒▒▒▒▒▒▒▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒  	  os: Android $android_version $arch 
- ▌  ▒▒▒        ▌          ▒▒▒▒    ▌▒▒	  rom: $device_rom 
- ▌▄▄▄▒▒ .;▒▄▄▄▄▌    ▄▄▄▄▄▄o▒▒▒▒   ▌▒▒	  kern: $kernel 
-   ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒    cpu: $cores @ $speed 
-  ▒▒▒▌     ▌▒▒0▌         o▒▒▒     ▌O▒▒ 	  mem: $memfree / $memtotal free 
- ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒    up: $uptime      
+         ▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒0          \e[3m\e[1m ${NAME}@${device_model} $time_zone \e[0m
+    ▒▒▒   ▒▒▒▒▒^▒▒▒^▒▒▒  ▒▒▒▒0▒▒▒▒	 \e[9m                \e[m
+ ▄▄▒▒▒▒▒▄▄▄▄▄▒▒▒▒▒▒▒▒▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒  	 \e[1m os:\e[0m Android $android_version $arch 
+ ▌  ▒▒▒        ▌          ▒▒▒▒    ▌▒▒	 \e[1m rom:\e[0m $device_rom 
+ ▌▄▄▄▒▒ .;▒▄▄▄▄▌    ▄▄▄▄▄▄o▒▒▒▒   ▌▒▒	 \e[1m kern:\e[0m $kernel 
+   ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒   \e[1m cpu:\e[0m $cores @ $speed 
+  ▒▒▒▌     ▌▒▒0▌         o▒▒▒     ▌O▒▒ 	 \e[1m mem:\e[0m $memfree / $memtotal free 
+ ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒   \e[1m up:\e[0m $uptime      
  ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄   
   ▒▒▒o▒▒▒▒▒▌  ▒▒o      O▒▒ ▌     ▒▒     ▌ 
     ▒▒▒▄▄▄▄▌   ▒▒o▄▄▄▄▄▄▒▒▒▌▄▄▄▄▄▄▄▄▄▄▄▄▌ 
