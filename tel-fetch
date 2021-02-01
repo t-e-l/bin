@@ -11,7 +11,7 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
 	device_rooted="$(getprop ro.build.system_root_image)"
 	speed_dir="/sys/devices/system/cpu/cpu0/cpufreq"
         speed="$(< "${speed_dir}/cpuinfo_max_freq")"
-        speed="$((speed / 1000))"
+        speed="$((speed / 1000))MHz"
 
 	cpu_cores=$(cat /proc/cpuinfo | grep -e 'CPU architecture' | tail -n 1 | cut -d' ' -f3)
 	memtotal="$(cat /proc/meminfo | grep -e 'MemTotal' | cut -d' ' -f9)"
