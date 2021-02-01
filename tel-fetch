@@ -18,7 +18,7 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
 	cpu_cores=$(cat /proc/cpuinfo | grep -e 'CPU architecture' | tail -n 1 | cut -d' ' -f3)
 	memtotal="$(cat /proc/meminfo | grep -e 'MemTotal' | cut -d' ' -f9)"
 	memtotal="$(( memtotal / 1000 )) mB"
-	memfree="$(cat /proc/meminfo | grep -e 'MemUsed' | cut -d' ' -f11)"
+	memfree="$(cat /proc/meminfo | grep -e 'MemFree' | cut -d' ' -f11)"
 	memfree="$(( memfree / 1000 ))"
 
 	uptime=$(uptime | awk -F'( |,|:)+' '{d=h=m=0; if ($7=="min") m=$6; else {if ($7~/^day/) {d=$6;h=$8;m=$9} else {h=$6;m=$7}}} {print d+0,"days,",h+0,"hrs,",m+0,"min"}')
@@ -33,7 +33,7 @@ echo """
          ▒▒▒▒▒▒▒▒▒▒▒▒      ▒▒▒O           
          ▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒0           ${NAME}@${device_model} $time_zone
     ▒▒▒   ▒▒▒▒▒^▒▒▒^▒▒▒  ▒▒▒▒0▒▒▒▒	  --------------
- ▄▄▒▒▒▒▒▄▄▄▄▄▒▒▒▒▒▒▒▒▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒  	  android $android_version $arch 
+ ▄▄▒▒▒▒▒▄▄▄▄▄▒▒▒▒▒▒▒▒▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒  	  os: Android $android_version $arch 
  ▌  ▒▒▒        ▌          ▒▒▒▒    ▌▒▒	  rom: $device_rom 
  ▌▄▄▄▒▒ .;▒▄▄▄▄▌    ▄▄▄▄▄▄o▒▒▒▒   ▌▒▒	  kern: $kernel 
    ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒    cpu: $cpu_cores @ $scaledspeed/$maxspeed 
