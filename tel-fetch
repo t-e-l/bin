@@ -11,8 +11,8 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
 	device_rooted="$(getprop ro.build.system_root_image)"
 	[[ "$device_rooted" == "true" ]] && rooted="root"
 	speed_dir="/sys/devices/system/cpu/cpu0/cpufreq"
-        maxspeed="$(< "${speed_dir}/cpuinfo_max_freq")"
-        maxspeed="$((maxspeed / 1000)) MHz"
+       # maxspeed="$(< "${speed_dir}/cpuinfo_max_freq")"
+       # maxspeed="$((maxspeed / 1000)) MHz"
         scaledspeed="$(< "${speed_dir}/scaling_max_freq")"
         scaledspeed="$((scaledspeed / 1000)) MHz"
 	cpu_cores=$(cat /proc/cpuinfo | grep -e 'CPU architecture' | tail -n 1 | cut -d' ' -f3)
@@ -36,7 +36,7 @@ echo """
  ▄▄▒▒▒▒▒▄▄▄▄▄▒▒▒▒▒▒▒▒▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒  	  os: Android $android_version $arch 
  ▌  ▒▒▒        ▌          ▒▒▒▒    ▌▒▒	  rom: $device_rom 
  ▌▄▄▄▒▒ .;▒▄▄▄▄▌    ▄▄▄▄▄▄o▒▒▒▒   ▌▒▒	  kern: $kernel 
-   ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒    cpu: $cpu_cores @ $scaledspeed/$maxspeed 
+   ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒    cpu: $cpu_cores @ $scaledspeed 
   ▒▒▒▌     ▌▒▒0▌         o▒▒▒     ▌O▒▒ 	  mem: $memfree / $memtotal free 
  ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒    up: $uptime      
  ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄   
