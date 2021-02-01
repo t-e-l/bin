@@ -4,7 +4,7 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then
 	read -r os kernel arch <<-EOF
 		$(uname -srm)
 	EOF
-	android_version="Android $(getprop ro.build.version.release)"
+	android_version="$(getprop ro.build.version.release)"
 	time_zone="$(getprop persist.sys.timezone)"
         kernel="$(uname -r)"
 	user_name="${NAME}"
@@ -27,18 +27,18 @@ echo """
                         ▒▒▒o             
            ▒▒▒▒▒▒▒▒▒      ▒▒▒o           
          ▒▒▒▒▒▒▒▒▒▒▒▒      ▒▒▒O          
-         ▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒0           up: $uptime
-    ▒▒▒   ▒▒▒▒▒^▒▒▒^▒▒▒  ▒▒▒▒0▒▒▒▒	  TEL: $TEL_VERSION	
+         ▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒0           
+    ▒▒▒   ▒▒▒▒▒^▒▒▒^▒▒▒  ▒▒▒▒0▒▒▒▒	  
  ▄▄▒▒▒▒▒▄▄▄▄▄▒▒▒▒▒▒▒▒▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒  	  user: $user_name  
  ▌  ▒▒▒        ▌          ▒▒▒▒    ▌▒▒	  tz: $time_zone 
- ▌▄▄▄▒▒ .;▒▄▄▄▄▌    ▄▄▄▄▄▄o▒▒▒▒   ▌▒▒	  os: $os $android_version
+ ▌▄▄▄▒▒ .;▒▄▄▄▄▌    ▄▄▄▄▄▄o▒▒▒▒   ▌▒▒	  android: $android_version tel: $TEL_VERSION
    ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒    device: $device_model
   ▒▒▒▌     ▌▒▒0▌         o▒▒▒     ▌O▒▒ 	  rom: $device_rom 
  ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒    root: $device_rooted     
- ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄  cores: $cpu_cores arch: $arch    
-  ▒▒▒o▒▒▒▒▒▌  ▒▒o      O▒▒ ▌     ▒▒     ▌ mem: $memfree free / $memtotal 
+ ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄  arch: $arch $cpu_cores cores 
+  ▒▒▒o▒▒▒▒▒▌  ▒▒o      O▒▒ ▌     ▒▒     ▌ mem: $memfree of $memtotal free
     ▒▒▒▄▄▄▄▌   ▒▒o▄▄▄▄▄▄▒▒▒▌▄▄▄▄▄▄▄▄▄▄▄▄▌ kern: $kernel 
-                ▒▒o      o▒▒  o▒▒       
+                ▒▒o      o▒▒  o▒▒         up: $uptime 
                 ▒o             °▒   
  
 """
