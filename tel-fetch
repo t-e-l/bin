@@ -10,8 +10,8 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then
         country="Android $(getprop gsm.operator.iso-country)"
 	user_name="$NAME"
 	device_model="$(getprop ro.product.device)"
-	cpu=
-	mem=
+	cpu_cores=$(cat /proc/cpuinfo | grep -e 'cpu cores' | tail -n 1 | cut -d' ' -f3)
+	memtotal="$($(cat /proc/meminfo | grep -e 'MemTotal' | cut -d' ' -f9) / 1000 ))Gb"
 
 	
 
