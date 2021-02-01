@@ -27,17 +27,17 @@ echo """
                         ▒▒▒o             
            ▒▒▒▒▒▒▒▒▒      ▒▒▒o           
          ▒▒▒▒▒▒▒▒▒▒▒▒      ▒▒▒O          
-         ▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒0          
-    ▒▒▒   ▒▒▒▒▒^▒▒▒^▒▒▒  ▒▒▒▒0▒▒▒▒	  TEL: $TEL_VERSION  Theme: $TEL_THEME	
+         ▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒0           up: $uptime
+    ▒▒▒   ▒▒▒▒▒^▒▒▒^▒▒▒  ▒▒▒▒0▒▒▒▒	  TEL: $TEL_VERSION	
  ▄▄▒▒▒▒▒▄▄▄▄▄▒▒▒▒▒▒▒▒▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒  	  user: $user_name  
  ▌  ▒▒▒        ▌          ▒▒▒▒    ▌▒▒	  tz: $time_zone 
  ▌▄▄▄▒▒ .;▒▄▄▄▄▌    ▄▄▄▄▄▄o▒▒▒▒   ▌▒▒	  os: $os $android_version
    ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒    device: $device_model
-  ▒▒▒▌     ▌▒▒0▌         o▒▒▒     ▌O▒▒ 	  rom: $device_rom root: $device_rooted
- ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒    arch: $arch cores: $cpu_cores    
- ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄  mem: $memfree free / $memtotal   
-  ▒▒▒o▒▒▒▒▒▌  ▒▒o      O▒▒ ▌     ▒▒     ▌ kern: $kernel
-    ▒▒▒▄▄▄▄▌   ▒▒o▄▄▄▄▄▄▒▒▒▌▄▄▄▄▄▄▄▄▄▄▄▄▌ up: $uptime
+  ▒▒▒▌     ▌▒▒0▌         o▒▒▒     ▌O▒▒ 	  rom: $device_rom 
+ ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒    root: $device_rooted     
+ ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄  cores: $cpu_cores arch: $arch    
+  ▒▒▒o▒▒▒▒▒▌  ▒▒o      O▒▒ ▌     ▒▒     ▌ mem: $memfree free / $memtotal 
+    ▒▒▒▄▄▄▄▌   ▒▒o▄▄▄▄▄▄▒▒▒▌▄▄▄▄▄▄▄▄▄▄▄▄▌ kern: $kernel 
                 ▒▒o      o▒▒  o▒▒       
                 ▒o             °▒   
  
