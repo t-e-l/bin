@@ -5,13 +5,8 @@
 # requires: fzf bat nano 
 # optional: magisk su binary
 useroot=
-[[ -z "$EDITOR" ]] && {
-	export EDITOR=nano
-	echo 'No $EDITOR set, defaulting to nano'
-}
-fzf_bin=$(which fzf)
-editor=$(which $EDITOR)
 
+fzf_bin=$(which fzf)
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
 	echo -e "Usage: tel-edit [options] [filename]
@@ -78,6 +73,6 @@ else
 	# manipulate history here
 	#print -S "$useroot $EDITOR $curr_dir/$selected_file"
 	printf "\e[38;5;2m Editing\e[m%s file: $curr_dir/$selected_file\n"
-	$useroot $editor "$selected_file"
+	$useroot "${EDITOR:-vi}" "$selected_file"
 fi
 
