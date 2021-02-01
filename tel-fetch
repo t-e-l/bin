@@ -11,6 +11,17 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
 	device_rooted="$(getprop ro.build.system_root_image)"
 	[[ "$device_rooted" == "true" ]] && rooted="root"
 	speed_dir="/sys/devices/system/cpu/cpu0/cpufreq"
+	cpu_file="/proc/cpuinfo"
+	cpu="$(awk -F '\\s*: | @' \
+                            '/model name|Hardware|Processor|^cpu model|chip type|^cpu type/ {
+                            cpu=$2; if ($1 == "Hardware") exit } END { print cpu }' "$cpu_file")"
+	
+	cores="$(awk '/^core id/&&!a[$0]++{++i} END {print i}' "$cpu_file")" ;;
+
+
+        speed="$(awk -F ': |\\.' '/cpu MHz|^clock/ {printf $2; exit}' "$cpu_file")"
+        speed="${speed/MHz}"
+
        # maxspeed="$(< "${speed_dir}/cpuinfo_max_freq")"
        # maxspeed="$((maxspeed / 1000)) MHz"
         scaledspeed="$(< "${speed_dir}/scaling_max_freq")"
@@ -36,7 +47,7 @@ echo """
  ▄▄▒▒▒▒▒▄▄▄▄▄▒▒▒▒▒▒▒▒▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒  	  os: Android $android_version $arch 
  ▌  ▒▒▒        ▌          ▒▒▒▒    ▌▒▒	  rom: $device_rom 
  ▌▄▄▄▒▒ .;▒▄▄▄▄▌    ▄▄▄▄▄▄o▒▒▒▒   ▌▒▒	  kern: $kernel 
-   ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒    cpu: $cpu_cores @ $scaledspeed 
+   ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒    cpu: $cores @ $speed 
   ▒▒▒▌     ▌▒▒0▌         o▒▒▒     ▌O▒▒ 	  mem: $memfree / $memtotal free 
  ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒    up: $uptime      
  ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄   
