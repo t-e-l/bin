@@ -13,6 +13,8 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then
 	cpu_cores=$(cat /proc/cpuinfo | grep -e 'cpu cores' | tail -n 1 | cut -d' ' -f3)
 	memtotal="$($(cat /proc/meminfo | grep -e 'MemTotal' | cut -d' ' -f9) / 1000 ))Gb"
 
+	uptime=$(uptime | awk -F'( |,|:)+' '{d=h=m=0; if ($7=="min") m=$6; else {if ($7~/^day/) {d=$6;h=$8;m=$9} else {h=$6;m=$7}}} {print d+0,"days,",h+0,"hrs,",m+0,"mins."}')
+
 	
 
 	
@@ -28,7 +30,7 @@ echo """
  ▌▄▄▄▒▒ .;▒▄▄▄▄▌    ▄▄▄▄▄▄o▒▒▒▒   ▌▒▒	 OS: $os $android_version
    ▒▒▌▒▒▒▒ ▌▒▒▒▌    ▌▄▄▄▄▄o▒▒▒▒   ▌0▒▒   Device Codename: $device_model
   ▒▒▒▌     ▌▒▒0▌         o▒▒▒     ▌O▒▒ 	 Screen Res: $screen_res Arch: $arch 
- ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒   CPU: $cpu  Mem: $mem  
+ ▒▒▒0▌     ▌▒▒O▌    ▄▄▄▄o▒▒▒▒   . ▌o▒▒   CPU: $cpu_cores  Mem: $memtotal  
  ▒▒▒O▌ ∙ °▒▌ ▒▒O    ▌▄▄▄▒▒▒▌    ▒o▒▒▒▄▄▄ Kern: $kernel  Uptime: $uptime
   ▒▒▒o▒▒▒▒▒▌  ▒▒o      O▒▒ ▌     ▒▒     ▌
     ▒▒▒▄▄▄▄▌   ▒▒o▄▄▄▄▄▄▒▒▒▌▄▄▄▄▄▄▄▄▄▄▄▄▌
