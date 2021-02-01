@@ -16,7 +16,6 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
                             '/model name|Hardware|Processor|^cpu model|chip type|^cpu type/ {
                             cpu=$2; if ($1 == "Hardware") exit } END { print cpu }' "$cpu_file")"
 	
-	cores="$(awk '/^core id/&&!a[$0]++{++i} END {print i}' "$cpu_file")"
 
 
         speed="$(awk -F ': |\\.' '/cpu MHz|^clock/ {printf $2; exit}' "$cpu_file")"
@@ -27,10 +26,10 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
         speed="$(< "${speed_dir}/${speed_type}")" ||\
         speed="$(< "${speed_dir}/scaling_max_freq")" ||\
         speed="$(< "${speed_dir}/cpuinfo_max_freq")"
-        speed="$((speed / 1000))"
+        speed="$((speed / 1000000))GHz"
 
 	
-#	cpu_cores=$(cat /proc/cpuinfo | grep -e 'CPU architecture' | tail -n 1 | cut -d' ' -f3)
+	cpu_cores=$(cat /proc/cpuinfo | grep -e 'CPU architecture' | tail -n 1 | cut -d' ' -f3)
 	memtotal="$(cat /proc/meminfo | grep -e 'MemTotal' | cut -d' ' -f9)"
 	memtotal="$(( memtotal / 1000 )) mB"
 	memfree="$(cat /proc/meminfo | grep -e 'MemFree' | cut -d' ' -f11)"
