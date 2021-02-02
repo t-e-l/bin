@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
-if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on android
+if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on android	
+	reverse() {
+    	# first argument is the array to reverse
+    	# second is the output array
+    	declare -n arr="$1" rev="$2"
+    	for i in "${arr[@]}"
+    	do
+        	rev=("$i" "${rev[@]}")
+    	done
+	}
 
 	read -r os kernel arch <<-EOF
 		$(uname -srm)
@@ -12,12 +21,17 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
 	[[ "$device_rooted" == "true" ]] && rooted="root"
 	speed_dir="/sys/devices/system/cpu/cpu0/cpufreq"
 	cpu_file="/proc/cpuinfo"
-	cpu="$(awk -F '\\s*: | @' \
+#	cpu="$(awk -F '\\s*: | @' \
+                         #   '/model name|Hardware|Processor|^cpu model|chip type|^cpu type/ {
+                         #   cpu=$2; if ($1 == "Hardware") exit } END { print cpu }' "$cpu_file")"
+	IFS=' ' read -a cpu_info <<-EOF #read into array
+		$(awk -F '\\s*: | @' \
                             '/model name|Hardware|Processor|^cpu model|chip type|^cpu type/ {
-                            cpu=$2; if ($1 == "Hardware") exit } END { print cpu }' "$cpu_file")"
-	
-
-
+                            cpu=$2; if ($1 == "Hardware") exit } END { print cpu }' "$cpu_file")
+	EOF
+	reverse cpu_info cpu_info_rev
+	cpu="${cpu_info_rev[0]}"
+		
        # maxspeed="$(< "${speed_dir}/cpuinfo_max_freq")"
        # maxspeed="$((maxspeed / 1000)) MHz"
         speed="$(< "${speed_dir}/scaling_max_freq")" ||\
@@ -45,7 +59,7 @@ echo -ne """
     \e[1;32m▒▒▒   ▒▒▒▒▒\e[0m^\e[1;32m▒▒▒\e[0m^\e[1;32m▒▒▒  ▒▒▒▒\e[0m0\e[1;32m▒▒▒▒\e[0m	  \e[9m                \e[m
  ▄▄\e[1;32m▒▒▒▒▒\e[0m▄▄▄▄▄\e[1;32m▒▒▒▒▒▒▒▒▒\e[0m▄▄\e[1;32m▒▒▒▒▒▒▒▒▒▒▒▒\e[0m  	 \e[1m os:\e[0m Android $android_version $arch 
  ▌  \e[1;32m▒▒▒\e[0m        ▌           \e[1;32m▒▒▒▒\e[0m   ▌\e[1;32m▒▒\e[0m	 \e[1m rom:\e[0m $device_rom 
- ▌▄▄▄\e[1;32m▒▒\e[0m .;\e[1;32m▒\e[0m▄▄▄▄▌    ▄▄▄▄▄▄o \e[1;32m▒▒▒▒\e[0m  ▌\e[1;32m▒▒\e[0m	 \e[1m kern:\e[0m $kernel 
+ ▌▄▄▄\e[1;32m▒▒\e[0m .;\e[1;32m▒\e[0m▄▄▄▄▌    ▄▄▄▄▄▄o\e[1;32m▒▒▒▒\e[0m   ▌\e[1;32m▒▒\e[0m	 \e[1m kern:\e[0m $kernel 
    \e[1;32m▒▒\e[0m▌\e[1;32m▒▒▒▒\e[0m ▌\e[1;32m▒▒▒\e[0m▌    ▌▄▄▄▄▄o\e[1;32m▒▒▒▒\e[0m   ▌0\e[1;32m▒▒\e[0m   \e[1m cpu:\e[0m $cpu ($cores) @ $speed 
   \e[1;32m▒▒▒\e[0m▌     ▌\e[1;32m▒▒\e[0m0▌         o\e[1;32m▒▒▒\e[0m     ▌O\e[1;32m▒▒\e[0m 	 \e[1m mem:\e[0m $memfree / $memtotal free 
  \e[1;32m▒▒▒\e[0m0▌     ▌\e[1;32m▒▒\e[0mO▌    ▄▄▄▄o\e[1;32m▒▒▒▒\e[0m   . ▌o\e[1;32m▒▒\e[0m   \e[1m up:\e[0m $uptime      
