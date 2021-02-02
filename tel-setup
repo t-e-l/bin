@@ -112,5 +112,8 @@ log "app will restart in 3 seconds!"
 sleep 3
 tel-restart
 error 'Restart cannot be performed when app is not active'
+log "press RETURN to retry"
+read 
+tel-restart
 error 'Please run the command "tel-restart" manually'
 exit 0
