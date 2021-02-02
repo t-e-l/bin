@@ -56,7 +56,7 @@ echo -ne """
            \e[1;32m▒▒▒▒▒▒▒▒▒      ▒▒▒\e[0mo           
          \e[1;32m▒▒▒▒▒▒▒▒▒▒▒▒      ▒▒▒\e[0mO           
          \e[1;32m▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒\e[0m0          \e[3m\e[1m ${NAME}@${device_model} $time_zone \e[0m
-    \e[1;32m▒▒▒   ▒▒▒▒▒\e[0m^\e[1;32m▒▒▒\e[0m^\e[1;32m▒▒▒  ▒▒▒▒\e[0m0\e[1;32m▒▒▒▒\e[0m	  \e[9m                \e[m
+    \e[1;32m▒▒▒   ▒▒▒▒▒\e[0m^\e[1;32m▒▒▒\e[0m^\e[1;32m▒▒▒  ▒▒▒▒\e[0m0\e[1;32m▒▒▒▒\e[0m	  \e[9m             \e[m
  ▄▄\e[1;32m▒▒▒▒▒\e[0m▄▄▄▄▄\e[1;32m▒▒▒▒▒▒▒▒▒\e[0m▄▄\e[1;32m▒▒▒▒▒▒▒▒▒▒▒▒\e[0m  	 \e[1m os:\e[0m Android $android_version $arch 
  ▌  \e[1;32m▒▒▒\e[0m        ▌          \e[1;32m▒▒▒▒\e[0m    ▌\e[1;32m▒▒\e[0m	 \e[1m rom:\e[0m $device_rom 
  ▌▄▄▄\e[1;32m▒▒\e[0m .;\e[1;32m▒\e[0m▄▄▄▄▌    ▄▄▄▄▄▄o\e[1;32m▒▒▒▒\e[0m   ▌\e[1;32m▒▒\e[0m	 \e[1m kern:\e[0m $kernel 
