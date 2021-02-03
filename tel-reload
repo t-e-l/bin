@@ -1,4 +1,6 @@
-#!/data/data/com.termux/files/usr/bin/env zsh
+#!/usr/bin/env zsh
+#
+##/data/data/com.termux/files/usr/bin/env zsh
 # Used to reload TEL
 if [ "$THEME_COLS" == "true" ] ; then
 #	[[ -f ~/.cache/wal/sequences ]] && (wal -R -q -e && cat ~/.cache/wal/sequences)
