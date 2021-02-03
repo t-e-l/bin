@@ -51,7 +51,7 @@ open_url(){
 }
 
 if [ -z $1 ] ; then
-	selected_files=$(fd --type f | fzf -m -d -e --cycle --color=16 --prompt="Select (tab key) Open: ")
+	selected_files=$(fd --hidden --type f | fzf -m -d -e --cycle --color=16 --prompt="Select (tab key) Open: ")
 	IFS=$'\n' read -d '' -r -a files_to_open <<<"$selected_files"
 else
 	case "$1" in
@@ -67,7 +67,7 @@ else
 
 	file_search="$@"
  
-	selected_files=$(fd --type f | fzf -m -d -e --cycle -q "$file_search" --color=16 --prompt="Select (tab key) Open: ")
+	selected_files=$(fd --hidden --type f | fzf -m -d -e --cycle -q "$file_search" --color=16 --prompt="Select (tab key) Open: ")
 	IFS=$'\n' read -d '' -r -a files_to_open <<<"$selected_files"
 fi
 
