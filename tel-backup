@@ -150,7 +150,7 @@ fi
 
 	
 restore_backup(){
-	echo -ne "\e[38;5;2m Restore\e[m%s: loading data...\n"
+	echo -ne "\e[38;5;2m Restore\e[m: loading data...\n"
 	cd $backup_location
 	restore_files_chosen=$(fd --type f | fzf -m -d -e --cycle --color=16 --prompt="Select archive(s) (with tab key) to restore: ")
 	[[ -z "$restore_files_chosen" ]] && exit 1
