@@ -3,9 +3,8 @@
 ##/data/data/com.termux/files/usr/bin/env zsh
 # Used to reload TEL
 if [ "$THEME_COLS" == "true" ] ; then
-#	[[ -f ~/.cache/wal/sequences ]] && (wal -R -q -e && cat ~/.cache/wal/sequences)
+	[[ -f ~/.cache/wal/sequences ]] && (wal -R -q -e && cat ~/.cache/wal/sequences)
 	~/.tel/scripts/wal_cols_termux.sh
-#	echo "themecols=true"
 fi
 am broadcast --user 0 -a com.termux.app.reload_style com.termux > /dev/null 2>&1 # reload cols in termux
 status_running=$(pgrep -f status_manager.py)
@@ -15,7 +14,6 @@ if [ ! -z "$status_running" ] ; then
 	~/.tel/scripts/status_manager/toggle_ui.sh &
 fi
 termux-reload-settings
-tmux attach
 tmux source-file ~/.tmux.conf
 tmux display-message '[TEL] Reloaded!'
 
