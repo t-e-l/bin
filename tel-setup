@@ -34,8 +34,8 @@ apt-get update -y && apt-get upgrade -y && logf "finished updating Termux packag
 log "Installing required packages"
 log "This may take a while..."
 logf "pkg install"
-catch "$(pkg install git make curl wget nano tmux zsh termux-api sed figlet util-linux fzf fd bat links imagemagick openssh tree bc sl cowsay ncurses-utils tsu -y 2>&1)"
-# maybe add: neofetch cronie 
+catch "$(pkg install git make curl wget nano tmux zsh termux-api sed figlet util-linux fzf fd bat links imagemagick openssh tree bc sl cowsay ncurses-utils tsu man -y 2>&1)"
+# maybe add: neofetch cronie moreutils
 log "Installing python"
 logf "python install"
 catch "$(pkg install python -y 2>&1)" 
