@@ -59,6 +59,7 @@ else
  	esac
 	file_search="$@"
 	selected_file=$(fzf -e --cycle --color=16 --query="$file_search" --prompt="Pick a file to theme from: " --select-1)
+	selected_file=$(pwd)/$selected_file
 fi
 
 if [ -z $selected_file ] ; then
