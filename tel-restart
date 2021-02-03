@@ -4,6 +4,8 @@ if [ "$#" != "0" ]; then
 	echo 'usage: tel-restart'
 	exit
 fi
+kill "$(pgrep -f 'status_manager.py')" # cleanup status 
+pkill -f 'termux-api'
 tel-delete-status -1
 am broadcast --user 0 \
 		 -a com.termux.app.restart com.termux > /dev/null
