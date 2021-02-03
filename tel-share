@@ -30,9 +30,9 @@ if [ ! -t 0 ] ; then # Script is getting input from pipe or file - non-interacti
 	done
 	am start -a android.intent.action.SEND -t text/plain -e android.intent.extra.TEXT "$lines" > /dev/null 2>&1
 	if [ "$1" == "-l" ] ; then
-		printf "\e[38;5;2m Sharing\e[m%s: piped data\n$lines"
+		printf "\e[33;5;2m Sharing\e[m%s: piped data\n$lines"
 	else
-		printf "\e[38;5;2m Sharing\e[m%s: piped data"
+		printf "\e[33;5;2m Sharing\e[m%s: piped data"
 	fi
 	exit 0
 else
@@ -53,7 +53,7 @@ else
 		exit 1
 	else
 		curr_dir=$(pwd)
-		printf "\e[38;5;2m Sharing\e[m%s file: $curr_dir/$selected_file"
+		printf "\e[33;5;2m Sharing\e[m%s file: $curr_dir/$selected_file"
 		termux-share -a send "$selected_file" || echo "Couldn't share $selected_file"
 	fi
 fi

@@ -22,7 +22,7 @@ function rand_searx_instance () {
 	randomiser=$((RANDOM % $n))
 	selected_url=${lines_searx_urls[$randomiser]} #get url at position
 	url_site_name_human=$(echo $selected_url | cut -d'/' -f 3)
-	echo -ne "\e[38;5;2m Engine\e[m: [$url_site_name_human]"
+	echo -ne "\e[33;5;2m Engine\e[m: [$url_site_name_human]"
 	#check if chosen url is up
 	instance_online=$(timeout 4 curl -I $selected_url 2>&1 | grep -w "200\|301")
 	while [ -z "$instance_online" ]
@@ -30,7 +30,7 @@ function rand_searx_instance () {
 		randomiser=$((RANDOM % $n))
 		selected_url=${lines_searx_urls[$randomiser]}
 		url_site_name_human=$(echo $selected_url | cut -d'/' -f 3)
-		echo -ne "\r\e[38;5;2m Engine\e[m: [$url_site_name_human]         "
+		echo -ne "\r\e[33;5;2m Engine\e[m: [$url_site_name_human]         "
 		instance_online=$(timeout 5 curl -I "$selected_url" 2>&1 | grep -w "200\|301")
 	done
 
@@ -66,11 +66,11 @@ elif [ "$1" == "-yt" ] ; then
 
 	if [ "$app_to_use" == "youtube" ] ; then
 		text=${user_query// /+} #replace spaces with strings
-		printf "\e[38;5;2m Search \e[m%sYouTube for: $user_query"
+		printf "\e[33;5;2m Search \e[m%sYouTube for: $user_query"
 		yt_url="https://m.youtube.com/results?search_query=$text"
 		am start -a android.intent.action.MAIN -n 'com.google.android.youtube/com.google.android.apps.youtube.app.application.Shell$UrlActivity' "$yt_url" > /dev/null 2>&1  
 	else
-		printf "\e[38;5;2m Search \e[m%sNewPipe for: $user_query \n"
+		printf "\e[33;5;2m Search \e[m%sNewPipe for: $user_query \n"
 		am start -a android.intent.action.SEND -t text/plain -e android.intent.extra.TEXT "$user_query" -p org.schabi.newpipe > /dev/null 2>&1
 	fi
 	exit 0
@@ -87,19 +87,19 @@ elif [ -z $1 ] ; then
 		exit 1
 	elif [ "$provider" == "Skip" ]; then	
 		rand_searx_instance
-		printf "\n\e[38;5;2m Search \e[m%sfor: "
+		printf "\n\e[33;5;2m Search \e[m%sfor: "
 		read user_query
 		input="$user_query"
 	elif [ "$provider" == "YouTube (in App)" ]; then	
-		printf "\e[38;5;2m Search \e[m%sYouTube for: "
+		printf "\e[33;5;2m Search \e[m%sYouTube for: "
 		read user_query
 		text=${user_query// /+} #replace spaces with strings
 		yt_url="https://m.youtube.com/results?search_query=$text"
 		am start -a android.intent.action.MAIN -n 'com.google.android.youtube/com.google.android.apps.youtube.app.application.Shell$UrlActivity' "$yt_url" > /dev/null 2>&1 
 		exit 0
 	elif [ "$provider" != "Skip" ]; then
-		echo -ne "\r\e[38;5;2m Searching \e[m$provider for: "
-		#echo -ne "\e[38;5;2m for:\e[m "
+		echo -ne "\r\e[33;5;2m Searching \e[m$provider for: "
+		#echo -ne "\e[33;5;2m for:\e[m "
 		read user_query
 		provider="!!$provider"
 		input="$provider $user_query"
@@ -108,7 +108,7 @@ elif [ -z $1 ] ; then
 elif [ "$#" != 0 ] ; then
 	input="$@"
 	rand_searx_instance
-	echo -ne "\r\e[38;5;2m Searching \e[m[$url_site_name_human] for: $input"
+	echo -ne "\r\e[33;5;2m Searching \e[m[$url_site_name_human] for: $input"
 fi
 
 # MAIN

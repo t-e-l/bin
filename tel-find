@@ -41,12 +41,9 @@ fi
 
 if [ -z "$selected_file" ] ; then
 	# no file selected or cancel fzf selection, this is preferable as it allows user to correct typos in fzf prompt rather than giving 'file not found error' 
-	# printf "\e[38;5;2m Edit\e[m%s: Error - file not found "
 	exit 1
 else
 	current_dir=$(pwd)
-	# manipulate history here
-	#print -S "$useroot $EDITOR $curr_dir/$selected_file"
 	tmux send-keys -t ! "$selected_file" > /dev/null 2>&1
 fi
 

@@ -20,7 +20,7 @@ open_url(){
 	fi
 	if [ ! -z $url ] ; then
 	termux-open-url $url
-	printf "\e[38;5;2m Opening\e[m%s URL: $url" 
+	printf "\e[33;5;2m Opening\e[m%s URL: $url" 
 	else
 		exit 1
 	fi
@@ -58,7 +58,7 @@ if [ -z $selected_file ] ; then
 	exit 1
 else
 	curr_dir=$(pwd)
-	printf "\e[38;5;2m Wallpaper\e[m%s Applying: $selected_file: "
+	printf "\e[33;5;2m Wallpaper\e[m%s Applying: $selected_file: "
 	termux-wallpaper $options "$selected_file" || echo "Couldn't find $selected_file"
 
 fi

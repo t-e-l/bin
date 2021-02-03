@@ -6,7 +6,7 @@ contactsfile="$HOME/.tel/data/.contacts";
 
 print_ERR_and_die() {
     # Error printing function
-    printf "\e[38;5;1m[!]%s\n\e[m"\
+    printf "\e[33;5;1m[!]%s\n\e[m"\
            "$*" 1>&2
     exit 1
 }
@@ -50,12 +50,12 @@ update_contacts() {
 
 add_contact(){
 	if [ $# -eq 2 ] ; then
-		printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mAdding $2 to contacts %s\n\e[m"
+		printf  "\e[33;5;2m Dialer\e[m: Adding $2 to contacts \n"
 		add_contact_name=$2
 		echo 'Contact number:'
 		read add_contact_number
 	elif [ $# -eq 1 ] ; then
-		printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mAdding a new contact %s\n\e[m"
+		printf  "\e[33;5;2m Dialer\e[m: Adding a new contact \n"
 		echo 'Contact name:'
 		read add_contact_name
 		echo 'Contact number:'
@@ -65,7 +65,7 @@ add_contact(){
 		add_contact_number=$3
 	fi
 	am start -a android.intent.action.INSERT -t vnd.android.cursor.dir/contact -e name $add_contact_name -e phone $add_contact_number > /dev/null 2>&1
-	printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mAdded $add_contact_name to contacts%s\n\e[m"
+	printf  "\e[33;5;2m Dialer\e[m: Added $add_contact_name to contacts%s\n"
 	touch ~/.dialer_flag
 	#update_contacts
 	exit 0
@@ -91,7 +91,7 @@ main() {
 
     [[ ! -a "$contactsfile" || "$1" == '-u' || -f ~/.dialer_flag ]] && {
 	rm -f ~/.dialer_flag
-    	printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mGenerating contacts list...%s\n\e[m"
+    	printf  "\e[33;5;2m Dialer\e[m: Generating contacts list...\n"
 	update_contacts  # if contacts file missing - generate one
         [[ "$1" == '-u' ]] && exit 0
     }
@@ -117,11 +117,11 @@ main() {
 		unknown_number=${selected_contact[0]}
 			if [ ${#unknown_number} -gt 2 ] ; then
 				#fail to get matching contact trying calling number
-				printf  "\e[38;5;2m Calling:\e[m %s\n"\
+				printf  "\e[33;5;2m Calling:\e[m %s\n"\
 				"[${unknown_number}]"
 				termux-telephony-call "${unknown_number}"
 			fi
-			#printf  "\e[38;5;2m Dialer\e[m: \e[38;5;1mContact not found%s\n\e[m"
+			#printf  "\e[33;5;2m Dialer\e[m: \e[33;5;1mContact not found%s\n\e[m"
 		fi
 		exit 1
         ;;
@@ -153,7 +153,7 @@ esac
 	    am start -a android.intent.action.SEND -t text/plain -e android.intent.extra.TEXT "$contact_number" > /dev/null 2>&1
 
     else
-	    printf  "\e[38;5;2m Calling:\e[m %s\n"\
+	    printf "\e[33;5;2m Calling:\e[m %s\n"\
 	    "$contact_name[$contact_number]"
 
 	termux-telephony-call "$contact_number"
