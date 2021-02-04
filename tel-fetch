@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
-if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on android	
+if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on android
+
+	# shellcheck disable=SC2086,SC2048
+	trim_all() {
+	    # remove whitespace from string
+	    # Usage: trim_all "   example   string    "
+	    set -f
+	    set -- $*
+	    printf '%s\n' "$*"
+	    set +f
+	}
 	reverse() {
+	# flip an array - first index becomes last and so forth
     	# first argument is the array to reverse
     	# second is the output array
     	declare -n arr="$1" rev="$2"
@@ -9,44 +20,46 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
         	rev=("$i" "${rev[@]}")
     	done
 	}
-
+	# get kernal, os and arch
 	read -r os kernel arch <<-EOF
 		$(uname -srm)
 	EOF
-	android_version="$(getprop ro.build.version.release)"
-#	time_zone="$(getprop persist.sys.timezone)"
-	device_model="$(getprop ro.product.name)"
-	device_rom="$(getprop ro.vendor.build.id)"
-		rooted=""
-	su -c ls > /dev/null && {
+	# root detection
+	rooted= ; su -c echo > /dev/null && {
 		rooted="/root"
 	}
+#	time_zone="$(getprop persist.sys.timezone)"
+	android_version="$(getprop ro.build.version.release)"
+	device_model="$(getprop ro.product.name)"
+	device_rom="$(getprop ro.vendor.build.id)"
+
+	######## CPU #######
 	speed_dir="/sys/devices/system/cpu/cpu0/cpufreq"
 	cpu_file="/proc/cpuinfo"
-#	cpu="$(awk -F '\\s*: | @' \
-                         #   '/model name|Hardware|Processor|^cpu model|chip type|^cpu type/ {
-                         #   cpu=$2; if ($1 == "Hardware") exit } END { print cpu }' "$cpu_file")"
 	IFS=' ' read -a cpu_info <<-EOF #read into array
 		$(awk -F '\\s*: | @' \
                             '/model name|Hardware|Processor|^cpu model|chip type|^cpu type/ {
                             cpu=$2; if ($1 == "Hardware") exit } END { print cpu }' "$cpu_file")
 	EOF
-	reverse cpu_info cpu_info_rev
-	cpu="${cpu_info_rev[0]}"
-		
+	reverse cpu_info cpu_info_rev # flip to get cpu model
+	cpu="${cpu_info_rev[0]}" # first becomes model
        # maxspeed="$(< "${speed_dir}/cpuinfo_max_freq")"
        # maxspeed="$((maxspeed / 1000)) MHz"
         speed="$(< "${speed_dir}/scaling_max_freq")" ||\
         speed="$(< "${speed_dir}/cpuinfo_max_freq")"
         speed="$((speed / 1000))MHz"
-
-	
 	cores=$(cat /proc/cpuinfo | grep -e 'CPU architecture' | tail -n 1 | cut -d' ' -f3)
-	memtotal="$(cat /proc/meminfo | grep -e 'MemTotal' | cut -d' ' -f9)"
-	memtotal="$(( memtotal / 1000 )) mB"
-	memfree="$(cat /proc/meminfo | grep -e 'MemFree' | cut -d' ' -f11)"
-	memfree="$(( memfree / 1000 ))"
+	###############################
 
+	####### MEMORY ##########
+	
+	memtotal="$(cat /proc/meminfo | grep -e 'MemTotal' | cut -d' ' -f9)"
+	memtotal="$(( memtotal / 1000 )) MiB"
+	memfree="$(trim_all "$(cat /proc/meminfo | grep -e 'MemFree' | cut -d':' -f2| cut -d'k' -f1)")"
+	memfree="$(( memfree / 1000 ))"
+	##########################
+
+	########### UPTIME #######
 	uptime=$(uptime | awk -F'( |,|:)+' '{d=h=m=0; if ($7=="min") m=$6; else {if ($7~/^day/) {d=$6;h=$8;m=$9} else {h=$6;m=$7}}} {print d+0,"days,",h+0,"hrs,",m+0,"min"}')
 
 	
