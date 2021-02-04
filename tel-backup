@@ -63,8 +63,8 @@ fi
 			mkdir -p $TMPDIR/tel-backup/tmp
 			cd $TMPDIR/tel-backup/tmp
 			echo -n "user_pkgs" > .restore_path
-			(pkg list-installed | cut -d'/' -f 1 > user_pkgs.txt 2>&1)
-			(pip list --format freeze | cut -d'=' -f 1 > pip_user_pkgs.txt 2>&1)
+			(pkg list-installed 2>/dev/null | cut -d'/' -f 1 > user_pkgs.txt 2>&1)
+			(pip list --format freeze 2>/dev/null 2>/dev/null | cut -d'=' -f 1 > pip_user_pkgs.txt 2>&1)
 			sed -i '1d' user_pkgs.txt # delete first 'Listing done' line from apt output
 			tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}user_pkgs.tar.gz . >&/dev/null &
 			spinner
@@ -216,7 +216,7 @@ install_pkgs(){
 		pkg_list_str="$pkg_list_str $line"
 	done < $backup_location/tmp/user_pkgs.txt
 	#echo "pkg_list_str = $pkg_list_str"
-	pkg install -y $pkg_list_str
+	pkg install -y $pkg_list_str 2>/dev/null
 	printf "\e[38;5;2m Restore\e[m%s: restoring python packages...\n"
 	# Now Python packages!
 	while IFS= read -r line; do
