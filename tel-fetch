@@ -17,8 +17,12 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
 #	time_zone="$(getprop persist.sys.timezone)"
 	device_model="$(getprop ro.product.name)"
 	device_rom="$(getprop ro.vendor.build.id)"
-	device_rooted="$(getprop ro.build.system_root_image)"
-	[[ "$device_rooted" == "true" ]] && rooted="/root"
+	if type -p su &>/dev/null; then
+    		# Program is in PATH.
+		rooted="/root"
+	else
+		rooted=""
+	fi
 	speed_dir="/sys/devices/system/cpu/cpu0/cpufreq"
 	cpu_file="/proc/cpuinfo"
 #	cpu="$(awk -F '\\s*: | @' \
