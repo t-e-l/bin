@@ -182,6 +182,7 @@ restore_backup(){
 						# if restore path missing make it
 						mkdir $restore_path
 					fi
+					echo
 					echo -ne "\e[38;5;2m Restoring\e[m: from archive: $archive -> $restore_path "
 					cp -rf * $restore_path &
 					#run_spinner #move to func
@@ -196,7 +197,7 @@ restore_backup(){
 					done
 					#echo -ne '\e[1A\033[2K\r' #remove last spinner
 					echo -ne "\e[2A\033[2K\r\e[38;5;2m Restored\e[m: $archive -> $restore_path ${CHECK_MARK}"
-					echo ''
+					echo 
 					sleep 0.1
 				fi
 
