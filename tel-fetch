@@ -55,7 +55,7 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
 	
 	memtotal="$(cat /proc/meminfo | grep -e 'MemTotal' | cut -d' ' -f9)"
 	memtotal="$(( memtotal / 1000 )) MiB"
-	memfree="$(trim_all "$(cat /proc/meminfo | grep -e 'MemFree' | cut -d':' -f2| cut -d'k' -f1)")"
+	memfree="$(trim_all "$(cat /proc/meminfo | grep -e 'MemAvailible' | cut -d':' -f2| cut -d'k' -f1)")"
 	memfree="$(( memfree / 1000 ))"
 	##########################
 
