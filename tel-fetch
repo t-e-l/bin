@@ -71,8 +71,8 @@ echo -ne """
                         \e[1;32m▒▒▒\e[0mo             
            \e[1;32m▒▒▒▒▒▒▒▒▒      ▒▒▒\e[0mo           
          \e[1;32m▒▒▒▒▒▒▒▒▒▒▒▒      ▒▒▒\e[0mO           
-         \e[1;32m▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒\e[0m0          \e[3m\e[1m ${NAME}${rooted}@${device_model} $time_zone \e[0m
-    \e[1;32m▒▒▒   ▒▒▒▒▒\e[0m^\e[1;32m▒▒▒\e[0m^\e[1;32m▒▒▒  ▒▒▒▒\e[0m0\e[1;32m▒▒▒▒\e[0m	  \e[9m             \e[m
+         \e[1;32m▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒\e[0m0           \e[3m\e[1m ${NAME}${rooted}@${device_model} $time_zone \e[0m
+    \e[1;32m▒▒▒   ▒▒▒▒▒\e[0m^\e[1;32m▒▒▒\e[0m^\e[1;32m▒▒▒  ▒▒▒▒\e[0m0\e[1;32m▒▒▒▒\e[0m	   \e[9m               \e[m
  ▄▄\e[1;32m▒▒▒▒▒\e[0m▄▄▄▄▄\e[1;32m▒▒▒▒▒▒▒▒▒\e[0m▄▄\e[1;32m▒▒▒▒▒▒▒▒▒▒▒▒\e[0m  	  \e[1m os:\e[0m Android $android_version $arch 
  ▌  \e[1;32m▒▒▒\e[0m        ▌          \e[1;32m▒▒▒▒\e[0m    ▌\e[1;32m▒▒\e[0m	  \e[1m build:\e[0m $device_rom 
  ▌▄▄▄\e[1;32m▒▒\e[0m .;\e[1;32m▒\e[0m▄▄▄▄▌    ▄▄▄▄▄▄o\e[1;32m▒▒▒▒\e[0m   ▌\e[1;32m▒▒\e[0m	 \e[1m  patch:\e[0m $security_patch 
