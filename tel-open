@@ -5,8 +5,8 @@
 # requires: fzf fd 
 #if not on android also requires: perl-file-mimeinfo
 
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-export FZF_DEFAULT_OPTS="
+FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+FZF_DEFAULT_OPTS="
 --info=inline
 --multi
 --preview-window=up:60%:follow:sharp

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #cd ~/../ 
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 wallpaper_folder=~/.wallpapers
 
 show_help(){
