@@ -194,8 +194,8 @@ restore_backup(){
 						echo -ne "\b${sp:i++%${#sp}:1}"
 						sleep 0.1
 					done
-					echo -ne '\b' #remove last spinner
-					echo -ne "\e[1A\033[2K\r\e[38;5;2m Restored\e[m: $archive -> $restore_path ${CHECK_MARK}"
+					echo -ne '\e[1A\033[2K\r' #remove last spinner
+					echo -ne "\e[2K\r\e[38;5;2m Restored\e[m: $archive -> $restore_path ${CHECK_MARK}"
 					echo ''
 					sleep 0.1
 				fi
