@@ -60,7 +60,7 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
 	##########################
 
 	########### UPTIME #######
-	uptime=$(uptime | awk -F'( |,|:)+' '{d=h=m=0; if ($7=="min") m=$6; else {if ($7~/^day/) {d=$6;h=$8;m=$9} else {h=$6;m=$7}}} {print d+0,"days,",h+0,"hrs,",m+0,"min"}')
+	uptime=$(uptime | awk -F'( |,|:)+' '{d=h=m=0; if ($7=="min") m=$6; else {if ($7~/^day/) {d=$6;h=$8;m=$9} else {h=$6;m=$7}}} {print d+0,"days,",h+0,"hrs,",m+0,"mins"}')
 
 	
 
@@ -73,7 +73,7 @@ echo -ne """
          \e[1;32m▒▒▒▒▒▒▒▒▒▒▒▒▒    ▒▒▒▒\e[0m0          \e[3m\e[1m ${NAME}${rooted}@${device_model} $time_zone \e[0m
     \e[1;32m▒▒▒   ▒▒▒▒▒\e[0m^\e[1;32m▒▒▒\e[0m^\e[1;32m▒▒▒  ▒▒▒▒\e[0m0\e[1;32m▒▒▒▒\e[0m	  \e[9m             \e[m
  ▄▄\e[1;32m▒▒▒▒▒\e[0m▄▄▄▄▄\e[1;32m▒▒▒▒▒▒▒▒▒\e[0m▄▄\e[1;32m▒▒▒▒▒▒▒▒▒▒▒▒\e[0m  	 \e[1m os:\e[0m Android $android_version $arch 
- ▌  \e[1;32m▒▒▒\e[0m        ▌          \e[1;32m▒▒▒▒\e[0m    ▌\e[1;32m▒▒\e[0m	 \e[1m rom:\e[0m $device_rom 
+ ▌  \e[1;32m▒▒▒\e[0m        ▌          \e[1;32m▒▒▒▒\e[0m    ▌\e[1;32m▒▒\e[0m	 \e[1m build:\e[0m $device_rom 
  ▌▄▄▄\e[1;32m▒▒\e[0m .;\e[1;32m▒\e[0m▄▄▄▄▌    ▄▄▄▄▄▄o\e[1;32m▒▒▒▒\e[0m   ▌\e[1;32m▒▒\e[0m	 \e[1m kern:\e[0m $kernel 
    \e[1;32m▒▒\e[0m▌\e[1;32m▒▒▒▒\e[0m ▌\e[1;32m▒▒▒\e[0m▌    ▌▄▄▄▄▄o\e[1;32m▒▒▒▒\e[0m   ▌0\e[1;32m▒▒\e[0m   \e[1m cpu:\e[0m $cpu ($cores) @ $speed 
   \e[1;32m▒▒▒\e[0m▌     ▌\e[1;32m▒▒\e[0m0▌         o\e[1;32m▒▒▒\e[0m     ▌O\e[1;32m▒▒\e[0m 	 \e[1m mem:\e[0m $memfree / $memtotal available 
