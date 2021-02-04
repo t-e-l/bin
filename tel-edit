@@ -6,6 +6,7 @@
 # optional: magisk su binary
 useroot=
 
+FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 fzf_bin=$(which fzf)
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
