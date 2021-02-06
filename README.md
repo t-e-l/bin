@@ -12,6 +12,8 @@ tel-search
 
 ### No config required (portable): 
 
+tel-find
+
 tel-calculator
 
 tel-edit
