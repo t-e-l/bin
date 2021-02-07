@@ -1,3 +1,5 @@
+
+![TEL-Logo](https://raw.githubusercontent.com/SealedJoy/images/main/logo-big.png)
 # TEL Applets
 
 These files are automatically collected by TEL when a new apk build starts and are kept updated by tel-update
