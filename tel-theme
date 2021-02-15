@@ -70,11 +70,7 @@ else
 	#wal --preview
 	printf "\e[33;5;2m Theme\e[m%s extracting colorscheme from: $selected_file\n"
 	wal -i "$selected_file" -n -q -s -t -e || (echo 'failed to get colors from file' ; exit 1)
-	#sed -n '4,27p' ~/.cache/wal/colors.sh > ~/.termux/color.properties
-	# write to status bar cols
-	sed -i '/status-text-color/d' ~/.tel/configs/theme.conf
-	fg_text_color=$(sed '8q;d' ~/.cache/wal/colors)
-       	echo -e "\nstatus-text-color=$fg_text_color" >> ~/.tel/configs/theme.conf
+	source ~/.cache/wal/colors.sh
 
 	printf "\e[33;5;2m Theme\e[m%s setting wallpaper as: $selected_file\n"
 	termux-wallpaper $options "$selected_file" || echo "Couldn't find $selected_file"
