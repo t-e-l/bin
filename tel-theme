@@ -77,7 +77,7 @@ else
 	rm -rf ~/.tel/theme/wallpaper/* > /dev/null 2>&1
 	cp "$selected_file" ~/.tel/theme/wallpaper/
 #	echo -ne "$selected_file" >> ~/.tel/theme/wallpaper
-	touch ~/.tel/theme/wallpaper/.flag
+	touch ~/.tel/theme/.flag
 	# add flag for setting wallpaper on reboot
 	#termux-wallpaper $options "$selected_file" || echo "Couldn't find $selected_file"
 	~/.tel/scripts/wal_cols_termux.sh # copy wal generated cols to ~/.termux/colors.properties
