@@ -39,18 +39,19 @@ else
 		;;
 		-c | --create-theme)
 		create_theme
+		#read WAL wallpaper
 		exit 0
 		;;
-		-f | --file) #use file
-		options=$1
-		selected_file=$2
-		exit 0
-		;;
-		-u | --url) #use url
-		options=$1
-		selected_file=$2
-		exit 0
-		;;
+#	#	-f | --file) #use file
+#	#	options=$1
+#		selected_file=$2
+#		exit 0
+#		;;
+#		-u | --url) #use url
+#		options=$1
+#		selected_file=$2
+#		exit 0
+#		;;
 		# Display the help message
 		-h | --help)
 		show_help
@@ -66,21 +67,30 @@ if [ -z $selected_file ] ; then
 #	echo 'No file chosen - Exiting...'
 	exit 1
 else
-	curr_dir=$(pwd)
+	#curr_dir=$(pwd)
 	#wal --preview
 	printf "\e[33;5;2m Theme\e[m%s extracting colorscheme from: $selected_file\n"
 	wal -i "$selected_file" -n -q -s -t -e || (echo 'failed to get colors from file' ; exit 1)
 	source ~/.cache/wal/colors.sh
 
-	printf "\e[33;5;2m Theme\e[m%s setting wallpaper as: $selected_file\n"
-	termux-wallpaper $options "$selected_file" || echo "Couldn't find $selected_file"
+	#printf "\e[33;5;2m Theme\e[m%s setting wallpaper as: $selected_file\n"
+	rm -rf ~/.tel/theme/wallpaper/* > /dev/null 2>&1
+	cp "$selected_file" ~/.tel/theme/wallpaper/
+#	echo -ne "$selected_file" >> ~/.tel/theme/wallpaper
+	echo -ne "" > ~/.tel/theme/wallpaper/.flag
+	# add flag for setting wallpaper on reboot
+	#termux-wallpaper $options "$selected_file" || echo "Couldn't find $selected_file"
 	~/.tel/scripts/wal_cols_termux.sh # copy wal generated cols to ~/.termux/colors.properties
-	am broadcast --user 0 -a com.termux.app.reload_style com.termux > /dev/null 2>&1 # reload cols in termux
+	#am broadcast --user 0 -a com.termux.app.reload_style com.termux > /dev/null 2>&1 # reload cols in termux
 	status_running=$(pgrep -f status_manager.py)
 	if [ ! -z "$status_running" ] ; then
 		~/.tel/scripts/status_manager/toggle_ui.sh
-		sleep 0.7	
-		~/.tel/scripts/status_manager/toggle_ui.sh
+		#sleep 0.7	
+		#~/.tel/scripts/status_manager/toggle_ui.sh
 	fi
+	tel-restart
+	printf "\e[33;5;2m Theme\e[m%s press enter to restart + apply changes..\n"
+	read 
+	tel-restart
 fi
 
