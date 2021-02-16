@@ -58,14 +58,14 @@ show_help(){
 
 
 if [ -z $1 ] ; then
-	selected_file=$(fd --hidden --type f | $fzf_bin --cycle --color=16 --prompt="  Edit with $EDITOR: ")
+	selected_file=$(fd --hidden --follow --type f | $fzf_bin --cycle --color=16 --prompt="  Edit with $EDITOR: ")
 else
 	file_search=$(echo "$@")
-	selected_file=$(fd --hidden --type f | $fzf_bin --cycle --color=16 --query="$file_search" --prompt="  Edit with $EDITOR: " --select-1)
+	selected_file=$(fd --hidden --follow --type f | $fzf_bin --cycle --color=16 --query="$file_search" --prompt="  Edit with $EDITOR: " --select-1)
 fi
 
 if [ -z "$selected_file" ] ; then
-	# no file selected or cancel fzf selection, this is preferable as it allows user to correct typos in fzf prompt rather than giving 'file not found error' 
+	# no file selected or cancel fzf = exit 1, this is preferable as it allows user to correct typos in fzf prompt rather than giving 'file not found error' 
 	# printf "\e[33;5;2m Edit\e[m%s: Error - file not found "
 	exit 1
 else
