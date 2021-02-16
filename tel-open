@@ -66,18 +66,18 @@ else
  	esac
 
 	file_search="$@"
- 
-	selected_files=$(fd --hidden --type f | fzf -m -d -e --cycle -q "$file_search" --color=16 --prompt="Select (tab key) Open: ")
+	# allow mutli selection save to array
+	selected_files=$(fd --hidden --follow --type f | fzf -m -d -e --cycle -q "$file_search" --color=16 --prompt="Select (tab key) Open: ")
 	IFS=$'\n' read -d '' -r -a files_to_open <<<"$selected_files"
 fi
 
 
 if [ -z "${files_to_open}" ] ; then
-	echo 'No files chosen - Exiting...'
+#	echo 'No files chosen - Exiting...'
 	exit 1
 else
 	curr_dir=$(pwd)
-	printf "\e[33;5;2m Opening\e[m%s: "
+	echo -ne "\n\e[33;5;2m Opening\e[m: "
 	for filename in "${files_to_open[@]}"
 	do
 		echo -ne "$curr_dir/$filename\n"
