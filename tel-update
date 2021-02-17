@@ -2,7 +2,7 @@
 # TEL updater
 tel_update_version=0.11
 source ~/../usr/bin/tel-helpers
-printf "\e[33;5;2m tel-update\e[m%s: version $tel_update_version\n"
+printf "\e[33;5;2m Update\e[m%s: v$tel_update_version\n"
 update_permissions="true"
 remove_data='false'
 if [ -z "$1" ] ; then
