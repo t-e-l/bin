@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # TEL updater
-
+tel-update_version=0.11
 source ~/../usr/bin/tel-helpers
-
+printf "\e[33;5;2m tel-update\e[m%s: version $tel-update_version\n"
 update_permissions="true"
 remove_data='false'
 if [ -z "$1" ] ; then
@@ -25,12 +25,12 @@ elif [ "$user_option" == '--update' ] ; then
 	log "Getting updates"
 	branch='master'
 elif [ "$user_option" == '--full' ] ; then
-	log "Getting latest release changes"
+	log "Getting release changes"
 	branch='master'
 	update_permissions='false'
 	remove_data='false'
 elif [ "$user_option" == '--dev' ] ; then
-	log "Getting latest dev changes"
+	log "Getting dev changes"
 	branch='dev'
 	remove_data='true'
 elif [ "$user_option" == '--custom' ] ; then
@@ -39,7 +39,7 @@ elif [ "$user_option" == '--custom' ] ; then
 	remove_data='true'
 	log "Getting $branch changes"
 elif [ "$user_option" == '--reset' ] ; then
-	log "Resetting & getting latest release changes"
+	log "Resetting & getting release changes"
 	remove_data='true'
 	branch='master'
 elif [ "$user_option" == '--extras' ] ; then
@@ -55,7 +55,7 @@ elif [ -n "$user_option" ] ; then #user picked non option
 	error "try 'tel-setup --help' to see availible options"
 	exit 1
 else
-	log "Getting latest release changes"
+	log "Getting release changes"
 	branch='master'
 fi
 
