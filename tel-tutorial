@@ -3,4 +3,5 @@ if [ ! -z "$TMUX" ] ; then
 tmux new-window -n 'Tutorial' ~/.tel/scripts/tutorial.sh
 else
 	echo -e "tel-tutorial requires tmux session, please load tmux and re-run" 
+fi
 exit 0
