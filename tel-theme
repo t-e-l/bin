@@ -120,7 +120,7 @@ apply_theme(){
 
 	printf "\r\e[33;5;2m Theme\e[m%s extracting colorscheme from: $selected_file "
 	#printf "\e[33;5;2m Theme\e[m%s setting wallpaper as: $selected_file\n"
-	rm -rf ~/.tel/theme/wallpaper/* > /dev/null 2>&1
+	rm -rf ~/.tel/theme/active/wallpaper/* > /dev/null 2>&1
 	cp "$selected_file" ~/.tel/theme/wallpaper/
 #	echo -ne "$selected_file" >> ~/.tel/theme/wallpaper
 	touch ~/.tel/theme/.flag
@@ -157,8 +157,11 @@ main(){
 			show_help
 			exit 0
 		;;
+		*)
+		show_help
+		exit 1
+		;;
 	esac
-file_search="$@"
-selected_file=$(fzf -e --cycle --color=16 --query="$file_search" --prompt="Pick a file to theme from: " --select-1)
-
 }
+
+main $@
