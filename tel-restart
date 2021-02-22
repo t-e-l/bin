@@ -1,11 +1,42 @@
 #!/usr/bin/env bash
+source tel-helpers
 
-if [ "$#" != "0" ]; then
-	echo 'usage: tel-restart'
-	exit
-fi
-kill "$(pgrep -f 'status_manager.py')" > /dev/null 2>&1 # cleanup status 
-pkill -f 'termux-api' >/dev/null 2>&1
-tel-delete-status -1
-am broadcast --user 0 \
-		 -a com.termux.app.restart com.termux > /dev/null 2>&1
+show_help(){
+    printf  "%s\n"\
+            "Restart the TEL app"\
+            "tel-restart [OPTIONS]"\
+            "__________________________"\
+	    "OPTIONS"\
+            "  -h | --help	display this help message"\
+            "  -p | --prompt	show a 'Press Enter' prompt if app is not active"
+    exit 0
+}
+
+remove_status(){
+	kill "$(pgrep -f 'status_manager.py')" > /dev/null 2>&1 # cleanup status 
+	pkill -f 'termux-api' >/dev/null 2>&1
+	tel-delete-status -1
+}
+
+restart_tel(){
+	am broadcast --user 0 -a com.termux.app.restart com.termux > /dev/null 2>&1
+}
+
+restart_tel_with_prompt(){
+	am broadcast --user 0 -a com.termux.app.restart com.termux > /dev/null 2>&1
+	log "Press [Return] to restart TEL"
+	read 
+	am broadcast --user 0 -a com.termux.app.restart com.termux > /dev/null 2>&1
+}
+
+main(){
+	if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
+		show_help
+	elif [ "$1" == "-p" ] || [ "$1" == "--prompt" ] ; then
+		restart_tel_with_prompt
+	else
+		restart_tel
+	fi
+}
+
+main "$@"
