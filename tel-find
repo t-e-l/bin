@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 # SealyJ 2021
+if [ -z "$TMUX" ] ; then
+	echo "tel-find can only be ran from inside a TMUX environment, please run 'tmux' and try again"
+	exit 1
+fi	
+
 fzf_bin=$(which fzf)
 editor=$(which $EDITOR)
 cd ~/..
