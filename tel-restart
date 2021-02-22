@@ -13,19 +13,21 @@ show_help(){
 }
 
 remove_status(){
-	kill "$(pgrep -f 'status_manager.py')" > /dev/null 2>&1 # cleanup status 
+	kill "$(pgrep -f 'status_manager.py')" > /dev/null 2>&1 
 	pkill -f 'termux-api' >/dev/null 2>&1
 	tel-delete-status -1
 }
 
 restart_tel(){
+	remove_status
 	am broadcast --user 0 -a com.termux.app.restart com.termux > /dev/null 2>&1
 }
 
 restart_tel_with_prompt(){
+	remove_status
 	am broadcast --user 0 -a com.termux.app.restart com.termux > /dev/null 2>&1
 	log "Press [Return] to restart TEL"
-	read 
+	read
 	am broadcast --user 0 -a com.termux.app.restart com.termux > /dev/null 2>&1
 }
 
