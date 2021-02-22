@@ -28,12 +28,16 @@ show_help(){
             "Used to echo found files to stdout, targets previous pane"\
             "tel-find [OPTIONS] [PATTERN]"\
             "__________________________"\                                              "OPTIONS"\
-            "  -h | --help  display this help message"
+            "  -c | --custom CUSTOMPROMPT	supply a custom prompt string for fzf"\                                      
+            "  -h | --help 			display this help message"
 }
 
 
 if [ -z $1 ] ; then
 	selected_file=$(fd -Ha |  $fzf_bin --cycle --color=16 --prompt="file/dir to insert: ")
+elif [ "$1" == "-c" ] ; then
+	custom_prompt=$2
+	selected_file=$(fd -Ha |  $fzf_bin --cycle --color=16 --prompt="$custom_prompt")
 else
 	file_search=$(echo "$@")
 	selected_file=$(fd -Ha | $fzf_bin --cycle --color=16 --query="$file_search" --prompt="file/dir to insert" --select-1)
