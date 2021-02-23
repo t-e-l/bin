@@ -110,25 +110,21 @@ apply_theme(){
 	if [ -z $selected_file ] ; then
 		exit 1
 	fi
-	printf "\e[33;5;2m Theme\e[m%s applying theme: $selected_file "
+	printf "\e[33;5;2m Theme\e[m%s applying: $selected_file "
 	#unzip
 	cd 
 	rm -rf $active_theme >/dev/null
 	mkdir $active_theme 
 	cd $active_theme
-	tar -x -U -f $selected_file
+	tar -x -U -f $selected_file .
 	spinner
-	#source ~/.cache/wal/colors.sh
-
-	printf "\r\e[33;5;2m Theme\e[m%s extracting colorscheme from: $selected_file "
-	#printf "\e[33;5;2m Theme\e[m%s setting wallpaper as: $selected_file\n"
 	rm -rf ~/.tel/theme/active/wallpaper/* > /dev/null 2>&1
 	cp "$selected_file" ~/.tel/theme/wallpaper/
-#	echo -ne "$selected_file" >> ~/.tel/theme/wallpaper
 	touch ~/.tel/theme/.flag
 	# add flag for setting wallpaper on reboot
 	#termux-wallpaper $options "$selected_file" || echo "Couldn't find $selected_file"
-	~/.tel/scripts/apply_colors.sh # copy wal generated cols to ~/.termux/colors.properties
+	~/.tel/scripts/apply_colors.sh #propagate colors 
+	printf "\e[33;5;2m Theme\e[m%s finished applying: $selected_file "
 	restart_tel
 
 	}
