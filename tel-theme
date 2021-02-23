@@ -118,8 +118,8 @@ apply_theme(){
 	cd $active_theme
 	tar -x -U -f $selected_file . &
 	spinner
-	rm -rf ~/.tel/theme/active/wallpaper/* > /dev/null 2>&1
-	cp "$selected_file" ~/.tel/theme/wallpaper/
+	#rm -rf ~/.tel/theme/active/wallpaper/* > /dev/null 2>&1
+	#cp "$selected_file" ~/.tel/theme/wallpaper/
 	touch ~/.tel/theme/.flag
 	# add flag for setting wallpaper on reboot
 	#termux-wallpaper $options "$selected_file" || echo "Couldn't find $selected_file"
