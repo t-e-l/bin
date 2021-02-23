@@ -14,7 +14,7 @@ show_help(){
 	    "OPTIONS"\
             "  -a | --apply		pick + apply a theme from your currently installed themes"\
             "  -f | --file		auto-gen theme based on an image"\
-            "  -i | --install	   	install a TEL theme.zip file package"\
+            "  -i | --install		install a TEL theme file package"\
             "  -c | --create		collect and package current files into a theme file"\
             "  -h | --help 		display this help message"
 }
