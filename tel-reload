@@ -3,8 +3,8 @@
 ##/data/data/com.termux/files/usr/bin/env zsh
 # Used to reload TEL
 if [ "$THEME_COLS" == "true" ] ; then
-	[[ -f ~/.cache/wal/sequences ]] && (wal -R -q -e && cat ~/.cache/wal/sequences)
-	~/.tel/scripts/wal_cols_termux.sh
+	i#[[ -f ~/.cache/wal/sequences ]] && (wal -R -q -e && cat ~/.cache/wal/sequences)
+	~/.tel/scripts/apply_color.sh
 fi
 am broadcast --user 0 -a com.termux.app.reload_style com.termux > /dev/null 2>&1 # reload cols in termux
 status_running=$(pgrep -f status_manager.py)
