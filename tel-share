@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 #cd ~/../ 
-FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 FZF_DEFAULT_OPTS="
 --info=inline
 --multi
@@ -45,7 +44,7 @@ else
 		fi
 
 		file_search="$@"
-		selected_file=$(fzf -e --cycle --color=16 --query="$file_search" --prompt=" File to share: " --select-1)
+		selected_file=$(fd --absolute-path --exclude .git --hidden --follow | fzf -e --cycle --color=16 --query="$file_search" --prompt=" File to share: " --select-1)
 	fi
 
 	if [ -z $selected_file ] ; then
@@ -53,7 +52,7 @@ else
 		exit 1
 	else
 		curr_dir=$(pwd)
-		printf "\e[33;5;2m Sharing\e[m%s file: $curr_dir/$selected_file"
+		printf "\e[33;5;2m Sharing\e[m%s file: $selected_file"
 		termux-share -a send "$selected_file" || echo "Couldn't share $selected_file"
 	fi
 fi
