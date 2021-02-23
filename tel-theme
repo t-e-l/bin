@@ -116,7 +116,7 @@ apply_theme(){
 	rm -rf $active_theme >/dev/null
 	mkdir $active_theme 
 	cd $active_theme
-	tar -x -U -f $selected_file .
+	tar -x -U -f $selected_file . &
 	spinner
 	rm -rf ~/.tel/theme/active/wallpaper/* > /dev/null 2>&1
 	cp "$selected_file" ~/.tel/theme/wallpaper/
