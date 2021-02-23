@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+### TEL THEME MANAGER ###
+# sealyj v0.2 2021 #
 FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 wallpaper_folder=~/.tel/theme/active/wallpaper
 themes_folder=~/.tel/theme/inactive
@@ -41,15 +43,10 @@ restart_tel(){
 }
 
 install_theme(){
-
 	selected_theme=$(fd --ignore-case --absolute-path --type f | fzf -e --cycle --color=16 --query="$file_search" --prompt="Pick a theme to apply: " --select-1)
-	#selected_theme=$(tel-find -c "TEL theme (.zip) to install:")
-	#unzip theme to 
 	printf "\e[33;5;2m Theme\e[m%s installing theme file: $selected_theme\n"
-	mv -f $selected_theme $themes_folder
+	cp -f $selected_theme $themes_folder
 	printf "\e[33;5;2m Theme\e[m%s installed theme: $selected_theme\n"
-	#mkdir $TMPDIR/tel-theme
-	#cd $TMPDIR/tel-theme
 }
 
 create_theme(){
@@ -90,23 +87,19 @@ auto_theme(){
 	(wal -i "$selected_file" -n -q -s -t -e || (echo 'failed to get colors from file' ; exit 1)) &
 	spinner 
 	cp -rf ~/.cache/wal/colors.sh ~/.tel/theme/active/
-	#printf "\e[33;5;2m Theme\e[m%s setting wallpaper as: $selected_file\n"
 	mkdir -p ~/.tel/theme/active/wallpaper >/dev/null 2>&1
 	rm -rf ~/.tel/theme/active/wallpaper/* > /dev/null 2>&1
 	cp "$selected_file" ~/.tel/theme/active/wallpaper/
-#	echo -ne "$selected_file" >> ~/.tel/theme/wallpaper
 	touch ~/.tel/theme/.flag
 	# add flag for setting wallpaper on reboot
-	#termux-wallpaper $options "$selected_file" || echo "Couldn't find $selected_file"
-	~/.tel/scripts/apply_colors.sh # copy wal generated cols to ~/.termux/colors.properties
-
+	~/.tel/scripts/apply_colors.sh # propagate colors
 	restart_tel
 }
 
 apply_theme(){
 	cd $themes_folder
 	file_search="$@"
-	selected_file=$(fd --exclude .git --ignore-case --absolute-path --type f | fzf -e --cycle --color=16 --query="$file_search" --prompt="Pick a theme to apply: " --select-1)
+	selected_file=$(fd --exclude .git --ignore-case --type f | fzf -e --cycle --color=16 --query="$file_search" --prompt="Pick a theme to apply: " --select-1)
 	if [ -z $selected_file ] ; then
 		exit 1
 	fi
@@ -116,17 +109,13 @@ apply_theme(){
 	rm -rf $active_theme >/dev/null
 	mkdir $active_theme 
 	cd $active_theme
-	tar -x -U -f $selected_file . &
+	tar -x -U -f $themes_folder/$selected_file . &
 	spinner
-	#rm -rf ~/.tel/theme/active/wallpaper/* > /dev/null 2>&1
-	#cp "$selected_file" ~/.tel/theme/wallpaper/
 	touch ~/.tel/theme/.flag
 	# add flag for setting wallpaper on reboot
-	#termux-wallpaper $options "$selected_file" || echo "Couldn't find $selected_file"
 	~/.tel/scripts/apply_colors.sh #propagate colors 
 	printf "\e[33;5;2m Theme\e[m%s finished applying: $selected_file "
 	restart_tel
-
 	}
 
 main(){
