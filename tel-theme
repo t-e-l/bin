@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 wallpaper_folder=~/.tel/theme/active/wallpaper
-themes_folder=~/.tel/theme/inactive/
-active_theme=~/.tel/theme/active/
+themes_folder=~/.tel/theme/inactive
+active_theme=~/.tel/theme/active
 
 show_help(){
     printf  "%s\n"\
@@ -72,7 +72,7 @@ create_theme(){
 	read author_theme_name
 	tar -v -c -z -f $themes_folder/${new_theme_name}.tar.gz . >&/dev/null &
 	spinner
-	printf "\e[33;5;2m Theme\e[m finished! \n theme to: $themes_folder/inactive/${new_theme_name}"
+	printf "\e[33;5;2m Theme\e[m finished! \n theme to: $themes_folder/${new_theme_name}"
 }
 
 auto_theme(){
