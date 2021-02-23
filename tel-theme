@@ -114,7 +114,7 @@ apply_theme(){
 	touch ~/.tel/theme/.flag
 	# add flag for setting wallpaper on reboot
 	~/.tel/scripts/apply_colors.sh #propagate colors 
-	printf "\e[33;5;2m Theme\e[m%s finished applying: $selected_file "
+	printf "\n\e[33;5;2m Theme\e[m%s finished applying: $selected_file "
 	restart_tel
 	}
 
