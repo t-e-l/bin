@@ -10,7 +10,7 @@ running=$(pgrep -f get_notifications.py)
 
 
 if [ -z $1 ]; then
-	printf "\e[33;5;2m Notifications\e[m%s :\n\n"
+	printf "\e[33;5;2m Notifications\e[m%s :\n"
 	if [ -z "$(cat $notifslist)" ] ; then
 		echo 'Empty'
 	else
@@ -35,17 +35,17 @@ else
 		killall -q -e 'get_notifications.py'
 		nohup ~/.tel/scripts/get_notifications.py > /dev/null 2>&1 &
 		if [ "$NOTIFICATIONS_ENABLED" != 'true' ] ; then
-			echo "\e[33;5;2m Notifications\e[m: Notifications are currently disabled in your user config, daemon will not start unless set to true"
+			echo -e "\e[33;5;2m Notifications\e[m: Notifications are currently disabled in config, daemon will not start unless set to true. Check config: ~/.tel/configs/notifications.sh"
 		else
-			echo "\e[33;5;2m Notifications\e[m: Restarted daemon"
+			echo -e "\e[33;5;2m Notifications\e[m: Restarted daemon"
 		fi
 		exit 0
 		;;
 		-c)
-		echo > $notifslist && echo "\e[33;5;2m Notifications\e[m: Cleared all notifications"	
+		echo > $notifslist && echo -e "\e[33;5;2m Notifications\e[m: Cleared all notifications"	
 		;;
 		-b)
-		echo $2 > $ignored_pkgs && echo "\e[33;5;2m Notifications\e[m: Added $2 to Ignored packages list"
+		echo $2 > $ignored_pkgs && echo -e "\e[33;5;2m Notifications\e[m: Added $2 to Ignored packages list"
 		exit 0
 		;;
 
@@ -53,8 +53,8 @@ else
 
 fi
 if [ -z "$running" ]; then
-	echo " Notification daemon is not running!"
-	echo " - Use 'tel-notifications -r' to restart the daemon"
+	echo -e " Notification daemon is not running!"
+	echo -e " - Use 'tel-notifications -r' to restart the daemon"
 	exit 1
 fi
 
