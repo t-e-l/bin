@@ -77,7 +77,7 @@ auto_theme(){
 --info=inline
 --multi
 --preview-window=up:60%:follow:sharp
---preview '([[ -f {} ]] && (termimage {} || bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
+--preview '([[ -f {} ]] && (termimage --size=35x35 {} || bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
 --prompt='∼ ' --pointer='>' --marker='✓'
 --bind '?:toggle-preview'
 --bind 'ctrl-a:select-all'
