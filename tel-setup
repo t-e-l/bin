@@ -34,7 +34,7 @@ apt-get update -y && apt-get upgrade -y && logf "finished updating Termux packag
 log "Installing required packages"
 log "This may take a while..."
 logf "pkg install"
-catch "$(pkg install git make curl wget nano tmux zsh termux-api sed figlet util-linux fzf fd bat links imagemagick openssh tree bc sl jq cowsay ncurses-utils tsu man -y 2>&1)"
+catch "$(pkg install git make curl wget nano tmux zsh termux-api sed figlet util-linux fzf fd bat links imagemagick openssh tree bc sl jq pup cowsay ncurses-utils tsu man -y 2>&1)"
 # maybe add: neofetch cronie moreutils
 log "Installing python"
 logf "python install"
@@ -46,7 +46,7 @@ which -a pip | grep -q '[n]ot found' && catch "$(curl https://bootstrap.pypa.io/
 
 log "Installing python packages"
 logf "pip pkgs install"
-catch "$(pip install --user blessed pywal lolcat powerline-status pup 2>&1)" #removed psutil
+catch "$(pip install --user blessed pywal lolcat powerline-status 2>&1)" #removed psutil
 logf "Finished packages download and installation"
 
 #create required directories
