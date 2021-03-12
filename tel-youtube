@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #script for starting / searching youtube with one alias
-if [ -z "$YT_PKG_NAME" ] ;
+if [ -z "$YT_PKG_NAME" ] ; then
 	YT_PKG_NAME="com.google.android.youtube"
 fi
 #cat ~/.app_names | grep -e 'NewPipe' > /dev/null 2>&1
