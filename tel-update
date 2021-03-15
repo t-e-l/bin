@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # TEL updater
-tel_update_version=0.11
+tel_update_version=0.12
 source ~/../usr/bin/tel-helpers
 log " v$tel_update_version"
 update_permissions="true"
