@@ -37,7 +37,7 @@ spinner() {
 
 restart_tel(){
 	tel-restart
-	printf "\e[33;5;2m Theme\e[m%s press [Return] to restart + apply changes..\n"
+	printf "\n\e[33;5;2m Theme\e[m%s press [Return] to restart + apply changes..\n"
 	read 
 	tel-restart
 }
