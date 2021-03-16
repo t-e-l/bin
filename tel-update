@@ -65,7 +65,7 @@ if [ ! -f "$HOME/.tel/.installed" ]; then
 	pkg install wget unzip coreutils git -y 2>&1 || exit_error 'failed to download required setup utils'
 fi
 
-[[ "$remove_data" == "true" ]] && remove_data_prompt
+#[[ "$remove_data" == "true" ]] && remove_data_prompt
 cd ~/../usr/ || exit_error 'fatal error path does not exist: ~/../usr/' 
 rm -rf $TMPDIR/tel-update > /dev/null 2>&1 #incase last run failed with partial download 
 mkdir $TMPDIR/tel-update
