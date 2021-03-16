@@ -111,6 +111,15 @@ fi
 		spinner
 		rm -rf .restore_path
 
+		# themes #
+		echo -ne "\n\e[38;5;2m Backup\e[m: compressing themes "
+		cd ~/.tel/theme/inactive
+		rm -rf .restore_path
+		echo -n "$(pwd)" > .restore_path
+		tar -v -c -z -f $backup_location/$today-$datetime${user_custom_name}themes.tar.gz . >&/dev/null &
+		spinner
+		rm -rf .restore_path
+
 		# Termux settings #
 		echo -ne "\n\e[38;5;2m Backup\e[m: compressing termux settings "
 		cd ~/.termux
