@@ -80,8 +80,9 @@ if [ $? -ne 0 ] ; then
 	#tel-update has been changed, restart update process!
 	log "new version of tel-update - reloading"
 	catch $(cp -rf $TMPDIR/tel-update/bin/tel-update ~/../usr/bin/)
+	rm -rf $TMPDIR/tel-update > /dev/null 2>&1 #incase last run failed with partial download 
        	tel-update
-	exit 0		
+	exit 0
 fi
 
 # Move Files #
