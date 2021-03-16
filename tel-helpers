@@ -91,14 +91,16 @@ remove_data_no_prompt(){
 	rm -rf ~/.tel
 	rm -rf ~/.config
 	rm -rf ~/.nano
-	rm -rf ~/.termux
+#	rm -rf ~/.termux/termux.properties
+#	rm -rf ~/.termux/
 	rm -rf ~/.wallpapers
-	rm -rf ~/bin
+#	rm -rf ~/bin
 	rm -rf ~/.nanorc
 	rm -rf ~/.aliases
-	rm -rf ~/.tmux.conf
+#	rm -rf ~/.tmux.conf
 	rm -rf ~/.p10k.zsh
 	rm -rf ~/.zlogin
+	rm -rf ~/.zprofile
 	rm -rf ~/.zshrc
 	rm -rf ~/.zsh_history
 #	rm -rf ~/.log.tel
