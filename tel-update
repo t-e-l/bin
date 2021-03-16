@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # TEL updater
-tel_update_version=0.12
+tel_update_version=0.13
 source ~/../usr/bin/tel-helpers
 log " v$tel_update_version"
 update_permissions="true"
@@ -86,6 +86,7 @@ shopt -u dotglob # (include dotfiles in cp -r * globbing)
 rm -f $TMPDIR/tel-update/bin/README.md
 catch $(cp -rf $TMPDIR/tel-update/bin/* ~/../usr/bin/) # files in ~/../usr/bin are preferred by tel over files in ~/.tel/bin 
 if [ "$user_option" != '--update' ] ; then
+	[[ -d ~/bin ]] || mkdir ~/bin
 	catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/tel/bin/* ~/bin/) 
 	catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/tel/.??* ~/)
 	catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/etc/* ~/../usr/etc/)
