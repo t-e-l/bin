@@ -71,7 +71,7 @@ rm -rf $TMPDIR/tel-update > /dev/null 2>&1 #incase last run failed with partial 
 mkdir $TMPDIR/tel-update
 
 # t-e-l/bin is always updated 
-git clone --quiet --depth=1 https://github.com/t-e-l/bin $TMPDIR/tel-update/bin || exit_error 'Failed to download latest bins'
+git clone --quiet -b $branch --depth=1 https://github.com/t-e-l/bin $TMPDIR/tel-update/bin || exit_error 'Failed to download latest bins'
 rm -f $TMPDIR/tel-update/bin/README.md >/dev/null
 
 # Has updater been updated??? #
