@@ -6,6 +6,8 @@ These files are automatically collected by TEL when a new apk build starts and a
 
 The scripts below should work on any linux distro ( providing requirements and supporting folders have been created in ~/.tel/configs and ~/.tel/data)
 
+Note: if using with apple/mac machines you will need to install gnu coreutils (brew install coreutils) 
+
 ### Requires config in other linux distros: 
 
 tel-todo
