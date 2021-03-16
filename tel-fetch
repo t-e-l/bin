@@ -25,7 +25,7 @@ if [ -d /system/app ] && [ -d /system/priv-app ]; then #check if running on andr
 		$(uname -srm)
 	EOF
 	# root detection
-	rooted= ; su -c echo > /dev/null && {
+	rooted= ; su -c echo > /dev/null 2>&1 && {
 		rooted="/root"
 	}
 #	time_zone="$(getprop persist.sys.timezone)"
