@@ -81,7 +81,7 @@ if [ $? -ne 0 ] ; then
 	log "new version of tel-update - reloading"
 	catch $(cp -rf $TMPDIR/tel-update/bin/tel-update ~/../usr/bin/)
 	rm -rf $TMPDIR/tel-update > /dev/null 2>&1 #incase last run failed with partial download 
-       	tel-update
+       	tel-update $user_option
 	exit 0
 fi
 
