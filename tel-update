@@ -29,6 +29,11 @@ elif [ "$user_option" == '--full' ] ; then
 	branch='master'
 	update_permissions='false'
 	remove_data='true'
+elif [ "$user_option" == '--setup' ] ; then
+	log "Getting release changes"
+	branch='master'
+	update_permissions='false'
+	remove_data='false'
 elif [ "$user_option" == '--dev' ] ; then
 	log "Getting dev changes"
 	branch='dev'

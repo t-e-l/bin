@@ -4,7 +4,7 @@ tel_version=0.1
 source ~/../usr/bin/tel-helpers 
 
 if [ -z "$1" ]; then
-	update_args="--full"
+	update_args="--setup"
 else
 	update_args="$1"
 fi
