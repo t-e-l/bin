@@ -24,29 +24,30 @@ if [ "$user_option" == '-h' ] || [ "$user_option" == '--help' ] ; then
 elif [ "$user_option" == '--update' ] ; then
 	log "Getting updates"
 	branch='master'
+	update_permissions='false'
 elif [ "$user_option" == '--full' ] ; then
 	log "Getting release changes"
 	branch='master'
 	update_permissions='false'
-	remove_data='true'
+	remove_data_prompt
 elif [ "$user_option" == '--setup' ] ; then
 	log "Getting release changes"
 	branch='master'
 	update_permissions='false'
-	remove_data='false'
 elif [ "$user_option" == '--dev' ] ; then
 	log "Getting dev changes"
 	branch='dev'
-	remove_data='true'
+	remove_data_prompt
+	update_permissions='false'
 elif [ "$user_option" == '--custom' ] ; then
 	log "Which branch do you want to setup? e.g: staging"
 	read -r branch
-	remove_data='true'
+	remove_data_prompt
 	log "Getting $branch changes"
 elif [ "$user_option" == '--reset' ] ; then
 	log "Resetting & getting release changes"
-	remove_data='true'
 	branch='master'
+	remove_data_prompt
 elif [ "$user_option" == '--extras' ] ; then
 	if [ ! -f "$HOME/.tel/.installed" ]; then
 		error 'Extras can only be installed after TEL has been setup'
@@ -70,7 +71,6 @@ if [ ! -f "$HOME/.tel/.installed" ]; then
 	pkg install wget unzip coreutils git -y 2>&1 || exit_error 'failed to download required setup utils'
 fi
 
-[[ "$remove_data" == "true" ]] && remove_data_prompt
 cd ~/../usr/ || exit_error 'fatal error path does not exist: ~/../usr/' 
 rm -rf $TMPDIR/tel-update > /dev/null 2>&1 #incase last run failed with partial download 
 mkdir $TMPDIR/tel-update
@@ -95,7 +95,6 @@ shopt -u dotglob # (include dotfiles in cp -r * globbing)
 catch $(cp -rf $TMPDIR/tel-update/bin/* ~/../usr/bin/) # files in ~/../usr/bin are preferred by tel over files in ~/.tel/bin 
 if [ "$user_option" != '--update' ] ; then
 	git clone --quiet -b $branch --depth=1 https://github.com/t-e-l/bootstrap-changes $TMPDIR/tel-update/bootstrap-changes || exit_error 'Failed to download update'
-	#git clone --quiet -b $branch --depth=1 https://github.com/t-e-l/bootstrap-changes $TMPDIR/tel-update/bootstrap-changes || exit_error 'Failed to download update'
 	rm -f $TMPDIR/tel-update/bootstrap-changes/README.md >/dev/null
 	[[ -d ~/bin ]] || mkdir ~/bin
 	catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/tel/bin/* ~/bin/) 
