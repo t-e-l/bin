@@ -130,6 +130,7 @@ remove_data_prompt(){
 	rm -rf ~/.tmux.conf
 	rm -rf ~/.p10k.zsh
 	rm -rf ~/.zlogin
+	rm -rf ~/.zprofile
 	rm -rf ~/.zshrc
 	rm -rf ~/.zsh_history
 #	rm -rf ~/.log.tel
