@@ -101,7 +101,6 @@ remove_data_no_prompt(){
 	rm -rf ~/.p10k.zsh
 	rm -rf ~/.zlogin
 	rm -rf ~/.zprofile
-	rm -rf ~/.zshrc
 	rm -rf ~/.zsh_history
 #	rm -rf ~/.log.tel
 	rm -rf ~/.app_names
@@ -131,7 +130,6 @@ remove_data_prompt(){
 	rm -rf ~/.p10k.zsh
 	rm -rf ~/.zlogin
 	rm -rf ~/.zprofile
-	rm -rf ~/.zshrc
 	rm -rf ~/.zsh_history
 #	rm -rf ~/.log.tel
 	rm -rf ~/.app_names
