@@ -29,7 +29,7 @@ elif [ "$user_option" == '--full' ] ; then
 	log "Getting release changes"
 	branch='master'
 	update_permissions='false'
-	remove_data_prompt
+	remove_user_data="true"
 elif [ "$user_option" == '--setup' ] ; then
 	log "Getting release changes"
 	branch='master'
@@ -83,13 +83,14 @@ rm -f $TMPDIR/tel-update/bin/README.md >/dev/null
 diff -q $TMPDIR/tel-update/bin/tel-update ~/../usr/bin/tel-update >/dev/null 2>&1
 if [ $? -ne 0 ] ; then
 	#tel-update has been changed, restart update process!
-	log "new version of tel-update - reloading"
+	log "new version of tel-update aquired - restarting the update process"
 	catch $(cp -rf $TMPDIR/tel-update/bin/tel-update ~/../usr/bin/)
 	rm -rf $TMPDIR/tel-update > /dev/null 2>&1 #incase last run failed with partial download 
        	tel-update $user_option
 	exit 0
 fi
 
+[[ "$remove_user_data" == "true" ]] && remove_data_prompt
 # Move Files #
 shopt -u dotglob # (include dotfiles in cp -r * globbing)
 catch $(cp -rf $TMPDIR/tel-update/bin/* ~/../usr/bin/) # files in ~/../usr/bin are preferred by tel over files in ~/.tel/bin 

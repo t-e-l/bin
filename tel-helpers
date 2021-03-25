@@ -88,7 +88,7 @@ fix_permissions(){
 
 remove_data_no_prompt(){
 	log "Wiping data..."
-	rm -rf ~/.tel
+	#rm -rf ~/.tel
 	rm -rf ~/.config
 	rm -rf ~/.nano
 	rm -rf ~/.termux/termux.properties
@@ -100,7 +100,7 @@ remove_data_no_prompt(){
 	rm -rf ~/.tmux.conf
 	rm -rf ~/.p10k.zsh
 	rm -rf ~/.zlogin
-	rm -rf ~/.zprofile
+	rm -rf ~/.zprofile > /dev/null
 	rm -rf ~/.zsh_history
 #	rm -rf ~/.log.tel
 	rm -rf ~/.app_names
@@ -111,16 +111,16 @@ remove_data_no_prompt(){
 }
 
 remove_data_prompt(){
-	warn "This action will remove all TEL data from your device"
+	warn "This action may remove user changes made to TEL files"
 	warn "Are you sure you wish to continue? y/N"
 	read -r user_reponse
 	if [ "$user_reponse" != 'y' ] && [ "$user_reponse" != 'Y' ]; then
 		error "User cancelled setup..." ; sleep 1 ; return 1
 	fi
 	log "Wiping data..."
-	rm -rf ~/.tel
-	rm -rf ~/.config
-	rm -rf ~/.nano
+	#rm -rf ~/.tel
+	#rm -rf ~/.config
+	#rm -rf ~/.nano
 	rm -rf ~/.termux/termux.properties
 	rm -rf ~/.termux/color.properties
 	rm -rf ~/.wallpapers
@@ -130,7 +130,7 @@ remove_data_prompt(){
 	rm -rf ~/.tmux.conf
 	rm -rf ~/.p10k.zsh
 	rm -rf ~/.zlogin
-	rm -rf ~/.zprofile
+	rm -rf ~/.zprofile > /dev/null
 	rm -rf ~/.zsh_history
 #	rm -rf ~/.log.tel
 	rm -rf ~/.app_names
