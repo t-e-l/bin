@@ -4,16 +4,16 @@
 
 # Default behaviour
 if [ -z $SEARCH_LOCATION ] ; then 
-	SEARCH_LANG='' #gb de it 
+	SEARCH_LOCATION='' #gb de it 
 fi
 if [ -z $SEARCH_LANG ] ; then 
 	SEARCH_LANG='en_gb'
 fi
 if [ -z $SEARCH_PROVIDER ] ; then 
-	SEARCH_LANG='qwant'
+	SEARCH_PROVIDER='qwant'
 fi
 if [ -z $SEARCH_URL ] ; then 
-	SEARCH_URL="https://www.qwant.com/?r=GB&sr=en&l=en_gb&h=0&s=0&a=1&b=0&vt=0&hc=0&smartNews=1&theme=1&i=1&q="
+	SEARCH_URL="https://www.qwant.com/?r=${SEARCH_LOCATION}&l=${SEARCH_LANG}&h=0&s=0&a=1&b=0&vt=0&hc=0&smartNews=1&theme=1&i=1&q="
 fi
 
 zsh -c 'set -K' # disables ! events in zsh to allow for bangs in tel-search
