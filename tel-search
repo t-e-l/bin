@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
 # search app for TEL 
 # v0.4 - by SealyJ
-if [ -z $SEARCH_LANG ] ; then 
-	SEARCH_LANG='en-GB'
+
+# Default behaviour
+if [ -z $SEARCH_LOCATION ] ; then 
+	SEARCH_LANG='' #gb de it 
 fi
 if [ -z $SEARCH_LANG ] ; then 
-	SEARCH_LANG='en-GB'
+	SEARCH_LANG='en_gb'
 fi
+if [ -z $SEARCH_PROVIDER ] ; then 
+	SEARCH_LANG='qwant'
+fi
+if [ -z $SEARCH_URL ] ; then 
+	SEARCH_URL="https://www.qwant.com/?r=GB&sr=en&l=en_gb&h=0&s=0&a=1&b=0&vt=0&hc=0&smartNews=1&theme=1&i=1&q="
+fi
+
 zsh -c 'set -K' # disables ! events in zsh to allow for bangs in tel-search
 instance_urls_file=~/.tel/configs/search/trusted.txt
 provider_bangs_file=~/.tel/configs/search/provider_bangs.txt
@@ -51,7 +60,7 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
 	tel-search '!!gh TEL'		= search github for TEL
 	tel-search '!!man echo'		= search manpage for echo command info
 	tel-search '!!w sea otters'	= search wiki for sea otters
-	tel-search '!!yt vsauce'	= search youtube/newpipe app for vsauce
+	tel-search '!!yt vsauce'	= search youtube for vsauce
 	
 	"
 	exit 0	
@@ -83,7 +92,7 @@ elif [ "$1" == "-t" ] ; then
 	text=${input// /%20} #replace spaces with strings
 	#rand_searx_instance
 	#"${BROWSER:-links}" "${searx_url}${text}&language=$SEARCH_LANG"
-	"${BROWSER:-links}" "https://www.qwant.com/?q=${text}"
+	"${BROWSER:-links}" "${SEARCH_URL}${text}"
 	exit 0
 elif [ -z $1 ] ; then
 	provider=$(cat $provider_bangs_file | fzf -e --cycle --color=16 --prompt=" Search site: " --select-1)
@@ -109,12 +118,13 @@ elif [ -z $1 ] ; then
 		#provider="!!$provider"
 		provider="!$provider"
 		input="$provider $user_query"
-		rand_searx_instance
+		#rand_searx_instance
 	fi
 elif [ "$#" != 0 ] ; then
 	input="$@"
-	rand_searx_instance
-	echo -ne "\r\e[33;5;2m Searching \e[m[$url_site_name_human] for: $input"
+	#rand_searx_instance
+	#echo -ne "\r\e[33;5;2m Searching \e[m[$url_site_name_human] for: $input"
+	echo -ne "\r\e[33;5;2m Searching \e[m[${SEARCH_PROVIDER}] for: $input"
 fi
 
 # MAIN
@@ -122,10 +132,10 @@ main () {
 text=${input// /%20} #replace spaces with strings
 if [ $(uname -o) == 'Android' ] ; then
 	#termux-open-url "${searx_url}${text}&language=$SEARCH_LANG"
-	termux-open-url "https://www.qwant.com/?q=${text}"
+	termux-open-url "${SEARCH_URL}${text}"
 else
 	#python -m webbrowser -t "${searx_url}${text}&language=$SEARCH_LANG"
-	python -m webbrowser -t "https://www.qwant.com/?q=${text}"
+	python -m webbrowser -t "${SEARCH_URL}${text}"
 fi
 exit 0
 }
