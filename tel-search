@@ -106,7 +106,8 @@ elif [ -z $1 ] ; then
 		echo -ne "\r\e[33;5;2m Searching \e[m$provider for: "
 		#echo -ne "\e[33;5;2m for:\e[m "
 		read user_query
-		provider="!!$provider"
+		#provider="!!$provider"
+		provider="!$provider"
 		input="$provider $user_query"
 		rand_searx_instance
 	fi
@@ -120,9 +121,11 @@ fi
 main () {
 text=${input// /%20} #replace spaces with strings
 if [ $(uname -o) == 'Android' ] ; then
-	termux-open-url "${searx_url}${text}&language=$SEARCH_LANG"
+	#termux-open-url "${searx_url}${text}&language=$SEARCH_LANG"
+	termux-open-url "https://www.qwant.com/?q=${text}"
 else
-	python -m webbrowser -t "${searx_url}${text}&language=$SEARCH_LANG"
+	#python -m webbrowser -t "${searx_url}${text}&language=$SEARCH_LANG"
+	python -m webbrowser -t "https://www.qwant.com/?q=${text}"
 fi
 exit 0
 }
