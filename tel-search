@@ -11,9 +11,16 @@ if [ -z $SEARCH_LANG ] ; then
 fi
 if [ -z $SEARCH_PROVIDER ] ; then 
 	SEARCH_PROVIDER='qwant'
-fi
-if [ -z $SEARCH_URL ] ; then 
 	SEARCH_URL="https://www.qwant.com/?r=${SEARCH_LOCATION}&l=${SEARCH_LANG}&h=0&s=0&a=1&b=0&vt=0&hc=0&smartNews=1&theme=1&i=1&q="
+elif [ "${SEARCH_PROVIDER}" == "qwant" ] ; then
+	SEARCH_URL="https://www.qwant.com/?r=${SEARCH_LOCATION}&l=${SEARCH_LANG}&h=0&s=0&a=1&b=0&vt=0&hc=0&smartNews=1&theme=1&i=1&q="
+elif [ "${SEARCH_PROVIDER}" == "duckduckgo" ] ; then
+	SEARCH_URL="https://duckduckgo.com/?q="
+elif [ "${SEARCH_PROVIDER}" == "metager" ] ; then
+	SEARCH_URL="https://metager.org/meta/meta.ger3?eingabe="
+elif [ "${SEARCH_PROVIDER}" == "searx" ] ; then
+	rand_searx_instance
+	SEARCH_URL="$searx_url"
 fi
 
 zsh -c 'set -K' # disables ! events in zsh to allow for bangs in tel-search
@@ -132,7 +139,7 @@ main () {
 text=${input// /%20} #replace spaces with strings
 if [ $(uname -o) == 'Android' ] ; then
 	#termux-open-url "${searx_url}${text}&language=$SEARCH_LANG"
-	am start --user 0 android.intent.action.VIEW -d "${SEARCH_URL}${text}" > /dev/null
+	am start --user 0 -a android.intent.action.VIEW -d "${SEARCH_URL}${text}" > /dev/null
 else
 	#python -m webbrowser -t "${searx_url}${text}&language=$SEARCH_LANG"
 	python -m webbrowser -t "${SEARCH_URL}${text}"
