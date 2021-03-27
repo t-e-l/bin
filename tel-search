@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # search app for TEL 
-# v3 - by SealyJ
+# v0.4 - by SealyJ
+if [ -z $SEARCH_LANG ] ; then 
+	SEARCH_LANG='en-GB'
+fi
 if [ -z $SEARCH_LANG ] ; then 
 	SEARCH_LANG='en-GB'
 fi
@@ -35,6 +38,10 @@ function rand_searx_instance () {
 	done
 
 	searx_url=$selected_url
+}
+
+function qwant_format () {
+
 }
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
@@ -77,8 +84,9 @@ elif [ "$1" == "-yt" ] ; then
 elif [ "$1" == "-t" ] ; then
 	input=${@:2}
 	text=${input// /%20} #replace spaces with strings
-	rand_searx_instance
-	"${BROWSER:-links}" "${searx_url}${text}&language=$SEARCH_LANG"
+	#rand_searx_instance
+	#"${BROWSER:-links}" "${searx_url}${text}&language=$SEARCH_LANG"
+	"${BROWSER:-links}" "https://www.qwant.com/?q=${text}"
 	exit 0
 elif [ -z $1 ] ; then
 	provider=$(cat $provider_bangs_file | fzf -e --cycle --color=16 --prompt=" Search site: " --select-1)
