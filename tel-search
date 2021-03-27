@@ -132,7 +132,7 @@ main () {
 text=${input// /%20} #replace spaces with strings
 if [ $(uname -o) == 'Android' ] ; then
 	#termux-open-url "${searx_url}${text}&language=$SEARCH_LANG"
-	termux-open-url "${SEARCH_URL}${text}"
+	am start --user 0 android.intent.action.VIEW -d "${SEARCH_URL}${text}" > /dev/null
 else
 	#python -m webbrowser -t "${searx_url}${text}&language=$SEARCH_LANG"
 	python -m webbrowser -t "${SEARCH_URL}${text}"
