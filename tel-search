@@ -10,8 +10,8 @@ if [ -z $SEARCH_LANG ] ; then
 	SEARCH_LANG='en_gb'
 fi
 if [ -z $SEARCH_PROVIDER ] ; then 
-	SEARCH_PROVIDER='qwant'
-	SEARCH_URL="https://www.qwant.com/?r=${SEARCH_LOCATION}&l=${SEARCH_LANG}&h=0&s=0&a=1&b=0&vt=0&hc=0&smartNews=1&theme=1&i=1&q="
+	SEARCH_PROVIDER='duckduckgo'
+	SEARCH_URL="https://duckduckgo.com/?q="
 elif [ "${SEARCH_PROVIDER}" == "qwant" ] ; then
 	SEARCH_URL="https://www.qwant.com/?r=${SEARCH_LOCATION}&l=${SEARCH_LANG}&h=0&s=0&a=1&b=0&vt=0&hc=0&smartNews=1&theme=1&i=1&q="
 elif [ "${SEARCH_PROVIDER}" == "duckduckgo" ] ; then
@@ -21,6 +21,9 @@ elif [ "${SEARCH_PROVIDER}" == "metager" ] ; then
 elif [ "${SEARCH_PROVIDER}" == "searx" ] ; then
 	rand_searx_instance
 	SEARCH_URL="$searx_url"
+else
+	SEARCH_URL="https://duckduckgo.com/?q="
+	SEARCH_PROVIDER='duckduckgo'
 fi
 
 zsh -c 'set -K' # disables ! events in zsh to allow for bangs in tel-search
