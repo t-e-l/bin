@@ -2,31 +2,7 @@
 # search app for TEL 
 # v0.4 - by SealyJ
 
-# Default behaviour
-if [ -z $SEARCH_LOCATION ] ; then 
-	SEARCH_LOCATION='' #gb de it 
-fi
-if [ -z $SEARCH_LANG ] ; then 
-	SEARCH_LANG='en_gb'
-fi
-if [ -z $SEARCH_PROVIDER ] ; then 
-	SEARCH_PROVIDER='duckduckgo'
-	SEARCH_URL="https://duckduckgo.com/?q="
-elif [ "${SEARCH_PROVIDER}" == "qwant" ] ; then
-	SEARCH_URL="https://www.qwant.com/?r=${SEARCH_LOCATION}&l=${SEARCH_LANG}&h=0&s=0&a=1&b=0&vt=0&hc=0&smartNews=1&theme=1&i=1&q="
-elif [ "${SEARCH_PROVIDER}" == "duckduckgo" ] ; then
-	SEARCH_URL="https://duckduckgo.com/?q="
-elif [ "${SEARCH_PROVIDER}" == "metager" ] ; then
-	SEARCH_URL="https://metager.org/meta/meta.ger3?eingabe="
-elif [ "${SEARCH_PROVIDER}" == "searx" ] ; then
-	rand_searx_instance
-	SEARCH_URL="$searx_url"
-else
-	SEARCH_URL="https://duckduckgo.com/?q="
-	SEARCH_PROVIDER='duckduckgo'
-fi
-
-zsh -c 'set -K' # disables ! events in zsh to allow for bangs in tel-search
+# searx stuff
 instance_urls_file=~/.tel/configs/search/searx_trusted.txt
 provider_bangs_file=~/.tel/configs/search/provider_bangs.txt
 searx_url='list_empty'
@@ -58,6 +34,34 @@ function rand_searx_instance () {
 
 	searx_url=$selected_url
 }
+#end searx specific stuff
+
+# Default behaviour
+if [ -z $SEARCH_LOCATION ] ; then 
+	SEARCH_LOCATION='' #gb de it 
+fi
+if [ -z $SEARCH_LANG ] ; then 
+	SEARCH_LANG='en_gb'
+fi
+if [ -z $SEARCH_PROVIDER ] ; then 
+	SEARCH_PROVIDER='duckduckgo'
+	SEARCH_URL="https://duckduckgo.com/?q="
+elif [ "${SEARCH_PROVIDER}" == "qwant" ] ; then
+	SEARCH_URL="https://www.qwant.com/?r=${SEARCH_LOCATION}&l=${SEARCH_LANG}&h=0&s=0&a=1&b=0&vt=0&hc=0&smartNews=1&theme=1&i=1&q="
+elif [ "${SEARCH_PROVIDER}" == "duckduckgo" ] ; then
+	SEARCH_URL="https://duckduckgo.com/?q="
+elif [ "${SEARCH_PROVIDER}" == "metager" ] ; then
+	SEARCH_URL="https://metager.org/meta/meta.ger3?eingabe="
+elif [ "${SEARCH_PROVIDER}" == "searx" ] ; then
+	rand_searx_instance
+	SEARCH_URL="$searx_url"
+else
+	SEARCH_URL="https://duckduckgo.com/?q="
+	SEARCH_PROVIDER='duckduckgo'
+fi
+
+zsh -c 'set -K' # disables ! events in zsh to allow for bangs in tel-search
+
 
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
