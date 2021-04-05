@@ -1,87 +1,82 @@
 #!/usr/bin/env bash
 # to-do list manager for TEL
-# by @SealyJ
-# v0.1 - 30/03/2020
-RED='\033[0;31m'
-NC='\033[0m' # No Col
-BOLD=$(tput bold)
-NORMAL=$(tput sgr0)
+# by @SealyJ - github.com/sealedjoy
+# v0.2 - 05/04/2021
 todolist=~/.tel/data/todo
 option="${1}" 
 [[ -e $todolist ]] || echo "Manage your notes list with the 'tel-todo' command\nEnjoy TEL updates" > ${todolist}  #if no list make a new one
 if [ -z "$1" ] ; then
 	printf "\e[33;5;2m To Do\e[m:\n"
-	#cat -n $todolist
-
-filename='company.txt'
-n=1
-IFS='\n';while read line; do
-# reading each line
-echo -e " $n \e[3m$line\e[0m"
-n=$((n+1))
-done < $todolist
+	filename='company.txt'
+	n=1
+	IFS='\n';while read line; do
+	# reading each line
+	echo -e " $n \e[3m$line\e[0m"
+	n=$((n+1))
+	done < $todolist
 
 else
 
-case ${option} in 
-	-h | --help)
-		echo "tel-todo [OPTION] [PATTERN]
-	'$> tel-todo'            = show to-do list
-	'$> tel-todo free willy' = add free willy to your to-do list
-	'$> tel-todo -h'         = show this help menu
-	'$> tel-todo -e'         = open list in $EDITOR
-	'$> tel-todo -c | clear' = clear entire list
-	'$> tel-todo -r'         = remove the most recent line
-	'$> tel-todo -r 3'       = remove line numbered 3"
-	;; 
-	-c | --clear)
-		printf "\e[33;5;2m To Do:\e[m Are you sure you want to clear the whole list? y/N : "
-		read confirm
-		if [ "$confirm" == "y" ] || [ "$confirm" == "Y" ] ; then
-			> $todolist
-			printf "\e[33;5;2m To Do:\e[m " ; echo "Cleared the list of entries"
-		else
-			printf "\e[33;5;2m To Do:\e[m " ; echo "Cancelled clearing the list"
-		fi	
-			;;
-        -r | --remove)
-	if [ -z "$2" ] ; then #if $3 etc then also remove 
-			printf "\e[33;5;2m To Do:\e[m "
-			echo "Removed the most recent line from the list"
-			sed -i '$d' $todolist
-			exit 0
-	else
-		shift
-
-		# define the input array
-		#arr=(12345_34 5_32134 8_123 13_1234)
-
-		# generate a sorted version
-		sorted=( )
-		while IFS= read -r item; do
-		  sorted+=( "$item" )
-		done < <(printf '%s\n' "${@}" | sort -r -g)
-		unset IFS
-		#echo "sorted = ${sorted[@]}"
-		printf "\e[33;5;2m To Do:\e[m " ;echo -n "Removing lines..."
-		for delete_number in "${sorted[@]}"
-		do
-			echo -ne "#${delete_number} "
-			sed_format="${delete_number}d"
-			sed -i "$sed_format" $todolist
-		done
-	fi
-	;;
-        -e | --edit)
-		printf "\e[33;5;2m To Do:\e[m "
-		echo "Opening in $EDITOR"
-		$EDITOR $todolist
+	case ${option} in 
+		-h | --help)
+			echo "tel-todo [OPTION] [PATTERN]
+		'$> tel-todo'            = show to-do list
+		'$> tel-todo free willy' = add free willy to your to-do list
+		'$> tel-todo -h'         = show this help menu
+		'$> tel-todo -e'         = open list in $EDITOR
+		'$> tel-todo -c | clear' = clear entire list
+		'$> tel-todo -r'         = remove the most recent line
+		'$> tel-todo -r 3'       = remove line #3
+		'$> tel-todo -r 1 7 3'   = remove lines #1, 7 and 3 "
 		;; 
-	*)  
-	printf "\e[33;5;2m To Do:\e[m "
-	echo "$@" >> $todolist
-	echo -e "Added \e[3m'$@'\e[0m to your list"
-	exit 0 
-	;;
-esac 
+		-c | --clear)
+			printf "\e[33;5;2m To Do:\e[m Are you sure you want to clear the whole list? y/N : "
+			read confirm
+			if [ "$confirm" == "y" ] || [ "$confirm" == "Y" ] ; then
+				> $todolist
+				printf "\e[33;5;2m To Do:\e[m " ; echo "Cleared the list of entries"
+			else
+				printf "\e[33;5;2m To Do:\e[m " ; echo "Cancelled clearing the list"
+			fi	
+				;;
+		-r | --remove)
+		if [ -z "$2" ] ; then #if $3 etc then also remove 
+				printf "\e[33;5;2m To Do:\e[m "
+				echo "Removed the most recent line from the list"
+				sed -i '$d' $todolist
+				exit 0
+		else
+			shift
+
+			# define the input array
+			#arr=(12345_34 5_32134 8_123 13_1234)
+
+			# generate a sorted version
+			sorted=( )
+			while IFS= read -r item; do
+			  sorted+=( "$item" )
+			done < <(printf '%s\n' "${@}" | sort -r -g)
+			unset IFS
+			#echo "sorted = ${sorted[@]}"
+			printf "\e[33;5;2m To Do:\e[m " ;echo -n "Removing lines..."
+			for delete_number in "${sorted[@]}"
+			do
+				echo -ne "#${delete_number} "
+				sed_format="${delete_number}d"
+				sed -i "$sed_format" $todolist
+			done
+		fi
+		;;
+		-e | --edit)
+			printf "\e[33;5;2m To Do:\e[m "
+			echo "Opening in $EDITOR"
+			$EDITOR $todolist
+			;; 
+		*)  
+		printf "\e[33;5;2m To Do:\e[m "
+		echo "$@" >> $todolist
+		echo -e "Added \e[3m'$@'\e[0m to your list"
+		exit 0 
+		;;
+	esac 
 fi
