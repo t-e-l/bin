@@ -27,7 +27,7 @@ else
 fi
 
 zsh -c 'set -K' # disables ! events in zsh to allow for bangs in tel-search
-instance_urls_file=~/.tel/configs/search/trusted.txt
+instance_urls_file=~/.tel/configs/search/searx_trusted.txt
 provider_bangs_file=~/.tel/configs/search/provider_bangs.txt
 searx_url='list_empty'
 
