@@ -46,6 +46,7 @@ fi
 if [ -z $SEARCH_PROVIDER ] ; then 
 	SEARCH_PROVIDER='duckduckgo'
 	SEARCH_URL="https://duckduckgo.com/?q="
+	bangsymbol="!"
 elif [ "${SEARCH_PROVIDER}" == "qwant" ] ; then
 	SEARCH_URL="https://www.qwant.com/?r=${SEARCH_LOCATION}&l=${SEARCH_LANG}&h=0&s=0&a=1&b=0&vt=0&hc=0&smartNews=1&theme=1&i=1&q="
 	bangsymbol="&"
