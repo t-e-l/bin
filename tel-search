@@ -48,16 +48,21 @@ if [ -z $SEARCH_PROVIDER ] ; then
 	SEARCH_URL="https://duckduckgo.com/?q="
 elif [ "${SEARCH_PROVIDER}" == "qwant" ] ; then
 	SEARCH_URL="https://www.qwant.com/?r=${SEARCH_LOCATION}&l=${SEARCH_LANG}&h=0&s=0&a=1&b=0&vt=0&hc=0&smartNews=1&theme=1&i=1&q="
+	bangsymbol="&"
 elif [ "${SEARCH_PROVIDER}" == "duckduckgo" ] ; then
 	SEARCH_URL="https://duckduckgo.com/?q="
+	bangsymbol="!"
 elif [ "${SEARCH_PROVIDER}" == "metager" ] ; then
 	SEARCH_URL="https://metager.org/meta/meta.ger3?eingabe="
+	bangsymbol="!"
 elif [ "${SEARCH_PROVIDER}" == "searx" ] ; then
 	rand_searx_instance
 	SEARCH_URL="$searx_url"
+	bangsymbol="!!"
 else
 	SEARCH_URL="https://duckduckgo.com/?q="
 	SEARCH_PROVIDER='duckduckgo'
+	bangsymbol="!"
 fi
 
 zsh -c 'set -K' # disables ! events in zsh to allow for bangs in tel-search
@@ -69,12 +74,12 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
 	tel-search			= interactive site search prompt
 	tel-search -h			= show this help menu
 	tel-search -yt 'how to meme'	= search in youtube / newpipe app for how to meme
-	tel-search -t '!!w tty'		= search wiki using terminal browser
+	tel-search -t '!w tty'		= search wiki using terminal browser
 	tel-search what are bangs?	= search for what are bangs?
-	tel-search '!!gh TEL'		= search github for TEL
-	tel-search '!!man echo'		= search manpage for echo command info
-	tel-search '!!w sea otters'	= search wiki for sea otters
-	tel-search '!!yt vsauce'	= search youtube for vsauce
+	tel-search '!gh TEL'		= search github for TEL
+	tel-search '!man echo'		= search manpage for echo command info
+	tel-search '!w sea otters'	= search wiki for sea otters
+	tel-search '!yt vsauce'	= search youtube for vsauce
 	
 	"
 	exit 0	
@@ -114,7 +119,6 @@ elif [ -z $1 ] ; then
 	#	echo 'Nothing selected; exiting...'
 		exit 1
 	elif [ "$provider" == "Skip" ]; then	
-		rand_searx_instance
 		printf "\n\e[33;5;2m Search \e[m%sfor: "
 		read user_query
 		input="$user_query"
@@ -130,7 +134,8 @@ elif [ -z $1 ] ; then
 		#echo -ne "\e[33;5;2m for:\e[m "
 		read user_query
 		#provider="!!$provider"
-		provider="!$provider"
+	#	provider="!$provider"
+		provider="$bangsymbol$provider"
 		input="$provider $user_query"
 		#rand_searx_instance
 	fi
