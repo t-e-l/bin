@@ -10,7 +10,7 @@ FZF_DEFAULT_OPTS="
 --info=inline
 --multi
 --preview-window=up:60%:follow:sharp
---preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
+--preview '([[ -f {} ]] && (termimage --size=35x35 {} || bat --theme=base16 --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
 --color='hl:148,hl+:154,pointer:032,marker:010,bg+:237,gutter:008'
 --prompt='∼ ' --pointer='>' --marker='✓'
 --bind '?:toggle-preview'
