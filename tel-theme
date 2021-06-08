@@ -43,7 +43,7 @@ restart_tel(){
 }
 
 install_theme(){
-	selected_theme=$(fd --ignore-case --absolute-path --type f | fzf -e --cycle --color=16 --query="$file_search" --prompt="Pick a theme to apply: " --select-1)
+	selected_theme=$(fd --ignore-case --absolute-path --type f | fzf -e --color=16 --query="$file_search" --prompt="Pick a theme to apply: " --select-1)
 	printf "\e[33;5;2m Theme\e[m%s installing theme file: $selected_theme\n"
 	cp -f $selected_theme $themes_folder
 	printf "\e[33;5;2m Theme\e[m%s installed theme: $selected_theme\n"
@@ -90,7 +90,7 @@ auto_theme(){
 	else
 		file_search=".jpg"
 	fi
-	selected_file=$(fd --extension=jpg -e png --follow --absolute-path --hidden --type f | fzf --cycle --color=16 --query="$file_search" --prompt="Pick a image to theme from: " --select-1)
+	selected_file=$(fd --extension=jpg -e png --follow --absolute-path --hidden --type f | fzf --color=16 --query="$file_search" --prompt="Pick a image to theme from: " --select-1)
 	if [ -z $selected_file ] ; then
 		exit 1
 	fi
@@ -110,7 +110,7 @@ auto_theme(){
 apply_theme(){
 	cd $themes_folder
 	file_search="$@"
-	selected_file=$(fd --exclude .git --ignore-case --type f | fzf -e --cycle --color=16 --query="$file_search" --prompt="Pick a theme to apply: " --select-1)
+	selected_file=$(fd --exclude .git --ignore-case --type f | fzf -e --color=16 --query="$file_search" --prompt="Pick a theme to apply: " --select-1)
 	if [ -z $selected_file ] ; then
 		exit 1
 	fi

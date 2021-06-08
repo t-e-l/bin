@@ -99,7 +99,7 @@ main() {
     # fuzzy search in $contactsfile to get the number and
     # name in the format
     # Name | Number
-	fzf_output=$(fzf --print-query --cycle --color=16 --prompt=" Contact: " --query="$*" --select-1 -0 < "$contactsfile")
+	fzf_output=$(fzf --print-query --color=16 --prompt=" Contact: " --query="$*" --select-1 -0 < "$contactsfile")
     case "$?" in
         	# No contact found
         "1"  )

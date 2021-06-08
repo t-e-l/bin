@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# TEL app launcher #
+### TEL app launcher ###
 
 print_ERR_and_die(){
     # Error printing function
@@ -14,7 +14,7 @@ show_help(){
             "__________________________"\
             "OPTIONS"\
             "  -h | --help   		display this help message"\
-            "  -i | --info   		show settings page for app"\
+            "  -i | --info   		show settings page for chosen app"\
             "  -u | --update-cache  	update app cache"
 }
 
@@ -53,7 +53,7 @@ main(){
     # fuzzy search in $app_namefile to get the app code and app 
     # name in this format 
     # app_code | app_name
-    app_data=$(fzf -e --cycle --prompt=" Launch app: " --query="$*" --color=16 --select-1 -0 < "$app_namefile")
+    app_data=$(fzf -e --prompt=" Launch app: " --query="$*" --color=16 --select-1 -0 < "$app_namefile")
     case "$?" in
         # No app found
         "1"  )

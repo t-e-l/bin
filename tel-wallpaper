@@ -26,7 +26,7 @@ open_url(){
    	if [ -n "$global_url" ]; then
 		url=$global_url
 	else
-		url=$(cat $bookmarks_file | fzf -e --cycle --color=16 --prompt=" Pick a URL to open with an android app:")
+		url=$(cat $bookmarks_file | fzf -e --color=16 --prompt=" Pick a URL to open with an android app:")
 	fi
 	if [ ! -z $url ] ; then
 	termux-open-url $url
@@ -39,7 +39,7 @@ open_url(){
 
 if [ -z $1 ] ; then
 	cd $wallpaper_folder
-	selected_file=$(ls $wallpaper_folder | fzf -e --cycle --color=16 --prompt=" Pick a file to set as your wallpaper:")
+	selected_file=$(ls $wallpaper_folder | fzf -e --color=16 --prompt=" Pick a file to set as your wallpaper:")
 	options='-f'
 else
 	case "$1" in
@@ -60,7 +60,7 @@ else
  	esac
 
 	file_search="$@"
-	selected_file=$(fzf -e --cycle --color=16 --query="$file_search" --prompt=" Open in app: " --select-1)
+	selected_file=$(fzf -e --color=16 --query="$file_search" --prompt=" Open in app: " --select-1)
 fi
 
 if [ -z $selected_file ] ; then

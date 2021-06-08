@@ -36,7 +36,7 @@ open_url(){
    	if [ -n "$global_url" ]; then
 		url=$global_url
 	else
-		url=$(cat $bookmarks_file | fzf -e --cycle --color=16 --prompt=" URL to open in app:" --select-1)
+		url=$(cat $bookmarks_file | fzf -e --color=16 --prompt=" URL to open in app:" --select-1)
 	fi
 	if [ ! -z $url ] ; then
 		if [ $(uname -o) == 'Android' ] ; then
@@ -51,7 +51,7 @@ open_url(){
 }
 
 if [ -z $1 ] ; then
-	selected_files=$(fd --hidden --type f | fzf -m -d -e --cycle --color=16 --prompt="Select (tab key) Open: ")
+	selected_files=$(fd --hidden --type f | fzf -m -d -e --color=16 --prompt="Select (tab key) Open: ")
 	IFS=$'\n' read -d '' -r -a files_to_open <<<"$selected_files"
 else
 	case "$1" in
@@ -67,7 +67,7 @@ else
 
 	file_search="$@"
 	# allow mutli selection save to array
-	selected_files=$(fd --hidden --follow --type f | fzf -m -d -e --cycle -q "$file_search" --color=16 --prompt="Select (tab key) Open: ")
+	selected_files=$(fd --hidden --follow --type f | fzf -m -d -e -q "$file_search" --color=16 --prompt="Select (tab key) Open: ")
 	IFS=$'\n' read -d '' -r -a files_to_open <<<"$selected_files"
 fi
 

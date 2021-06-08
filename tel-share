@@ -36,7 +36,7 @@ if [ ! -t 0 ] ; then # Script is getting input from pipe or file - non-interacti
 	exit 0
 else
 	if [ -z $1 ] ; then
-		selected_file=$(fzf --cycle --color=16 --prompt=" Share: ")
+		selected_file=$(fzf --color=16 --prompt=" Share: ")
 	else
 		if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
 			show_help
@@ -44,7 +44,7 @@ else
 		fi
 
 		file_search="$@"
-		selected_file=$(fd --absolute-path --exclude .git --hidden --follow | fzf -e --cycle --color=16 --query="$file_search" --prompt=" File to share: " --select-1)
+		selected_file=$(fd --absolute-path --exclude .git --hidden --follow | fzf -e --color=16 --query="$file_search" --prompt=" File to share: " --select-1)
 	fi
 
 	if [ -z $selected_file ] ; then
