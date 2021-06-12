@@ -5,9 +5,7 @@
 # requires: fzf bat nano 
 # optional: magisk su binary
 useroot=
-
 FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-fzf_bin=$(which fzf)
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
 	echo -e "Usage: tel-edit [options] [filename]
@@ -24,7 +22,7 @@ elif [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	else
 		file_search=''
 	fi
-	selected_file=$('sudo fd . '/' -a  --type file --hidden --follow --exclude .git -E /proc -E /sys -E /dev -E /cache' | $fzf_bin --color=16 --query="$file_search" --prompt="  ROOT Edit with $EDITOR: ")
+	selected_file=$('sudo fd . '/' -a  --type file --hidden --follow --exclude .git -E /proc -E /sys -E /dev -E /cache' | fzf --color=16 --query="$file_search" --prompt="  ROOT Edit with $EDITOR: ")
 	if [ ! -z $selected_file ] ; then
 		printf "\e[33;5;2m Editing\e[m%s file as root: $selected_file\n"
 		su -c "/data/data/com.termux/files/usr/bin/$EDITOR $selected_file"
@@ -38,7 +36,7 @@ FZF_DEFAULT_OPTS="
 --info=inline
 --multi
 --preview-window=up:60%:follow:sharp
---preview '([[ -f {} ]] && (bat --theme=base16 --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
+--preview '([[ -f {} ]] && (termimage --size=35x35 {} || bat --italic-text=always --theme=base16 --style=full --color=always {} || bat -A {})) || ([[ -d {} ]] && (exa -T --level=1 {} | less)) || echo {} 2> /dev/null | head -200'
 --prompt='∼ ' --pointer='>' --marker='✓'
 --bind '?:toggle-preview'
 --bind 'ctrl-a:select-all'
@@ -58,10 +56,10 @@ show_help(){
 
 
 if [ -z $1 ] ; then
-	selected_file=$(fd --hidden --follow --type f | $fzf_bin --color=16 --prompt="  Edit with $EDITOR: ")
+	selected_file=$(fd --hidden --follow --type f | fzf --color=16 --prompt="  Edit with $EDITOR: ")
 else
 	file_search=$(echo "$@")
-	selected_file=$(fd --hidden --follow --type f | $fzf_bin --color=16 --query="$file_search" --prompt="  Edit with $EDITOR: " --select-1)
+	selected_file=$(fd --hidden --follow --type f | fzf --color=16 --query="$file_search" --prompt="  Edit with $EDITOR: " --select-1)
 fi
 
 if [ -z "$selected_file" ] ; then
