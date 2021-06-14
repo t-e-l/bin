@@ -31,17 +31,17 @@ elif [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
 	fi
 	exit 0
 else
-FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-FZF_DEFAULT_OPTS="
---info=inline
---multi
---preview-window=up:60%:follow:sharp
---preview '([[ -f {} ]] && (termimage --size=35x35 {} || bat --italic-text=always --theme=base16 --style=full --color=always {} || bat -A {})) || ([[ -d {} ]] && (exa -T --level=1 {} | less)) || echo {} 2> /dev/null | head -200'
---prompt='∼ ' --pointer='>' --marker='✓'
---bind '?:toggle-preview'
---bind 'ctrl-a:select-all'
---bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
-"
+	FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+	FZF_DEFAULT_OPTS="
+	--info=inline
+	--multi
+	--preview-window=up:60%:follow:sharp
+	--preview '([[ -f {} ]] && (termimage --size=35x35 {} || bat --italic-text=always --theme=base16 --style=full --color=always {} || bat -A {})) || ([[ -d {} ]] && (exa -T --level=1 {} | less)) || echo {} 2> /dev/null | head -200'
+	--prompt='∼ ' --pointer='>' --marker='✓'
+	--bind '?:toggle-preview'
+	--bind 'ctrl-a:select-all'
+	--bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
+	"
 fi
 
 show_help(){
