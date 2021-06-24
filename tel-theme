@@ -134,6 +134,8 @@ main(){
 	case "$1" in
 		-v | --version)
 			printf "\n\e[33;5;2m Theme\e[m%s version: $version"
+			exit 0
+		;;
 		-a | --apply)
 			shift
 			apply_theme
