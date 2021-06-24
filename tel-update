@@ -14,12 +14,15 @@ fi
 if [ "$user_option" == '-h' ] || [ "$user_option" == '--help' ] ; then
 	echo 'usage: tel-setup [OPTION]
 	--help 		display this help info
+	--version	display version
 	--update	get latest bin updates (default)
 	--full		get latest release updates (destructive)
 	--reset 	setup fresh release version (destructive)
 	--dev 		setup developer version (destructive)
 	--custom	setup from custom branch (destructive)
 	--extras	run extras installer'
+	exit 0
+elif [ "$user_option" == '-v' ] || [ "$user_option" == '--version' ] ; then
 	exit 0
 elif [ "$user_option" == '--update' ] ; then
 	log "Getting updates"
