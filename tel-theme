@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 ### TEL THEME MANAGER ###
-# sealyj v0.2 2021 #
+# sealyj 2021 #
+version=0.2
 FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 wallpaper_folder=~/.tel/theme/active/wallpaper
 themes_folder=~/.tel/theme/inactive
@@ -131,6 +132,8 @@ apply_theme(){
 
 main(){
 	case "$1" in
+		-v | --version)
+			printf "\n\e[33;5;2m Theme\e[m%s version: $version"
 		-a | --apply)
 			shift
 			apply_theme
