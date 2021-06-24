@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # to-do list manager for TEL
 # by @SealyJ - github.com/sealedjoy
-# v0.2 - 05/04/2021
+version=0.2
 todolist=~/.tel/data/todo
 option="${1}" 
 [[ -e $todolist ]] || echo "Manage your notes list with the 'tel-todo' command\nEnjoy TEL updates" > ${todolist}  #if no list make a new one
@@ -18,11 +18,16 @@ if [ -z "$1" ] ; then
 else
 
 	case ${option} in 
+		-v | --version)
+			printf "\e[33;5;2m To Do\e[m: version: $version"
+			exit 0
+		;;
 		-h | --help)
 			echo "tel-todo [OPTION] [PATTERN]
 		'$> tel-todo'            = show to-do list
 		'$> tel-todo free willy' = add free willy to your to-do list
 		'$> tel-todo -h'         = show this help menu
+		'$> tel-todo -v'         = show version info
 		'$> tel-todo -e'         = open list in $EDITOR
 		'$> tel-todo -c | clear' = clear entire list
 		'$> tel-todo -r'         = remove the most recent line
