@@ -91,9 +91,12 @@ main(){
 	if [ "$response" == y ] ; then
 		activity=$(echo "$activity" | cut -d "/" -f1)
 		uninstalled=$(su -c pm uninstall $activity > /dev/null)
-		if [ $? == 0 ] ; then
-			printf "\e[33;5;2m Launcher:\e[m $app_name was uninstalled" > /dev/null
+		if [ "$?" == 0 ] ; then
+			printf "\e[33;5;2m Launcher:\e[m $app_name was uninstalled"
 			update_cache
+		else
+			printf "\e[33;5;2m Launcher:\e[m error removing $app_name"
+			exit 1
 		fi
 	else
 		exit 0
