@@ -46,6 +46,7 @@ main(){
         ;;
         -r | --remove)
 		removing_app=true
+	;;
         # Display the help message
         -h | --help)
             show_help
