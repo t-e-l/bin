@@ -86,10 +86,16 @@ main(){
     activity=$( grep "$app_code" "$cachefile" | cut -d "|" -f2 )
     
     if [ "$removing_app" == "true" ] ; then
-    	printf  "\e[33;5;2m Removing\e[m %s\n"\
-            "$app_name"
-	activity=$(echo "$activity" | cut -d "/" -f1)
-	su -c pm uninstall $activity && printf "\e[33;5;2m $app_name\e[m was uninstalled"
+    	printf  "\e[33;5;2m App\e[m: Remove '$app_name' ?"
+	read response
+	if [ "$response" == y ] ; then
+
+		activity=$(echo "$activity" | cut -d "/" -f1)
+		su -c pm uninstall $activity && printf "\e[33;5;2m $app_name\e[m was uninstalled"
+		update_cache
+	else
+		exit 0
+	fi
 	exit 0
     elif [ "$show_info_page" == "true" ] ; then
     	printf  "\e[33;5;2m Launching\e[m %s\n"\
