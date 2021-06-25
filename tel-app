@@ -85,7 +85,9 @@ esac
     if [ "$removing_app" == "true" ] ; then
     	printf  "\e[33;5;2m Removing\e[m %s\n"\
             "$app_name"
-	su -c pm uninstall $app_name
+	activity=$(echo "$activity" | cut -d "/" -f1)
+	su -c pm uninstall $activity && printf "\e[33;5;2m $app_name\e[m was uninstalled"
+
 	exit 0
     fi
     
