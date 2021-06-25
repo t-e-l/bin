@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 ### TEL app launcher ###
 version=0.3
+removing_app=false
 print_ERR_and_die(){
     # Error printing function
     printf "\e[38;5;1m[!]%s\n\e[m"\
@@ -15,6 +16,7 @@ show_help(){
             "OPTIONS"\
             "  -h | --help   		display this help message"\
             "  -i | --info   		show settings page for chosen app"\
+            "  -r | --remove 		remove/uninstall chosen app"\
             "  -u | --update-cache  	update app cache"
 }
 
@@ -45,6 +47,7 @@ main(){
         	exit 0
         ;;
         -r | --remove)
+		shift
 		removing_app=true
 	;;
         # Display the help message
@@ -70,7 +73,7 @@ main(){
         "130")
             return 1
         ;;
-esac
+    esac
     # get the app code
     app_code=$( echo "$app_data" | cut -d "|" -f1) 
     # get the app name
@@ -87,11 +90,8 @@ esac
             "$app_name"
 	activity=$(echo "$activity" | cut -d "/" -f1)
 	su -c pm uninstall $activity && printf "\e[33;5;2m $app_name\e[m was uninstalled"
-
 	exit 0
-    fi
-    
-    if [ "$show_info_page" == "true" ] ; then
+    elif [ "$show_info_page" == "true" ] ; then
     	printf  "\e[33;5;2m Launching\e[m %s\n"\
             "$app_name - app info page"
 	activity=$(echo "$activity" | cut -d "/" -f1)
