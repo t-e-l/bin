@@ -87,6 +87,7 @@ esac
             "$app_name"
 	su -c pm uninstall $app_name
 	exit 0
+    fi
     
     if [ "$show_info_page" == "true" ] ; then
     	printf  "\e[33;5;2m Launching\e[m %s\n"\
