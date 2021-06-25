@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ### TEL app launcher ###
-
+version=0.3
 print_ERR_and_die(){
     # Error printing function
     printf "\e[38;5;1m[!]%s\n\e[m"\
@@ -19,7 +19,6 @@ show_help(){
 }
 
 update_cache(){
-    # Android Black Magic
     printf  "\e[38;5;2m Launcher\e[m: \e[38;5;1mUpdating app cache...%s\n\e[m"
     am broadcast --user 0 \
          --es com.termux.app.reload_style apps-cache \
@@ -31,6 +30,10 @@ main(){
     app_namefile="$HOME/.app_names"
     show_info_page="false"
     case "$1" in
+        -v | --version)
+    		printf  "\e[38;5;2m Launcher\e[m: \e[38;5;1mversion $version"
+		exit 0
+	;;
         -i | --info)
 		shift
         	show_info_page="true"
