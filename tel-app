@@ -41,9 +41,11 @@ main(){
         # Update the app list
         # Incase a new app has been installed
         -u | --update-cache)
-            update_cache
-            exit 0
+        	update_cache
+        	exit 0
         ;;
+        -r | --remove)
+		removing_app=true
         # Display the help message
         -h | --help)
             show_help
@@ -79,6 +81,11 @@ esac
     # get the activity name
     activity=$( grep "$app_code" "$cachefile" | cut -d "|" -f2 )
     
+    if [ "$removing_app" == "true" ] ; then
+    	printf  "\e[33;5;2m Removing\e[m %s\n"\
+            "$app_name"
+	su -c pm uninstall $app_name
+	exit 0
     
     if [ "$show_info_page" == "true" ] ; then
     	printf  "\e[33;5;2m Launching\e[m %s\n"\
