@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
-#
-# location of the contacts folder
+# TEL Dialer #
+# ---------- # 
+# sealyj
+# sidd_dino 
+
+version=0.2
+# location of the contacts file
 contactsfile="$HOME/.tel/data/.contacts";
 
 
@@ -76,6 +81,9 @@ main() {
 	request_output="false"
 	if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
         	show_help 
+	elif [ "$1" == "-v" ] || [ "$1" == "--version" ] ; then
+		printf "\e[33;5;2m Dialer\e[m: version $version\n"
+
 	elif [ "$1" == "-a" ] || [ "$1" == "--add" ] ; then
 		add_contact "$@"
 	elif [ "$1" == "-o" ] || [ "$1" == "--output" ] ; then
@@ -95,7 +103,6 @@ main() {
 	update_contacts  # if contacts file missing - generate one
         [[ "$1" == '-u' ]] && exit 0
     }
-
     # fuzzy search in $contactsfile to get the number and
     # name in the format
     # Name | Number
@@ -121,7 +128,6 @@ main() {
 				"[${unknown_number}]"
 				termux-telephony-call "${unknown_number}"
 			fi
-			#printf  "\e[33;5;2m Dialer\e[m: \e[33;5;1mContact not found%s\n\e[m"
 		fi
 		exit 1
         ;;
