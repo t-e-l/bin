@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh 
 # Edit applet for TEL
 # Version 0.3
 # SealyJ 2020
@@ -6,8 +6,7 @@
 # optional: magisk su binary
 useroot=
 FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-
-if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
+if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
 	echo -e "Usage: tel-edit [options] [filename]
 	tel-edit			= interactive file picker
 	tel-edit configs		= display file picker with matches for configs
@@ -15,8 +14,9 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
 	tel-edit -r			= search from root directory with root privs
 	"
 	exit 0
-elif [ "$1" == "-r" ] || [ "$1" == "--root" ] ; then
+elif [ "$1" = "-r" ] || [ "$1" = "--root" ] ; then
 	shift
+	useroot=true
 	if [ ! -z $1 ] ; then
 		file_search="$@"
 	else
@@ -71,6 +71,42 @@ else
 	# manipulate history here
 	#print -S "$useroot $EDITOR $curr_dir/$selected_file"
 	printf "\e[33;5;2m Editing\e[m%s file: $curr_dir/$selected_file\n"
-	$useroot "${EDITOR:-vi}" "$selected_file"
+	if [ -z $useroot ] ; then
+		#command_string="${EDITOR:-vi} $curr_dir/$selected_file"
+		command_string="${EDITOR:-vi} $curr_dir/$selected_file"
+	else
+		command_string="${EDITOR:-vi} $curr_dir/$selected_file"
+	fi
+	 #/home/sealyj/.oh-my-zsh/custom/plugins/zsh-hist/functions/hist f -1
+		#if [ "$SHELL" = $(which zsh) ] ; then
+		#tmploc=${TMPDIR:-/tmp}
+		# Prevent the specified history line from being saved.
+		#TEMP=$HISTFILE
+		#HISTFILE="$tmploc/zsh_hist"
+		#HISTORY_IGNORE="$(fc -ln -1 -1)"
+		#fc -W
+		  # Write out the history to file, excluding lines that match `$HISTORY_IGNORE`.
+		#delete oldest line
+		source ~/.zshrc
+		#sed -i '$d' $HISTFILE
+		insert_hist=": $EPOCHSECONDS:0;$command_string"
+		echo "$insert_hist" >> $HISTFILE
+		${EDITOR:-vi} $curr_dir/$selected_file
+	#	$command_string
+		#fc -AI
+		#fc -R
+		#fc -W 
+		#cp -f $TEMPHISTFILE $HISTFILE
+		#echo "$insert_hist" >> $HOME/.bash_history
+		# Dispose of the current history and read the new history from file.
+		#fc -p $HISTFILE $HISTSIZE $SAVEHIST
+
+		# TA-DA!
+		#print "Deleted '$HISTORY_IGNORE' from history."
+		#fc -f $tmploc
+		#echo "$insert_hist" >> $tmploc
+		#fc -r $HOME/.zsh_history
+	#elif [ "$SHELL" == $(which bash) ] ; then
+#	fi
 fi
 
