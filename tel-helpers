@@ -115,7 +115,7 @@ remove_data_prompt(){
 	warn "Are you sure you wish to continue? y/N"
 	read -r user_reponse
 	if [ "$user_reponse" != 'y' ] && [ "$user_reponse" != 'Y' ]; then
-		error "User cancelled setup..." ; sleep 1 ; return 1
+		error "User cancelled setup..." ; sleep 1 ; exit 1
 	fi
 	log "Wiping data..."
 	#rm -rf ~/.tel
