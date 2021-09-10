@@ -7,7 +7,6 @@ option="${1}"
 [[ -e $todolist ]] || echo "Manage your notes list with the 'tel-todo' command\nEnjoy TEL updates" > ${todolist}  #if no list make a new one
 if [ -z "$1" ] ; then
 	printf "\e[33;5;2m To Do\e[m:\n"
-	#filename='company.txt'
 	n=1
 	IFS='\n';while read line; do
 	# reading each line
