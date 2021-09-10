@@ -7,7 +7,7 @@ option="${1}"
 [[ -e $todolist ]] || echo "Manage your notes list with the 'tel-todo' command\nEnjoy TEL updates" > ${todolist}  #if no list make a new one
 if [ -z "$1" ] ; then
 	printf "\e[33;5;2m To Do\e[m:\n"
-	filename='company.txt'
+	#filename='company.txt'
 	n=1
 	IFS='\n';while read line; do
 	# reading each line
@@ -23,14 +23,14 @@ else
 			exit 0
 		;;
 		-h | --help)
-			echo "tel-todo [OPTION] [PATTERN]
+			echo "tel-todo [OPTION] [INPUT]
 		'$> tel-todo'            = show to-do list
 		'$> tel-todo free willy' = add free willy to your to-do list
 		'$> tel-todo -h'         = show this help menu
 		'$> tel-todo -v'         = show version info
 		'$> tel-todo -e'         = open list in $EDITOR
-		'$> tel-todo -c | clear' = clear entire list
-		'$> tel-todo -r'         = remove the most recent line
+		'$> tel-todo -c'	 = clear entire list
+		'$> tel-todo -r'       	 = remove the most recent line
 		'$> tel-todo -r 3'       = remove line #3
 		'$> tel-todo -r 1 7 3'   = remove lines #1, 7 and 3 "
 		;; 
