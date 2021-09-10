@@ -57,7 +57,7 @@ elif [ "$user_option" == '--extras' ] ; then
 		exit 1
 	fi
 	log "launching extras installer..."
-	~/.tel/extras/setup.sh
+	~/.tel/scripts/extras_installer.sh
 	exit 0
 elif [ -n "$user_option" ] ; then #user picked non option
 	error "Unrecognised input option..."
