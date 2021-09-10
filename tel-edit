@@ -4,6 +4,7 @@
 # SealyJ 2020
 # requires: fzf bat nano 
 # optional: magisk su binary
+[[ -f ~/.tel/configs/userprefs.sh ]] && source ~/.tel/configs/userprefs.sh
 useroot=
 FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
