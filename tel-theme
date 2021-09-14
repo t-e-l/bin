@@ -112,9 +112,11 @@ auto_theme(){
 
 wal_theme(){
 		wal --theme $1 -n -e -t -s
-		cp -f ~/.cache/wal/colors.sh ~/.tel/theme/active/
-		~/.tel/scripts/apply_colors.sh # propagate colors
-		restart_tel
+		if [ ! -z $2 ] ; then 
+			cp -f ~/.cache/wal/colors.sh ~/.tel/theme/active/
+			~/.tel/scripts/apply_colors.sh # propagate colors
+			restart_tel
+		fi
 }
 
 apply_theme(){
