@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# by @SealyJ - github.com/sealedjoy
+version=0.2
+hintsfile=~/.tel/help/hints
+option="${1}" 
+[[ -e $hintsfile ]] || "Hints file missing, recommended to update" > ${hintsfile}  #if no list make a new one
+if [ -z "$1" ] ; then
+	n=0
+	hint_file_lines=()
+	while read line; 
+	do
+		#add to array then select
+		n=$(( $n + 1 ))
+		hint_file_lines+=($line)
+	done < $hintsfile
+	#select random num from pool
+	randomiser=$((RANDOM % $n))
+	selected_url=${hint_file_lines[$randomiser]} #get line at position
+
+else
+
+	case ${option} in 
+		-v | --version)
+			printf "\e[33;5;2m Hints\e[m: version: $version"
+			exit 0
+		;;
+		-h | --help)
+			echo "tel-todo [OPTION] [INPUT]
+		'$> tel-todo'            = show to-do list
+		'$> tel-todo free willy' = add free willy to your to-do list
+		'$> tel-todo -h'         = show this help menu
+		'$> tel-todo -v'         = show version info
+		'$> tel-todo -e'         = open list in $EDITOR'"
+		;; 
+		-a | --all)
+			printf "\e[33;5;2m Hint\e[m:\n"
+			n=1
+			IFS='\n';while read line; do
+			# reading each line
+			echo -e " $n \e[3m$line\e[0m"
+			n=$((n+1))
+			done < $hintsfile
+				;;
+		-e | --edit)
+			printf "\e[33;5;2m Hints:\e[m "
+			echo "Opening in $EDITOR"
+			$EDITOR $hintsfile
+			;; 
+	#	*)  
+#		printf "\e[33;5;2m To Do:\e[m "
+#		echo "$@" >> $todolist
+#		echo -e "Added \e[3m'$@'\e[0m to your list"
+#		exit 0 
+#		;;
+	esac 
+fi
