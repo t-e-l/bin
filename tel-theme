@@ -17,6 +17,8 @@ show_help(){
             "  -f | --file		auto-gen theme based on an image"\
             "  -i | --install		install a TEL theme file package"\
             "  -c | --create		collect and package current files into a theme file"\
+	    "  -t | --theme		apply a preconfigured palette (run without args to see list of availible)"\
+	    "  -w | --wallpaper		apply a wallpaper only"\
             "  -h | --help 		display this help message"
 }
 
@@ -108,6 +110,10 @@ auto_theme(){
 	restart_tel
 }
 
+wal_theme(){
+	wal -i --theme $1
+}
+
 apply_theme(){
 	cd $themes_folder
 	file_search="$@"
@@ -155,6 +161,12 @@ main(){
 			#read WAL wallpaper
 			exit 0
 		;;
+		-t | --theme)
+			shift
+			wal_theme
+			exit 0
+		;;
+
 		# Display the help message
 		-h | --help)
 			show_help
