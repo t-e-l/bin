@@ -4,7 +4,7 @@ version=0.3
 removing_app=false
 print_ERR_and_die(){
     # Error printing function
-    printf "\e[38;5;1m[!]%s\n\e[m"\
+    printf "\e[33;5;1m[!]%s\n\e[m"\
            "$*" 1>&2
     exit 1
 }
@@ -21,7 +21,7 @@ show_help(){
 }
 
 update_cache(){
-    printf  "\e[38;5;2m Launcher\e[m: \e[38;5;1mUpdating app cache...%s\n\e[m"
+    printf  "\e[33;5;2m Launcher\e[m: \e[33;5;1mUpdating app cache...%s\n\e[m"
     am broadcast --user 0 \
          --es com.termux.app.reload_style apps-cache \
          -a com.termux.app.reload_style com.termux > /dev/null
@@ -33,7 +33,7 @@ main(){
     show_info_page="false"
     case "$1" in
         -v | --version)
-    		printf  "\e[38;5;2m Launcher\e[m: \e[38;5;1mversion $version"
+    		printf  "\e[33;5;2m Launcher\e[m: \e[33;5;1mversion $version"
 		exit 0
 	;;
         -i | --info)
@@ -66,7 +66,7 @@ main(){
     case "$?" in
         # No app found
         "1"  )
-    		printf  "\e[38;5;2m Launcher\e[m: \e[38;5;1mApp not found%s\n\e[m"
+    		printf  "\e[33;5;2m Launcher\e[m: \e[33;5;1mApp not found%s\n\e[m"
 		exit 1
         ;;
         # If Ctrl+C is used 
@@ -86,13 +86,13 @@ main(){
     activity=$( grep "$app_code" "$cachefile" | cut -d "|" -f2 )
     
     if [ "$removing_app" == "true" ] ; then
-    	printf  "\e[38;5;2m Launcher\e[m: \e[38;5;1mUninstall app '$app_name'? y/N\n\e[m"
+    	printf  "\e[33;5;2m Launcher\e[m: \e[33;5;1mUninstall app '$app_name'? y/N\n\e[m"
 	read response
 	if [ "$response" == y ] ; then
 		activity=$(echo "$activity" | cut -d "/" -f1)
 		uninstalled=$(su -c pm uninstall $activity > /dev/null)
 		if [ "$?" == 0 ] ; then
-			printf "\e[38;5;2m Launcher\e[m: \e[38;5;1m'$app_name' was uninstalled\e[m\e\n"
+			printf "\e[33;5;2m Launcher\e[m: \e[33;5;1m'$app_name' was uninstalled\e[m\e\n"
 			update_cache
 		else
 			printf "\e[33;5;2m Launcher:\e[m error removing $app_name"
@@ -108,7 +108,7 @@ main(){
 	activity=$(echo "$activity" | cut -d "/" -f1)
 	am start -a android.settings.APPLICATION_DETAILS_SETTINGS "package:$activity" > /dev/null 2>&1
     else
-    	printf  "\e[38;5;2m Launching\e[m %s\n"\
+    	printf  "\e[33;5;2m Launching\e[m %s\n"\
             "$app_name - $activity"
 
     # Launch the app
