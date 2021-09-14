@@ -111,7 +111,7 @@ auto_theme(){
 }
 
 wal_theme(){
-	if [ -z "$1" ]; then 
+	if [ ! -z "$1" ]; then 
 		wal --theme 
 	else 
 		wal --theme $1 -n -q -e > /dev/null
