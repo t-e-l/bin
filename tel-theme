@@ -165,7 +165,7 @@ apply_wallpaper(){
 	fi
 
 	printf "\n\e[33;5;2m Theme\e[m%s applying wallpaper: $selected_file "
-	termux-wallpaper $options "$selected_file" || echo "Failed to apply $selected_file"
+	termux-wallpaper -f "$selected_file" || echo "Failed to apply $selected_file"
 }
 
 main(){
