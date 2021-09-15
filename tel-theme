@@ -116,6 +116,7 @@ wal_theme(){
 			cp -f ~/.cache/wal/colors.sh ~/.tel/theme/active/
 			~/.tel/scripts/apply_colors.sh # propagate colors
 		#	restart_tel
+			tel-reload
 		fi
 }
 
