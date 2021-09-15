@@ -15,7 +15,8 @@ if [ -z "$1" ] ; then
 	done < $hintsfile
 	#select random num from pool
 	randomiser=$((RANDOM % $n))
-	selected_url=${hint_file_lines[$randomiser]} #get line at position
+	selected_hint=${hint_file_lines[$randomiser]} #get line at position
+	echo "$selected_hint"
 
 else
 
