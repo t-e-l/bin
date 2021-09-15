@@ -23,30 +23,27 @@ else
 
 	case ${option} in 
 		-v | --version)
-			printf "\e[33;5;2m Hints\e[m: version: $version"
+			printf "\e[33;5;2m Hint\e[m: version: $version"
 			exit 0
 		;;
 		-h | --help)
-			echo "tel-todo [OPTION] [INPUT]
-		'$> tel-todo'            = show to-do list
-		'$> tel-todo free willy' = add free willy to your to-do list
-		'$> tel-todo -h'         = show this help menu
-		'$> tel-todo -v'         = show version info
-		'$> tel-todo -e'         = open list in $EDITOR'"
+			echo "tel-hint [OPTION]
+		'$> tel-hint'            = give me a hint
+		'$> tel-hint -h'         = show this help menu
+		'$> tel-hint -v'         = show version info
+		'$> tel-hint -a'         = show all hints in list'
+		'$> tel-hint -e'         = open hints list in $EDITOR'"
 		;; 
 		-a | --all)
 			cat "$hintsfile"
 				;;
 		-e | --edit)
-			printf "\e[33;5;2m Hints:\e[m "
 			echo "Opening in $EDITOR"
 			$EDITOR $hintsfile
 			;; 
-	#	*)  
-#		printf "\e[33;5;2m To Do:\e[m "
-#		echo "$@" >> $todolist
-#		echo -e "Added \e[3m'$@'\e[0m to your list"
-#		exit 0 
-#		;;
+		*)  
+		printf "\e[33;5;2m Hint:\e[munrecognised option"
+		exit 1 
+		;;
 	esac 
 fi
