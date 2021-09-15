@@ -113,8 +113,8 @@ auto_theme(){
 
 wal_theme(){
 		selected_wal_theme=$(cat ~/.tel/theme/wal_themes | fzf -e --color=16 --query="$2" --prompt="Pick a theme to apply: " --select-1)
-		wal --theme $selected_wal_theme -n -e -t -s
 		if [ ! -z "$selected_wal_theme" ] ; then 
+			wal --theme $selected_wal_theme -n -e -t -s
 			cp -f ~/.cache/wal/colors.sh ~/.tel/theme/active/
 			~/.tel/scripts/apply_colors.sh -a FF # propagate colors, -a FF is alpha channel
 			tel-restart
