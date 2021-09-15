@@ -115,7 +115,6 @@ wal_theme(){
 		if [ ! -z $@ ] ; then 
 			cp -f ~/.cache/wal/colors.sh ~/.tel/theme/active/
 			~/.tel/scripts/apply_colors.sh # propagate colors
-		#	restart_tel
 			tel-reload
 		fi
 }
@@ -139,8 +138,7 @@ apply_theme(){
 	# add flag for setting wallpaper on reboot
 	~/.tel/scripts/apply_colors.sh #propagate colors 
 	printf "\n\e[33;5;2m Theme\e[m%s finished applying: $selected_file "
-	tel-reload
-	#restart_tel
+	restart_tel
 	}
 
 apply_wallpaper(){
