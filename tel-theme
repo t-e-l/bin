@@ -163,8 +163,7 @@ apply_wallpaper(){
 	if [ -z $selected_file ] ; then
 		exit 1
 	fi
-
-	printf "\n\e[33;5;2m Theme\e[m%s applying wallpaper: $selected_file "
+	printf "\e[33;5;2m Theme\e[m%s applying wallpaper: $selected_file "
 	termux-wallpaper -f "$selected_file" || echo "Failed to apply $selected_file"
 }
 
