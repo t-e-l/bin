@@ -112,7 +112,7 @@ auto_theme(){
 }
 
 wal_theme(){
-		selected_wal_theme=$(cat ~/.tel/themes/wal_themes | fzf -e --color=16 --query="$file_search" --prompt="Pick a theme to apply: " --select-1)
+		selected_wal_theme=$(cat ~/.tel/theme/wal_themes | fzf -e --color=16 --query="$file_search" --prompt="Pick a theme to apply: " --select-1)
 		wal --theme $selected_wal_theme -n -e -t -s
 		if [ ! -z $@ ] ; then 
 			cp -f ~/.cache/wal/colors.sh ~/.tel/theme/active/
@@ -123,6 +123,10 @@ wal_theme(){
 
 set_bg_alpha(){
 	alpha=$1
+	if [ -z $1 ] ; then
+		printf "\e[33;5;2m Theme\e[m%s please supply 2 hexidecimal characters "
+		exit 1
+	fi
 	~/.tel/scripts/apply_colors.sh -a $alpha # propagate colors, -a FF is alpha channel
 	printf "\e[33;5;2m Theme\e[m%s alpha set, restart to see changes"
 }
