@@ -19,6 +19,7 @@ show_help(){
             "  -c | --create		collect and package current files into a theme file"\
 	    "  -t | --theme		apply a preconfigured palette (run without args to see list of availible)"\
 	    "  -w | --wallpaper		apply a wallpaper only"\
+	    "  --alpha 			set background alpha eg FF"\
             "  -h | --help 		display this help message"
 }
 
@@ -111,12 +112,19 @@ auto_theme(){
 }
 
 wal_theme(){
-		wal --theme $@ -n -e -t -s
+		selected_wal_theme=$(cat ~/.tel/themes/wal_themes | fzf -e --color=16 --query="$file_search" --prompt="Pick a theme to apply: " --select-1)
+		wal --theme $selected_wal_theme -n -e -t -s
 		if [ ! -z $@ ] ; then 
 			cp -f ~/.cache/wal/colors.sh ~/.tel/theme/active/
-			~/.tel/scripts/apply_colors.sh # propagate colors
+			~/.tel/scripts/apply_colors.sh -a FF # propagate colors, -a FF is alpha channel
 			tel-restart
 		fi
+}
+
+set_bg_alpha(){
+	alpha=$1
+	~/.tel/scripts/apply_colors.sh -a $alpha # propagate colors, -a FF is alpha channel
+	printf "\e[33;5;2m Theme\e[m%s alpha set, restart to see changes"
 }
 
 apply_theme(){
@@ -199,6 +207,11 @@ main(){
 		-w | --wallpaper)
 			shift
 			apply_wallpaper "$@"
+			exit 0
+		;;
+		--alpha)
+			shift
+			set_bg_alpha "$@"
 			exit 0
 		;;
 		# Display the help message
