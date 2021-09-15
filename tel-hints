@@ -34,13 +34,7 @@ else
 		'$> tel-todo -e'         = open list in $EDITOR'"
 		;; 
 		-a | --all)
-			printf "\e[33;5;2m Hint\e[m:\n"
-			n=1
-			IFS='\n';while read line; do
-			# reading each line
-			echo -e " $n \e[3m$line\e[0m"
-			n=$((n+1))
-			done < $hintsfile
+			cat "$hintsfile"
 				;;
 		-e | --edit)
 			printf "\e[33;5;2m Hints:\e[m "
