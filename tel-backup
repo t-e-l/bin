@@ -159,7 +159,7 @@ fi
 		spinner
 		rm -rf .restore_path
 		
-		echo -ne "\n\e[38;5;2m Backup\e[m: completed! \n "
+		echo -ne "\n\e[38;5;2m Backup\e[m: finished backing up to - $backup_location/$today-$datetime${user_custom_name}"
 		break;;
 
 	[nN]* ) exit_utility;;
