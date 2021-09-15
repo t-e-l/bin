@@ -115,7 +115,7 @@ wal_theme(){
 		if [ ! -z $@ ] ; then 
 			cp -f ~/.cache/wal/colors.sh ~/.tel/theme/active/
 			~/.tel/scripts/apply_colors.sh # propagate colors
-			tel-reload
+			tel-restart
 		fi
 }
 
