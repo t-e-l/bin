@@ -7,7 +7,8 @@ option="${1}"
 if [ -z "$1" ] ; then
 	n=0
 	hint_file_lines=()
-	IFS=\n; while read line; 
+	IFS=$'\n'
+	while read line; 
 	do
 		#add to array then select
 		n=$(( $n + 1 ))
