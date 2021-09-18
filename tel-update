@@ -85,7 +85,7 @@ rm -f $TMPDIR/tel-update/bin/README.md >/dev/null
 diff -q $TMPDIR/tel-update/bin ~/../usr/bin >/dev/null 2>&1
 if [ $? -ne 0 ] ; then
 	updates_to_bins='true'
-else:
+else
 	updates_to_bins='false'
 fi
 
