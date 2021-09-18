@@ -104,9 +104,11 @@ if [ "$user_option" != '--update' ] ; then
 	catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/tel/bin/* ~/bin/) 
 	catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/tel/.??* ~/)
 	catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/etc/* ~/../usr/etc/)
+	touch ~/.tel/.updated ### FLAG for startup.sh
 fi
 rm -rf $TMPDIR/tel-update > /dev/null 2>&1 # cleanup
 rm -rf ~/../usr/etc/motd > /dev/null 2>&1 #remove from bootstrapchanges repo?
+
 
 # PERMISSIONS
 [[ "$update_permissions" == "true" ]] && fix_permissions
