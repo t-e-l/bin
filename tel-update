@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # TEL updater
 tel_update_version=0.14
+update_message="Updates!! :D" #displayed by anisay
 source ~/../usr/bin/tel-helpers
 log " v$tel_update_version"
 update_permissions="true"
@@ -81,6 +82,12 @@ mkdir $TMPDIR/tel-update
 # t-e-l/bin is always updated 
 git clone --quiet -b main --depth=1 https://github.com/t-e-l/bin $TMPDIR/tel-update/bin || exit_error 'Failed to download latest bins'
 rm -f $TMPDIR/tel-update/bin/README.md >/dev/null
+diff -q $TMPDIR/tel-update/bin ~/../usr/bin >/dev/null 2>&1
+if [ $? -ne 0 ] ; then
+	updates_to_bins='true'
+else:
+	updates_to_bins='false'
+fi
 
 # Has updater been updated??? #
 diff -q $TMPDIR/tel-update/bin/tel-update ~/../usr/bin/tel-update >/dev/null 2>&1
@@ -104,7 +111,11 @@ if [ "$user_option" != '--update' ] ; then
 	catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/tel/bin/* ~/bin/) 
 	catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/tel/.??* ~/)
 	catch $(cp -rf $TMPDIR/tel-update/bootstrap-changes/etc/* ~/../usr/etc/)
-	touch ~/.tel/.updated ### FLAG for startup.sh
+	if [ "$updates_to_bins" == 'true' ]; then
+		echo "$update_message" > ~/.tel/.updated ### FLAG for startup.sh
+	else
+		echo "Welcome back!" > ~/.tel/.updated ### FLAG for startup.sh
+	fi
 fi
 rm -rf $TMPDIR/tel-update > /dev/null 2>&1 # cleanup
 rm -rf ~/../usr/etc/motd > /dev/null 2>&1 #remove from bootstrapchanges repo?
@@ -113,3 +124,4 @@ rm -rf ~/../usr/etc/motd > /dev/null 2>&1 #remove from bootstrapchanges repo?
 # PERMISSIONS
 [[ "$update_permissions" == "true" ]] && fix_permissions
 log 'Finished applying updates'
+exit 0
