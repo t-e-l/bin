@@ -98,7 +98,7 @@ sed -i 's/plugins=(git)/plugins=(zsh-navigation-tools fzf-tab fancy-ctrl-z zsh-a
 
 log "Installing anisay"
 ## Anisay ##
-catch "$(git clone --depth=1 https://github.com/sealedjoy/anisay ~/.tel 2>&1)"
+catch "$(git clone --depth=1 https://github.com/sealedjoy/anisay ~/.tel/anisay 2>&1)"
 catch "$(cd ~/.tel/anisay && ~/.tel/anisay/install.sh 2>&1)"
 #
 # # # insert TEL loading file into .zshrc # # # 
