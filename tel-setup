@@ -120,6 +120,7 @@ if [ "$UPDATE" = false ]; then
 else
         log "Update Complete"
 fi
+theme --alpha 99 > /dev/null 2>&1
 logf "complete"
 log "app will restart in 3 seconds!"
 sleep 3
